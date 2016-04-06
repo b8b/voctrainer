@@ -1,0 +1,9 @@
+D:\VCS\Unity\UniTranslate\DllProject\DllProjectEditor\bin\Debug\DllProjectEditor.dll
+D:\VCS\Unity\UniTranslate\DllProject\DllProjectEditor\bin\Debug\DllProjectEditor.pdb
+D:\VCS\Unity\UniTranslate\DllProject\DllProjectEditor\bin\Debug\DllProject.dll
+D:\VCS\Unity\UniTranslate\DllProject\DllProjectEditor\bin\Debug\UnityEngine.UI.dll
+D:\VCS\Unity\UniTranslate\DllProject\DllProjectEditor\bin\Debug\DllProject.pdb
+D:\VCS\Unity\UniTranslate\DllProject\DllProjectEditor\bin\Debug\UnityEngine.UI.xml
+D:\VCS\Unity\UniTranslate\DllProject\DllProjectEditor\obj\Editor\DllProjectEditor.csprojResolveAssemblyReference.cache
+D:\VCS\Unity\UniTranslate\DllProject\DllProjectEditor\obj\Editor\DllProjectEditor.dll
+D:\VCS\Unity\UniTranslate\DllProject\DllProjectEditor\obj\Editor\DllProjectEditor.pdb

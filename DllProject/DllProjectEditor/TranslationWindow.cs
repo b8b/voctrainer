@@ -210,7 +210,8 @@ public class TranslationWindow : EditorWindow
             TranslationDictionaryDrawer.SetScriptableObjectDirty(secondAsset);
         };
 
-        TranslationDictionaryDrawer.DoSearch("", firstAsset, out searchResults);
+        if (firstAsset != null)
+            TranslationDictionaryDrawer.DoSearch("", firstAsset, out searchResults);
     }
 
     private void OnGUI()

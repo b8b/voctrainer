@@ -1,0 +1,5 @@
+D:\VCS\Unity\UniTranslate\DllProject\DllProject\bin\Release\DllProject.dll
+D:\VCS\Unity\UniTranslate\DllProject\DllProject\bin\Release\DllProject.pdb
+D:\VCS\Unity\UniTranslate\DllProject\DllProject\obj\Editor\DllProject.csprojResolveAssemblyReference.cache
+D:\VCS\Unity\UniTranslate\DllProject\DllProject\obj\Editor\DllProject.dll
+D:\VCS\Unity\UniTranslate\DllProject\DllProject\obj\Editor\DllProject.pdb

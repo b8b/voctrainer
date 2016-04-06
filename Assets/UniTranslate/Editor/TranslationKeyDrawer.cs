@@ -113,14 +113,23 @@ public class TranslationKeyDrawer : PropertyDrawer
         var localizedComponent = property.serializedObject.targetObject as LocalizedComponent;
         if (localizedComponent != null)
         {
-            var text = localizedComponent.GetComponent<Text>();
-            if (key != text.text && string.IsNullOrEmpty(key))
+            string text = "";
+            if (localizedComponent is LocalizedText)
+            {
+                text = localizedComponent.GetComponent<Text>().text;
+            }
+            else if (localizedComponent is LocalizedTextMesh)
+            {
+                text = localizedComponent.GetComponent<TextMesh>().text;
+            }
+            
+            if (key != text && string.IsNullOrEmpty(key))
             {
                 for (int i = 0; i < savedTranslationValues.Length; i++)
                 {
-                    savedTranslationValues[i] = text.text;
+                    savedTranslationValues[i] = text;
                 }
-                key = TranslationKeyDrawer.GenerateRecommendedKey(text.text);
+                key = TranslationKeyDrawer.GenerateRecommendedKey(text);
             }
         }
         return key;

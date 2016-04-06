@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e593f69f50bcf19428e35dcee2274b29, type: 3}
+  m_Name: SampleGer
+  m_EditorClassIdentifier: 
+  languageName: Sample German
+  languageCode: exde
+  translationDictionary:
+    _Buckets: 02000000ffffffffffffffffffffffffffffffffffffffff01000000
+    _HashCodes: 6c15ee35bc04221596b6684cffffffff000000000000000000000000
+    _Next: ffffffffffffffff00000000ffffffff000000000000000000000000
+    _Count: 4
+    _Version: 3850
+    _FreeList: 3
+    _FreeCount: 1
+    _Keys:
+    - Test.DummyTitle
+    - Test.HelloWorld
+    - Test.TextMesh
+    - 
+    - 
+    - 
+    - 
+    _Values:
+    - Mein toller Titel
+    - Hallo, Welt.
+    - "Ich bin ein \xFCbersetzbares TextMesh."
+    - 
+    - 
+    - 
+    - 
