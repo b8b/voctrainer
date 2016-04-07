@@ -2,6 +2,9 @@
 using System.Collections;
 using UnityEngine.UI;
 
+/// <summary>
+/// Localizes the text of 3D TextMesh components.
+/// </summary>
 [RequireComponent(typeof(TextMesh))]
 [AddComponentMenu("UniTranslate/Localized TextMesh")]
 [ExecuteInEditMode]

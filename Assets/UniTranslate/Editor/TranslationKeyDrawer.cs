@@ -62,6 +62,7 @@ public class TranslationKeyDrawer : PropertyDrawer
                             translationAssets == null || !Translator.TranslationExists(property.stringValue);
 
         EditorGUI.BeginChangeCheck();
+        GUI.SetNextControlName("keyField");
         string key = EditorGUI.TextField(new Rect(position.x, currentHeight, position.width, fieldHeight), notFound ? label.text + " (Missing!)" : label.text, property.stringValue) ?? "";
         currentHeight += fieldHeight;
 
@@ -125,6 +126,11 @@ public class TranslationKeyDrawer : PropertyDrawer
             
             if (key != text && string.IsNullOrEmpty(key))
             {
+                if (GUI.GetNameOfFocusedControl() == "keyField") //Don't change it if the key field is selected
+                {
+                    return "";
+                }
+
                 for (int i = 0; i < savedTranslationValues.Length; i++)
                 {
                     savedTranslationValues[i] = text;

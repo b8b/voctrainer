@@ -2,6 +2,9 @@
 using System.Collections;
 using UnityEngine.UI;
 
+/// <summary>
+/// Localizes the text of NGUI Text components.
+/// </summary>
 [RequireComponent(typeof(Text))]
 [AddComponentMenu("UniTranslate/Localized Text")]
 [ExecuteInEditMode]
@@ -18,7 +21,7 @@ public class LocalizedText : LocalizedComponent
     {
         UpdateTranslation();
     }
-
+    
     public override void UpdateTranslation()
     {
 #if UNITY_EDITOR

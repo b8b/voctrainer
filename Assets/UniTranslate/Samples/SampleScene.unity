@@ -219,7 +219,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 1
+  orthographic: 0
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -334,9 +334,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 246117543}
-  m_LocalRotation: {x: 0.029897878, y: -0.20973721, z: 0.0017118554, w: 0.9772991}
-  m_LocalPosition: {x: -3.8171, y: -2.4973, z: 16.515}
-  m_LocalScale: {x: 0.51632786, y: 0.5163277, z: 0.5163277}
+  m_LocalRotation: {x: 0.24792814, y: -0.16868582, z: 0.043885943, w: 0.9529695}
+  m_LocalPosition: {x: -5.67, y: -3.24, z: -0.18}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -354,7 +354,7 @@ TextMesh:
   m_Anchor: 0
   m_Alignment: 0
   m_TabSize: 4
-  m_FontSize: 0
+  m_FontSize: 30
   m_FontStyle: 0
   m_RichText: 1
   m_Font: {fileID: 0}
@@ -553,6 +553,10 @@ Prefab:
       value: 
       objectReference: {fileID: 11400000, guid: 5408dadc6fd0f784b8c93280db3f2b4f,
         type: 2}
+    - target: {fileID: 11483400, guid: b2c5991d0c0d1a143817253ef9a45a59, type: 2}
+      propertyPath: m_Text
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b2c5991d0c0d1a143817253ef9a45a59, type: 2}
   m_IsPrefabParent: 0
@@ -644,7 +648,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -124}
+  m_AnchoredPosition: {x: 0, y: -124.5}
   m_SizeDelta: {x: 989, y: 249}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2102133866
@@ -693,7 +697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60431804406e030478012ff53fd2910b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  key: Test.HelloWorld
+  key: Test.HelloWorl
 --- !u!114 &2102133869
 MonoBehaviour:
   m_ObjectHideFlags: 0

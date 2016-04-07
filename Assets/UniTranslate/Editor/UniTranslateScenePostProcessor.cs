@@ -16,26 +16,20 @@ public class UniTranslateScenePostProcessor
     {
         if (!TranslationWindow.CheckMissingKeys)
             return;
-        var sceneKeys = Resources.FindObjectsOfTypeAll<LocalizedComponent>().Select(text => text.Key);
+        var sceneComponents = Resources.FindObjectsOfTypeAll<LocalizedComponent>();
 
         var allKeys =
             TranslationKeyDrawer.GetTranslationAssets()
             .SelectMany(asset => asset.TranslationDictionary.AsEnumerable())
             .Select(pair => pair.Key).ToArray();
 
-        foreach (var key in sceneKeys)
+        foreach (var comp in sceneComponents)
         {
-            if (!allKeys.Contains(key))
+            if (!allKeys.Contains(comp.Key))
             {
-                throw new MissingTranslationKeyException("Translation key found in scene '" + EditorSceneManager.GetActiveScene().name + "' does not exist for one or more languages:\n" + key);
+                Debug.LogError("Translation key found in scene '" + EditorSceneManager.GetActiveScene().name +
+                    "' does not exist for one or more languages:\nKey '" + comp.Key + "' on component '" + comp + "'.", comp.gameObject);
             }
-        }
-    }
-
-    public class MissingTranslationKeyException : Exception
-    {
-        public MissingTranslationKeyException(string message) : base(message)
-        {
         }
     }
 }

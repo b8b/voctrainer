@@ -25,8 +25,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 139876}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -196.880005, y: 162.080002, z: 747}
-  m_LocalScale: {x: 71.5237808, y: 174.85408, z: 1}
+  m_LocalPosition: {x: -196.88, y: 162.08, z: 747}
+  m_LocalScale: {x: 71.52378, y: 174.85408, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -51,7 +51,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -63,7 +63,7 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 139876}
-  m_Text: Hello world!
+  m_Text: Hello, World.
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
