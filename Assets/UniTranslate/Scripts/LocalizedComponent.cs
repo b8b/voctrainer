@@ -2,7 +2,7 @@
 using System.Collections;
 
 /// <summary>
-/// The base class for all localizable components, like LocalizedText or LocalizedTextMesh.
+/// The base class for all localizable components, like <see cref="LocalizedText"/> or <see cref="LocalizedTextMesh"/>.
 /// </summary>
 public abstract class LocalizedComponent : MonoBehaviour
 {

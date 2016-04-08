@@ -35,7 +35,7 @@ public class TranslationAsset : ScriptableObject
     }
 
     /// <summary>
-    /// The SerializableDictionary which stores the translation keys and values.
+    /// The <see cref="SerializableDictionary{TKey,TValue}"/> which stores the translation keys and values.
     /// </summary>
     public TranslationDictionaryType TranslationDictionary
     {

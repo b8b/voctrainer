@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 
 /// <summary>
-/// Localizes the text of NGUI Text components.
+/// Localizes the text of NGUI <see cref="Text"/> components.
 /// </summary>
 [RequireComponent(typeof(Text))]
 [AddComponentMenu("UniTranslate/Localized Text")]

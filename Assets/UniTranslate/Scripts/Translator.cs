@@ -8,11 +8,11 @@ using UnityEditor;
 #endif
 
 /// <summary>
-/// Translates strings with lookups in the TranslationDictionary of the attached Translation Asset.
+/// Translates strings with lookups in the <see cref="TranslationAsset.TranslationDictionary"/> of the attached <see cref="TranslationAsset"/>.
 /// </summary>
 /// <remarks>
-/// An object with a Translator component is automatically instantiated when needed and intended for internal use.
-/// You can also initialize it manually using the Translator.Initialize() method if you adjust the script execution order.
+/// An object with a <see cref="Translator"/> component is automatically instantiated when needed and intended for internal use.
+/// You can also initialize it manually using the <see cref="Translator.Translate(string)"/> method if you adjust the script execution order.
 /// Otherwise, it will be created at the first translation request.
 /// </remarks>
 #if UNITY_EDITOR
@@ -41,7 +41,7 @@ public class Translator : MonoBehaviour
     }
 
     /// <summary>
-    /// The current TranslatorSettings asset.
+    /// The current <see cref="TranslatorSettings"/> asset.
     /// </summary>
     public static TranslatorSettings Settings { get; private set; }
 
@@ -50,7 +50,7 @@ public class Translator : MonoBehaviour
     [SerializeField] private TranslationAsset translation;
 
     /// <summary>
-    /// The currently used Translation Asset. If set, the UpdateTranslation method of all LocalizedComponents in the current scene is called.
+    /// The currently used <see cref="TranslationAsset"/>. If set, the UpdateTranslation method of all LocalizedComponents in the current scene is called.
     /// </summary>
     public TranslationAsset Translation
     {
@@ -63,9 +63,9 @@ public class Translator : MonoBehaviour
     }
 
     /// <summary>
-    /// Initializes the translator.<para /> Loads the translator settings from an asset in Resources/TranslatorSettings 
+    /// Initializes the translator.<para /> Loads the <see cref="TranslatorSettings"/> from an asset in "Resources/TranslatorSettings" 
     /// and then uses the editor translator located in Editor/Resources/EditorTranslator if the application is not running in the editor 
-    /// or initializes a new GameObject with a Translator at runtime.
+    /// or initializes a new <see cref="GameObject"/> with a Translator at runtime.
     /// </summary>
     public static void Initialize()
     {
@@ -94,8 +94,8 @@ public class Translator : MonoBehaviour
 
 #if UNITY_EDITOR
     /// <summary>
-    /// Sets the startup language of the TranslatorSettings asset in Resources/TranslatorSettings 
-    /// to the TranslationAsset of the editor translator.
+    /// Sets the <see cref="TranslatorSettings.StartupLanguage"/> of the <see cref="TranslatorSettings"/> asset in "Resources/TranslatorSettings" 
+    /// to the <see cref="TranslationAsset"/> of the editor translator.
     /// </summary>
     public static bool UpdateStartupLanguage()
     {
@@ -112,7 +112,7 @@ public class Translator : MonoBehaviour
 #endif
 
     /// <summary>
-    /// Calls UpdateTranslation method of all LocalizedComponents in the current scene.
+    /// Calls <see cref="LocalizedComponent.UpdateTranslation"/> method of all <see cref="LocalizedComponent"/>s in the current scene.
     /// </summary>
     public static void UpdateTranslations()
     {
@@ -139,12 +139,12 @@ public class Translator : MonoBehaviour
     }
 
     /// <summary>
-    /// Translates the key by performing a lookup in the currently assigned TranslationAsset.
-    /// Returns the key string itself if the key does not exist in the active TranslationAsset. 
+    /// Translates the key by performing a lookup in the currently assigned <see cref="TranslationAsset"/>.
+    /// Returns the key string itself if the key does not exist in the active <see cref="TranslationAsset"/>. 
     /// </summary>
     /// <param name="key">The translation key string.</param>
     /// <returns>The translated value assigned to the given key or the key string itself 
-    /// if the key does not exist in the active TranslationAsset.</returns>
+    /// if the key does not exist in the active <see cref="TranslationAsset"/>.</returns>
     public string TranslateKey(string key)
 	{
 	    if (translation == null)
@@ -159,8 +159,8 @@ public class Translator : MonoBehaviour
     }
 
     /// <summary>
-    /// Translates the key by performing a lookup in the currently assigned TranslationAsset. 
-    /// Returns the key string itself if the key does not exist in the active TranslationAsset. 
+    /// Translates the key by performing a lookup in the currently assigned <see cref="TranslationAsset"/>. 
+    /// Returns the key string itself if the key does not exist in the active <see cref="TranslationAsset"/>. 
     /// <para />
     /// The parameter "replacementTokens" can contain properties you want to replace with dynamic values.
     /// If you want to replace tokens in your translation string dynamically, you can put those values in {curly brackets}
@@ -171,7 +171,7 @@ public class Translator : MonoBehaviour
     /// <param name="key">The translation key string.</param>
     /// <param name="replacementTokens">An object with properties which should be replaced with their assigned values.</param>
     /// <returns>The translated value assigned to the given key or the key string itself 
-    /// if the key does not exist in the active TranslationAsset.</returns>
+    /// if the key does not exist in the active <see cref="TranslationAsset"/>.</returns>
     public string TranslateKey(string key, object replacementTokens)
     {
         string translationVal = TranslateKey(key);
@@ -187,10 +187,10 @@ public class Translator : MonoBehaviour
     }
 
     /// <summary>
-    /// Checks if a specified key exists in the active TranslationAsset.
+    /// Checks if a specified key exists in the active <see cref="TranslationAsset"/>.
     /// </summary>
-    /// <param name="key">The key to locate in the active TranslationAsset.</param>
-    /// <returns>true if the active TranslationAsset contains an element with the specified key; otherwise, false.</returns>
+    /// <param name="key">The key to locate in the active <see cref="TranslationAsset"/>.</param>
+    /// <returns>true if the active <see cref="TranslationAsset"/> contains an element with the specified key; otherwise, false.</returns>
     public bool KeyExists(string key)
     {
         if (string.IsNullOrEmpty(key))
@@ -204,20 +204,20 @@ public class Translator : MonoBehaviour
     }
 
     /// <summary>
-    /// Translates the key by performing a lookup in the currently assigned TranslationAsset. 
-    /// Returns the key string itself if the key does not exist in the active TranslationAsset. 
+    /// Translates the key by performing a lookup in the currently assigned <see cref="TranslationAsset"/>.
+    /// Returns the key string itself if the key does not exist in the active <see cref="TranslationAsset"/>. 
     /// </summary>
     /// <param name="key">The translation key string.</param>
     /// <returns>The translated value assigned to the given key or the key string itself 
-    /// if the key does not exist in the active TranslationAsset.</returns>
+    /// if the key does not exist in the active <see cref="TranslationAsset"/>.</returns>
     public static string Translate(string key)
     {
         return CheckInstance() ? Instance.TranslateKey(key) : key;
     }
 
     /// <summary>
-    /// Translates the key by performing a lookup in the currently assigned TranslationAsset. 
-    /// Returns the key string itself if the key does not exist in the active TranslationAsset. 
+    /// Translates the key by performing a lookup in the currently assigned <see cref="TranslationAsset"/>. 
+    /// Returns the key string itself if the key does not exist in the active <see cref="TranslationAsset"/>. 
     /// <para />
     /// The parameter "replacementTokens" can contain properties you want to replace with dynamic values.
     /// If you want to replace tokens in your translation string dynamically, you can put those values in {curly brackets}
@@ -228,7 +228,7 @@ public class Translator : MonoBehaviour
     /// <param name="key">The translation key string.</param>
     /// <param name="replacementTokens">An object with properties which should be replaced with their assigned values.</param>
     /// <returns>The translated value assigned to the given key or the key string itself 
-    /// if the key does not exist in the active TranslationAsset.</returns>
+    /// if the key does not exist in the active <see cref="TranslationAsset"/>.</returns>
     public static string Translate(string key, object replacementTokens)
     {
         return CheckInstance() ? Instance.TranslateKey(key, replacementTokens) : key;
@@ -254,10 +254,10 @@ public class Translator : MonoBehaviour
     }
 
     /// <summary>
-    /// Checks if a specified key exists in the active TranslationAsset.
+    /// Checks if a specified key exists in the active <see cref="TranslationAsset"/>.
     /// </summary>
-    /// <param name="key">The key to locate in the active TranslationAsset.</param>
-    /// <returns>true if the active TranslationAsset contains an element with the specified key; otherwise, false.</returns>
+    /// <param name="key">The key to locate in the active <see cref="TranslationAsset"/>.</param>
+    /// <returns>true if the active <see cref="TranslationAsset"/> contains an element with the specified key; otherwise, false.</returns>
     public static bool TranslationExists(string key)
     {
         return Instance.KeyExists(key);

@@ -1,0 +1,4 @@
+var class_translation_key_attribute =
+[
+    [ "AlwaysFoldout", "class_translation_key_attribute.html#aea0b59992584fa8d26dac93b7c9e4d55", null ]
+];
