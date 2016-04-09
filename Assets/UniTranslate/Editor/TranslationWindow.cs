@@ -17,6 +17,7 @@ public class TranslationWindow : EditorWindow
     }
 
     public static bool CheckMissingKeys { get; private set; }
+    public static bool AutoTranslateOnAdd { get; private set; }
 
     private TranslationAsset firstAsset;
     private TranslationAsset secondAsset;
@@ -26,6 +27,8 @@ public class TranslationWindow : EditorWindow
     private string filter = "";
     private string[] searchResults;
 
+    private bool[] autoTranslating;
+
     private const float leftHeaderMargin = 12f;
     private const float twoColumnMinWidth = 600f;
     public const int maxShownAutoCompleteButtons = 15;
@@ -33,11 +36,13 @@ public class TranslationWindow : EditorWindow
     static TranslationWindow()
     {
         CheckMissingKeys = EditorPrefs.GetBool("TranslationWindow_CheckMissingKeys", true);
+        AutoTranslateOnAdd = EditorPrefs.GetBool("TranslationWindow_AutoTranslateOnAdd", true);
     }
 
     private void OnEnable()
     {
         this.titleContent = new GUIContent("Translations");
+        autoTranslating = new bool[2];
 
         //Load asset GUIDs from prefs
         try
@@ -226,7 +231,6 @@ public class TranslationWindow : EditorWindow
 
         if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Delete && list.index >= 0)
         {
-
             RemoveSelected();
             Repaint();
         }
@@ -399,7 +403,12 @@ public class TranslationWindow : EditorWindow
                 return;
             previousAsset = translationAsset;
 
+            EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PrefixLabel(translationAsset.LanguageName);
+
+            DrawAutoTranslateButton(key, translationAsset, i);
+            EditorGUILayout.EndHorizontal();
+
             EditorGUI.BeginChangeCheck();
 
             if (position.width >= twoColumnMinWidth)
@@ -412,6 +421,7 @@ public class TranslationWindow : EditorWindow
             {
                 translationAsset.TranslationDictionary[key] = EditorGUILayout.TextArea(translationAsset.TranslationDictionary[key], GUILayout.MaxHeight(100f));
             }
+            GUI.enabled = true;
 
             if (EditorGUI.EndChangeCheck())
             {
@@ -421,6 +431,34 @@ public class TranslationWindow : EditorWindow
 
         if (GUILayout.Button("Remove Translation"))
             RemoveSelected();
+    }
+
+    private void DrawAutoTranslateButton(string key, TranslationAsset translationAsset, int assetIndex)
+    {
+        if (Translator.Settings == null)
+            return;
+        var currentLang = Translator.Instance.Translation;
+        if (currentLang == null)
+            return;
+        bool translating = autoTranslating[assetIndex];
+        if (translating)
+            GUI.enabled = false;
+        if (GUILayout.Button(!translating ? "Translate with Google" : "Downloading translation...", GUILayout.Width(200f)))
+        {
+            string sourceLang = translationAsset == currentLang ? TranslationService.autoLangCode : currentLang.LanguageCode;
+            autoTranslating[assetIndex] = true;
+            GUIUtility.keyboardControl = 0;
+            TranslationService.Translate(currentLang.TranslationDictionary[key, ""],
+                sourceLang: sourceLang,
+                targetLang: translationAsset.LanguageCode,
+                callback: result =>
+                {
+                    autoTranslating[assetIndex] = false;
+                    if (!result.Error)
+                        translationAsset.TranslationDictionary[key] = result.TranslatedText;
+                    this.Repaint();
+                });
+        }
     }
 
     private void RemoveSelected()

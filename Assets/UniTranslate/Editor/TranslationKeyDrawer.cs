@@ -134,6 +134,19 @@ public class TranslationKeyDrawer : PropertyDrawer
                 for (int i = 0; i < savedTranslationValues.Length; i++)
                 {
                     savedTranslationValues[i] = text;
+                    //Auto-translate
+                    if (translationAssets[i] != null)
+                    {
+                        var index = i;
+                        TranslationService.Translate(text, silently: true, sourceLang: TranslationService.autoLangCode,
+                            targetLang: translationAssets[i].LanguageCode,
+                            callback: result =>
+                            {
+                                if (result.Error)
+                                    return;
+                                savedTranslationValues[index] = result.TranslatedText;
+                            });
+                    }
                 }
                 key = TranslationKeyDrawer.GenerateRecommendedKey(text);
             }
