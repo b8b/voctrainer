@@ -94,7 +94,7 @@ public class TranslationKeyDrawer : PropertyDrawer
                     property.stringValue = result;
                 }
 
-                if (!key.EndsWith(".") && key != string.Empty)
+                if (!key.EndsWith(".") && key != String.Empty)
                 {
                     GUI.Label(new Rect(position.x, currentHeight, position.width, headerHeight),
                     "New translation for key " + key, headingStyle);
@@ -124,7 +124,7 @@ public class TranslationKeyDrawer : PropertyDrawer
                 text = localizedComponent.GetComponent<TextMesh>().text;
             }
             
-            if (key != text && string.IsNullOrEmpty(key))
+            if (key != text && String.IsNullOrEmpty(key))
             {
                 if (GUI.GetNameOfFocusedControl() == "keyField") //Don't change it if the key field is selected
                 {
@@ -421,5 +421,40 @@ public class TranslationKeyDrawer : PropertyDrawer
                 return String.CompareOrdinal(x, y);
             }
         }
+    }
+
+    public static string[] DoSearch(string query, TranslationAsset asset)
+    {
+        string[] querySplit = query.Split('.');
+        string[] searchResults = asset.TranslationDictionary.Keys
+            .Where(key =>
+            {
+                if (String.IsNullOrEmpty(key))
+                    return false;
+                string[] keySplit = key.Split('.');
+                if (keySplit.Length < querySplit.Length)
+                    return false;
+                string currentSegment = keySplit[querySplit.Length - 1];
+                return key.StartsWith(query, StringComparison.CurrentCultureIgnoreCase) && currentSegment != query;
+            })
+            .Select(key =>
+            {
+                string[] keySplit = key.Split('.');
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < querySplit.Length; i++)
+                {
+                    builder.Append(keySplit[i]);
+                    if (i < querySplit.Length - 1)
+                    {
+                        builder.Append(".");
+                    }
+                }
+                return querySplit.Length == keySplit.Length ? builder.ToString() : builder.Append('.').ToString();
+            })
+            .OrderBy(key => key, new TranslationKeyDrawer.DotFirstComparer())
+            .Distinct()
+            .Take(TranslationWindow.maxShownAutoCompleteButtons)
+            .ToArray();
+        return searchResults;
     }
 }

@@ -189,37 +189,4 @@ public abstract class DictionaryDrawer<TK, TV> : PropertyDrawer
 [CustomPropertyDrawer(typeof(TranslationAsset.TranslationDictionaryType))]
 public class TranslationDictionaryDrawer : DictionaryDrawer<string, string>
 {
-    public static void DoSearch(string query, TranslationAsset asset, out string[] searchResults)
-    {
-        string[] querySplit = query.Split('.');
-        searchResults = asset.TranslationDictionary.Keys
-            .Where(key =>
-            {
-                if (String.IsNullOrEmpty(key))
-                    return false;
-                string[] keySplit = key.Split('.');
-                if (keySplit.Length < querySplit.Length)
-                    return false;
-                string currentSegment = keySplit[querySplit.Length - 1];
-                return key.StartsWith(query, StringComparison.CurrentCultureIgnoreCase) && currentSegment != query;
-            })
-            .Select(key =>
-            {
-                string[] keySplit = key.Split('.');
-                StringBuilder builder = new StringBuilder();
-                for (int i = 0; i < querySplit.Length; i++)
-                {
-                    builder.Append(keySplit[i]);
-                    if (i < querySplit.Length - 1)
-                    {
-                        builder.Append(".");
-                    }
-                }
-                return querySplit.Length == keySplit.Length ? builder.ToString() : builder.Append('.').ToString();
-            })
-            .OrderBy(key => key, new TranslationKeyDrawer.DotFirstComparer())
-            .Distinct()
-            .Take(TranslationWindow.maxShownAutoCompleteButtons)
-            .ToArray();
-    }
 }

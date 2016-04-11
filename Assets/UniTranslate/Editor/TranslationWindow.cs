@@ -180,7 +180,7 @@ public class TranslationWindow : EditorWindow
             }
             catch (Exception e)
             {
-                Debug.Log(e.Message);
+                Debug.LogError(e.Message);
             }
         };
 
@@ -216,7 +216,7 @@ public class TranslationWindow : EditorWindow
         };
 
         if (firstAsset != null)
-            TranslationDictionaryDrawer.DoSearch("", firstAsset, out searchResults);
+            searchResults = TranslationKeyDrawer.DoSearch("", firstAsset);
     }
 
     private void OnGUI()
@@ -328,6 +328,8 @@ public class TranslationWindow : EditorWindow
                 string secondGuid = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(secondAsset));
                 EditorPrefs.SetString("TranslationWindow_FirstAssetGuid", firstGuid);
                 EditorPrefs.SetString("TranslationWindow_SecondAssetGuid", secondGuid);
+                if (firstAsset != null)
+                    searchResults = TranslationKeyDrawer.DoSearch("", firstAsset);
             }
             catch (Exception e)
             {
@@ -343,7 +345,7 @@ public class TranslationWindow : EditorWindow
         filter = EditorGUILayout.TextField("Filter", filter) ?? "";
         if (EditorGUI.EndChangeCheck())
         {
-            TranslationDictionaryDrawer.DoSearch(filter, firstAsset, out searchResults);
+            searchResults = TranslationKeyDrawer.DoSearch(filter, firstAsset);
         }
         
         var result = DrawSearchList(filter, firstAsset);
@@ -492,7 +494,7 @@ public class TranslationWindow : EditorWindow
             if (GUILayout.Button(key, textFieldLeftMarginStyle))
             {
                 selectedKey = key;
-                TranslationDictionaryDrawer.DoSearch(selectedKey, firstAsset, out searchResults);
+                searchResults = TranslationKeyDrawer.DoSearch(selectedKey, firstAsset);
                 GUIUtility.keyboardControl = 0;
             }
         }
