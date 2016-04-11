@@ -24,50 +24,63 @@ public class TranslationWindow : EditorWindow
     private int lastFocusedTranslation;
     private Vector2 scrollPos = Vector2.zero;
     private ReorderableList list;
+    private Texture2D translateServiceImage;
+
     private string filter = "";
     private string[] searchResults;
-
     private bool[] autoTranslating;
 
     private const float leftHeaderMargin = 12f;
     private const float twoColumnMinWidth = 600f;
     public const int maxShownAutoCompleteButtons = 15;
+    public const string googleTranslateLogoPath = "Assets/UniTranslate/Editor/Images/GoogleTranslate.png";
     
     static TranslationWindow()
     {
         CheckMissingKeys = EditorPrefs.GetBool("TranslationWindow_CheckMissingKeys", true);
-        AutoTranslateOnAdd = EditorPrefs.GetBool("TranslationWindow_AutoTranslateOnAdd", true);
+        AutoTranslateOnAdd = EditorPrefs.GetBool("TranslationWindow_AutoTranslateOnAdd", false);
     }
 
     private void OnEnable()
     {
+        InitializeData();
+        InitializeList();
+    }
+
+    private void InitializeData()
+    {
         this.titleContent = new GUIContent("Translations");
         autoTranslating = new bool[2];
-
+        translateServiceImage = AssetDatabase.LoadAssetAtPath<Texture2D>(googleTranslateLogoPath);
+ 
         //Load asset GUIDs from prefs
         try
         {
             string firstGuid = EditorPrefs.GetString("TranslationWindow_FirstAssetGuid", null);
             string secondGuid = EditorPrefs.GetString("TranslationWindow_SecondAssetGuid", null);
             if (firstGuid != null)
-                firstAsset = (TranslationAsset) AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(firstGuid), typeof (TranslationAsset));
+                firstAsset = (TranslationAsset)AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(firstGuid), typeof(TranslationAsset));
             if (secondGuid != null)
-                secondAsset = (TranslationAsset) AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(secondGuid), typeof (TranslationAsset));
+                secondAsset = (TranslationAsset)AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(secondGuid), typeof(TranslationAsset));
         }
         catch (Exception e)
         {
             Debug.LogError("Error when loading the last used translation assets: " + e.Message);
         }
 
-        list = new ReorderableList(new List<string>(), typeof(string), draggable: true,
+
+    }
+
+    private void InitializeList()
+    {
+        list = new ReorderableList(new List<string>(), typeof (string), draggable: true,
             displayHeader: true, displayAddButton: true, displayRemoveButton: true);
         list.drawHeaderCallback = rect =>
         {
-
             rect.x += leftHeaderMargin;
             rect.width -= leftHeaderMargin;
 
-            EditorGUI.LabelField(new Rect(rect.x, rect.y, rect.width * 0.2f, rect.height), "Key");
+            EditorGUI.LabelField(new Rect(rect.x, rect.y, rect.width*0.2f, rect.height), "Key");
             if (firstAsset != secondAsset && secondAsset != null)
             {
                 EditorGUI.LabelField(new Rect(rect.x + rect.width*0.2f, rect.y, rect.width*0.4f, rect.height),
@@ -77,11 +90,11 @@ public class TranslationWindow : EditorWindow
             }
             else
             {
-                EditorGUI.LabelField(new Rect(rect.x + rect.width * 0.2f, rect.y, rect.width * 0.8f, rect.height),
+                EditorGUI.LabelField(new Rect(rect.x + rect.width*0.2f, rect.y, rect.width*0.8f, rect.height),
                     firstAsset.LanguageName);
             }
         };
-        
+
 
         list.drawElementCallback = (rect, index, active, focused) =>
         {
@@ -134,19 +147,31 @@ public class TranslationWindow : EditorWindow
                     else
                     {
                         GUIStyle boldTextFieldStyle = new GUIStyle(EditorStyles.textField) {fontStyle = FontStyle.Bold};
-                        bool button = GUI.Button(new Rect(rect.x + rect.width * 0.6f, rect.y, rect.width * 0.4f, height),
-                                "Add missing key", boldTextFieldStyle);
+                        bool button = GUI.Button(new Rect(rect.x + rect.width*0.6f, rect.y, rect.width*0.4f, height),
+                            "Add missing key", boldTextFieldStyle);
 
                         if (button)
                         {
                             secondAsset.TranslationDictionary.Add(newKey, "");
+                            if (AutoTranslateOnAdd && firstAsset != null && firstAsset.TranslationDictionary != null && Translator.Settings != null)
+                            {
+                                TranslationService.Translate(firstAsset.TranslationDictionary[newKey, ""],
+                                    firstAsset.LanguageCode, secondAsset.LanguageCode,
+                                    silently: true, callback: result =>
+                                    {
+                                        if (!result.Error)
+                                        {
+                                            secondAsset.TranslationDictionary[newKey] = result.TranslatedText;
+                                        }
+                                    });
+                            }
                         }
                     }
                 }
                 else
                 {
                     firstAsset.TranslationDictionary[newKey] =
-                        EditorGUI.TextField(new Rect(rect.x + rect.width * 0.2f, rect.y, rect.width * 0.8f, height),
+                        EditorGUI.TextField(new Rect(rect.x + rect.width*0.2f, rect.y, rect.width*0.8f, height),
                             firstAsset.TranslationDictionary[newKey]);
                 }
 
@@ -169,7 +194,7 @@ public class TranslationWindow : EditorWindow
             {
                 firstAsset.TranslationDictionary.Add("", "");
                 TranslationDictionaryDrawer.SetScriptableObjectDirty(firstAsset);
-                
+
                 if (secondAsset != firstAsset)
                 {
                     secondAsset.TranslationDictionary.Add("", "");
@@ -203,7 +228,7 @@ public class TranslationWindow : EditorWindow
 
             if (secondAsset == null || secondAsset == firstAsset)
                 return;
-            
+
             var secondNewDict = new TranslationAsset.TranslationDictionaryType();
             foreach (string key in list.list)
             {
@@ -306,9 +331,14 @@ public class TranslationWindow : EditorWindow
             "If enabled, UniTranslate will search for missing keys after a scene is loaded in the editor or processed in a build. " +
             "The post processor might affect performance in editor, but is not included in builds. "),
             EditorStyles.toolbarButton, GUILayout.ExpandWidth(false));
+        AutoTranslateOnAdd = GUILayout.Toggle(AutoTranslateOnAdd, new GUIContent("Use Google Translator to Suggest Translations",
+            "If enabled, UniTranslate will use Google Translator to suggest translations whenever a new key is added on a text component " +
+            "based on its content. Ensure that your language codes are right, so that it is recognized by Google Translator."),
+            EditorStyles.toolbarButton, GUILayout.ExpandWidth(false));
         if (EditorGUI.EndChangeCheck())
         {
             EditorPrefs.SetBool("TranslationWindow_CheckMissingKeys", CheckMissingKeys);
+            EditorPrefs.SetBool("TranslationWindow_AutoTranslateOnAdd", AutoTranslateOnAdd);
         }
 
         GUILayout.Box("", EditorStyles.toolbarButton);
@@ -407,7 +437,7 @@ public class TranslationWindow : EditorWindow
 
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PrefixLabel(translationAsset.LanguageName);
-
+            GUILayout.FlexibleSpace();
             DrawAutoTranslateButton(key, translationAsset, i);
             EditorGUILayout.EndHorizontal();
 
@@ -445,7 +475,7 @@ public class TranslationWindow : EditorWindow
         bool translating = autoTranslating[assetIndex];
         if (translating)
             GUI.enabled = false;
-        if (GUILayout.Button(!translating ? "Translate with Google" : "Downloading translation...", GUILayout.Width(200f)))
+        if (GUILayout.Button(new GUIContent(translateServiceImage), GUILayout.Width(30f), GUILayout.Height(20f)))
         {
             string sourceLang = translationAsset == currentLang ? TranslationService.autoLangCode : currentLang.LanguageCode;
             autoTranslating[assetIndex] = true;

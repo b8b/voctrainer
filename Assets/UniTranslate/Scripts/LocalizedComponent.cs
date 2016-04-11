@@ -6,13 +6,13 @@ using System.Collections;
 /// </summary>
 public abstract class LocalizedComponent : MonoBehaviour
 {
-    [SerializeField] [TranslationKey(AlwaysFoldout = true)] protected string key;
+   protected string key;
 
     /// <summary>
     /// The currently used translation key.
     /// </summary>
     /// <value>The currently used translation key.</value>
-    public string Key
+    public virtual string Key
     {
         get { return key; }
         set

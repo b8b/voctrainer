@@ -3,36 +3,36 @@ using System.Collections;
 using UnityEngine.UI;
 
 /// <summary>
-/// Localizes the text of NGUI <see cref="Text"/> components.
+/// Localizes the sprite of NGUI <see cref="Image"/> components.
 /// </summary>
-[RequireComponent(typeof(Text))]
-[AddComponentMenu("UniTranslate/Localized Text")]
+[RequireComponent(typeof(Image))]
+[AddComponentMenu("UniTranslate/Localized Image")]
 [ExecuteInEditMode]
-public class LocalizedText : LocalizedStringComponent
+public class LocalizedImage : LocalizedSpriteComponent
 {
-    private Text text;
-    
+    private Image image;
+
     private void Awake()
     {
-        text = GetComponent<Text>();
+        image = GetComponent<Image>();
     }
-    
+
     private void Start()
     {
         UpdateTranslation();
     }
-    
+
     public override void UpdateTranslation()
     {
 #if UNITY_EDITOR
         if (!Application.isPlaying)
         {
-            text = GetComponent<Text>(); //Null reference fix
+            image = GetComponent<Image>(); //Null reference fix
             if (Translator.Instance == null || Translator.Instance.Translation == null
                 || !Translator.TranslationExists(key))
                 return;
         }
 #endif
-        text.text = Translator.Translate(key);
+        image.sprite = Translator.Translate<Sprite>(key);
     }
 }

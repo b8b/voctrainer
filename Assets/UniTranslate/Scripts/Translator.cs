@@ -79,8 +79,11 @@ public class Translator : MonoBehaviour
 #if UNITY_EDITOR
         if (!Application.isPlaying)
         {
-            instance = Resources.Load<Translator>("EditorTranslator");
-            instance.Translation = Settings.StartupLanguage;
+            instance = AssetDatabase.LoadAssetAtPath<Translator>("Assets/UniTranslate/Editor/EditorTranslator.prefab");
+            if (instance == null)
+                Debug.LogError("Could not initialize editor translator because the asset at path 'UniTranslate/Editor/EditorTranslator.prefab' was not found!");
+            else
+                instance.Translation = Settings.StartupLanguage;
         }
         else
 #endif
@@ -187,6 +190,38 @@ public class Translator : MonoBehaviour
     }
 
     /// <summary>
+    /// Translates the key by performing a lookup in the currently assigned <see cref="TranslationAsset"/>.
+    /// Returns the default value for the specified type if the key does not exist in the active <see cref="TranslationAsset"/>. 
+    /// This overload of the Translate method supports translating strings and sprites.
+    /// </summary>
+    /// <typeparam name="TValue">The type you want to translate (string or Sprite). If another type is specified, its default value will be returned.</typeparam>
+    /// <param name="key">The translation key string.</param>
+    /// <returns>The translated value assigned to the given key or the key string itself 
+    /// if the key does not exist in the active <see cref="TranslationAsset"/>.</returns>
+    public TValue TranslateKey<TValue>(string key)
+    {
+        if (translation == null)
+        {
+            Debug.LogWarning("Translator: Translation asset is null", gameObject);
+            return default(TValue);
+        }
+
+        if (string.IsNullOrEmpty(key))
+            return default(TValue);
+
+        if (typeof (TValue) == typeof (string))
+        {
+            return (TValue) (object) translation.TranslationDictionary[key, defaultValue: key];
+        }
+        if (typeof (TValue) == typeof (Sprite))
+        {
+            return (TValue) (object)translation.SpriteDictionary[key, defaultValue: null];
+        }
+        Debug.LogError("Translator: Wrong value type specified");
+        return default(TValue);
+    }
+
+    /// <summary>
     /// Checks if a specified key exists in the active <see cref="TranslationAsset"/>.
     /// </summary>
     /// <param name="key">The key to locate in the active <see cref="TranslationAsset"/>.</param>
@@ -213,6 +248,23 @@ public class Translator : MonoBehaviour
     public static string Translate(string key)
     {
         return CheckInstance() ? Instance.TranslateKey(key) : key;
+    }
+
+    /// <summary>
+    /// Translates the key by performing a lookup in the currently assigned <see cref="TranslationAsset"/>.
+    /// Returns the default value for the specified type if the key does not exist in the active <see cref="TranslationAsset"/>. 
+    /// This overload of the Translate method supports translating strings and sprites.
+    /// </summary>
+    /// <typeparam name="TValue">The type you want to translate (string or Sprite). If another type is specified, its default value will be returned.</typeparam>
+    /// <param name="key">The translation key string.</param>
+    /// <returns>The translated value assigned to the given key or the key string itself 
+    /// if the key does not exist in the active <see cref="TranslationAsset"/>.</returns>
+    public static TValue Translate<TValue>(string key)
+    {
+        if (!CheckInstance())
+            return default(TValue);
+
+        return Instance.TranslateKey<TValue>(key);
     }
 
     /// <summary>

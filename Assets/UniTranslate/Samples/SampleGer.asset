@@ -14,18 +14,18 @@ MonoBehaviour:
   languageName: Sample German
   languageCode: de
   translationDictionary:
-    _Buckets: 02000000ffffffffffffffffffffffffffffffffffffffff01000000
-    _HashCodes: 6c15ee35bc04221596b6684cffffffff000000000000000000000000
+    _Buckets: 02000000ffffffffffffffffffffffff03000000ffffffff01000000
+    _HashCodes: 6c15ee35bc04221596b6684cb69d2d00000000000000000000000000
     _Next: ffffffffffffffff00000000ffffffff000000000000000000000000
     _Count: 4
-    _Version: 49310
-    _FreeList: 3
-    _FreeCount: 1
+    _Version: 85086
+    _FreeList: -1
+    _FreeCount: 0
     _Keys:
     - Test.DummyTitle
     - Test.HelloWorld
     - Test.TextMesh
-    - 
+    - adsf
     - 
     - 
     - 
@@ -33,7 +33,23 @@ MonoBehaviour:
     - Mein toller Titel
     - Hallo, Welt.
     - "Ich bin ein \xFCbersetzbares TextMesh."
+    - sdfgs
     - 
     - 
     - 
+  spriteDictionary:
+    _Buckets: ffffffffffffffffffffffff
+    _HashCodes: 000000000000000000000000
+    _Next: 000000000000000000000000
+    _Count: 0
+    _Version: 0
+    _FreeList: -1
+    _FreeCount: 0
+    _Keys:
     - 
+    - 
+    - 
+    _Values:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}

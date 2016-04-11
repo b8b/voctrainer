@@ -8,7 +8,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(TextMesh))]
 [AddComponentMenu("UniTranslate/Localized TextMesh")]
 [ExecuteInEditMode]
-public class LocalizedTextMesh : LocalizedComponent
+public class LocalizedTextMesh : LocalizedStringComponent
 {
     private TextMesh textMesh;
 

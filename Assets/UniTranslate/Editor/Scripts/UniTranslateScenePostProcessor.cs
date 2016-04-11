@@ -22,7 +22,7 @@ public class UniTranslateScenePostProcessor
             TranslationKeyDrawer.GetTranslationAssets()
             .SelectMany(asset => asset.TranslationDictionary.AsEnumerable())
             .Select(pair => pair.Key).ToArray();
-
+        
         foreach (var comp in sceneComponents)
         {
             if (!allKeys.Contains(comp.Key))

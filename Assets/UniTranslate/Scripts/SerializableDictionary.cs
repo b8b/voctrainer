@@ -246,7 +246,7 @@ public class SerializableDictionary<TKey, TValue> : IDictionary<TKey, TValue>
             if (_HashCodes[i] == hash && _Comparer.Equals(_Keys[i], key))
             {
                 if (add)
-                    throw new ArgumentException("Key already exists: " + key);
+                    throw new ArgumentException("Key already exists: '" + key + "'");
 
                 _Values[i] = value;
                 _Version++;

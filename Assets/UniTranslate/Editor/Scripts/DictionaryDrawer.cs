@@ -187,6 +187,7 @@ public abstract class DictionaryDrawer<TK, TV> : PropertyDrawer
 }
 
 [CustomPropertyDrawer(typeof(TranslationAsset.TranslationDictionaryType))]
-public class TranslationDictionaryDrawer : DictionaryDrawer<string, string>
-{
-}
+public class TranslationDictionaryDrawer : DictionaryDrawer<string, string> { }
+
+[CustomPropertyDrawer(typeof(TranslationAsset.SpriteDictionaryType))]
+public class SpriteDictionaryDrawer : DictionaryDrawer<string, Sprite> { }

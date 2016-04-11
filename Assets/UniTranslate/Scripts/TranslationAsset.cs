@@ -14,9 +14,15 @@ public class TranslationAsset : ScriptableObject
     /// </summary>
     [Serializable] public class TranslationDictionaryType : SerializableDictionary<string, string> { }
 
+    /// <summary>
+    /// The serializable dictionary type used for translatable sprites.
+    /// </summary>
+    [Serializable] public class SpriteDictionaryType : SerializableDictionary<string, Sprite> { }
+
     [SerializeField] private string languageName;
     [SerializeField] private string languageCode;
     [SerializeField] private TranslationDictionaryType translationDictionary;
+    [SerializeField] private SpriteDictionaryType spriteDictionary;
 
     /// <summary>
     /// The user-friendly name of the language.
@@ -35,12 +41,21 @@ public class TranslationAsset : ScriptableObject
     }
 
     /// <summary>
-    /// The <see cref="SerializableDictionary{TKey,TValue}"/> which stores the translation keys and values.
+    /// The <see cref="SerializableDictionary{TKey,TValue}"/> which stores the translation keys and values for string translations.
     /// </summary>
     public TranslationDictionaryType TranslationDictionary
     {
         get { return translationDictionary; }
         set { translationDictionary = value; }
+    }
+    
+    /// <summary>
+    /// The <see cref="SerializableDictionary{TKey,TValue}"/> which stores the translation keys and values for sprite translations.
+    /// </summary>
+    public SpriteDictionaryType SpriteDictionary
+    {
+        get { return spriteDictionary; }
+        set { spriteDictionary = value; }
     }
 
     public override string ToString()

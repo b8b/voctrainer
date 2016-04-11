@@ -22,11 +22,13 @@ public class TranslationKeyDrawer : PropertyDrawer
     private const float searchLeftMargin = 20f;
     private const float space = 5f;
     private const int maxShownAutoCompleteButtons = 15;
-
+    
     private float currentHeight = fieldHeight;
     private float yPos;
     private TranslationAsset[] translationAssets;
-    private string[] savedTranslationValues;
+    private object[] savedTranslationValues;
+    private bool[] autoTranslating;
+    private Texture2D translateServiceImage;
 
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
@@ -40,14 +42,20 @@ public class TranslationKeyDrawer : PropertyDrawer
             fontStyle = FontStyle.Bold,
             fontSize = 14
         };
+        if (translateServiceImage == null)
+            translateServiceImage = AssetDatabase.LoadAssetAtPath<Texture2D>(TranslationWindow.googleTranslateLogoPath);
+
         translationAssets = GetTranslationAssets();
 
         if (savedTranslationValues == null || savedTranslationValues.Length != translationAssets.Length)
             savedTranslationValues = new string[translationAssets.Length];
 
+        if (autoTranslating == null || autoTranslating.Length != translationAssets.Length)
+            autoTranslating = new bool[translationAssets.Length];
+
         yPos = position.y;
         currentHeight = yPos;
-        var keyAttribute = attribute as TranslationKeyAttribute;
+        var keyAttribute = (TranslationKeyAttribute) attribute;
 
         if (keyAttribute.AlwaysFoldout)
         {
@@ -203,7 +211,7 @@ public class TranslationKeyDrawer : PropertyDrawer
                 }
                 return querySplit.Length == keySplit.Length ? builder.ToString() : builder.Append('.').ToString();
             })
-            .OrderBy<string, string>(key => key, new TranslationKeyDrawer.DotFirstComparer())
+            .OrderBy(key => key, new TranslationKeyDrawer.DotFirstComparer())
             .Distinct()
             .ToArray();
 
@@ -228,6 +236,7 @@ public class TranslationKeyDrawer : PropertyDrawer
 
     private void DrawAddUI(Rect position, string key)
     {
+        var keyAttribute = (TranslationKeyAttribute) attribute;
         for (int i = 0; i < translationAssets.Length; i++)
         {
             var translationAsset = translationAssets[i];
@@ -241,9 +250,17 @@ public class TranslationKeyDrawer : PropertyDrawer
                 EditorGUI.HelpBox(new Rect(position.x, currentHeight, position.width, helpBoxHeight), "No language code is set for this language. Please select that file and add a code.", MessageType.Warning);
                 currentHeight += helpBoxHeight;
             }
-            
-            savedTranslationValues[i] = EditorGUI.TextField(new Rect(position.x, currentHeight, position.width, fieldHeight), translationAsset.LanguageName,
-                savedTranslationValues[i]);
+
+            if (keyAttribute.TranslationType == typeof (string))
+            {
+                savedTranslationValues[i] = EditorGUI.TextField(new Rect(position.x, currentHeight, position.width, fieldHeight),
+                        translationAsset.LanguageName, (string) savedTranslationValues[i]);
+            }
+            else if (keyAttribute.TranslationType == typeof (Sprite))
+            {
+                savedTranslationValues[i] = EditorGUI.ObjectField(new Rect(position.x, currentHeight, position.width, fieldHeight),
+                        translationAsset.LanguageName, (Sprite)savedTranslationValues[i], typeof(Sprite), false);
+            }
             currentHeight += fieldHeight;
         }
 
@@ -254,7 +271,14 @@ public class TranslationKeyDrawer : PropertyDrawer
             for (int i = 0; i < savedTranslationValues.Length; i++)
             {
                 var translationAsset = translationAssets[i];
-                translationAsset.TranslationDictionary.Add(key, savedTranslationValues[i]);
+                if (keyAttribute.TranslationType == typeof (string))
+                {
+                    translationAsset.TranslationDictionary.Add(key, (string) savedTranslationValues[i]);
+                }
+                else if (keyAttribute.TranslationType == typeof (Sprite))
+                {
+                    translationAsset.SpriteDictionary.Add(key, (Sprite) savedTranslationValues[i]);
+                }
                 EditorUtility.SetDirty(translationAsset);
             }
         }
@@ -266,6 +290,7 @@ public class TranslationKeyDrawer : PropertyDrawer
         {
             var translationAsset = translationAssets[i];
             EditorGUI.PrefixLabel(new Rect(position.x, currentHeight, position.width, fieldHeight), new GUIContent(translationAsset.LanguageName));
+            DrawAutoTranslateButton(key, translationAsset, i, position);
             currentHeight += fieldHeight;
 
             if (!translationAsset.TranslationDictionary.ContainsKey(key))
@@ -291,6 +316,34 @@ public class TranslationKeyDrawer : PropertyDrawer
                     EditorUtility.SetDirty(translationAsset);
                 }
             }
+            GUI.enabled = true; //Reset disabled UI because of auto translation
+        }
+    }
+
+    private void DrawAutoTranslateButton(string key, TranslationAsset translationAsset, int assetIndex, Rect position)
+    {
+        if (Translator.Settings == null)
+            return;
+        var currentLang = Translator.Instance.Translation;
+        if (currentLang == null)
+            return;
+        bool translating = autoTranslating[assetIndex];
+        if (translating)
+            GUI.enabled = false;
+        if (GUI.Button(new Rect(position.width - 15f, currentHeight, 30f, 20f), new GUIContent(translateServiceImage)))
+        {
+            string sourceLang = translationAsset == currentLang ? TranslationService.autoLangCode : currentLang.LanguageCode;
+            autoTranslating[assetIndex] = true;
+            GUIUtility.keyboardControl = 0;
+            TranslationService.Translate(currentLang.TranslationDictionary[key, ""],
+                sourceLang: sourceLang,
+                targetLang: translationAsset.LanguageCode,
+                callback: result =>
+                {
+                    autoTranslating[assetIndex] = false;
+                    if (!result.Error)
+                        translationAsset.TranslationDictionary[key] = result.TranslatedText;
+                });
         }
     }
 
