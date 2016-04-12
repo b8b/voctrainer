@@ -6,21 +6,12 @@ using System.Collections;
 /// </summary>
 public abstract class LocalizedComponent : MonoBehaviour
 {
-   protected string key;
 
     /// <summary>
     /// The currently used translation key.
     /// </summary>
     /// <value>The currently used translation key.</value>
-    public virtual string Key
-    {
-        get { return key; }
-        set
-        {
-            key = value;
-            UpdateTranslation();
-        }
-    }
+    public abstract string Key { get; set; }
 
     /// <summary>
     /// Updates the visual representation of the value of the translation key.

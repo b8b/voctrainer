@@ -48,7 +48,7 @@ public class TranslationKeyDrawer : PropertyDrawer
         translationAssets = GetTranslationAssets();
 
         if (savedTranslationValues == null || savedTranslationValues.Length != translationAssets.Length)
-            savedTranslationValues = new string[translationAssets.Length];
+            savedTranslationValues = new object[translationAssets.Length];
 
         if (autoTranslating == null || autoTranslating.Length != translationAssets.Length)
             autoTranslating = new bool[translationAssets.Length];
@@ -67,7 +67,7 @@ public class TranslationKeyDrawer : PropertyDrawer
         }
 
         bool notFound = Translator.Instance == null || Translator.Instance.Translation == null ||
-                            translationAssets == null || !Translator.TranslationExists(property.stringValue);
+                            translationAssets == null || !Translator.StringExists(property.stringValue);
 
         EditorGUI.BeginChangeCheck();
         GUI.SetNextControlName("keyField");
@@ -85,18 +85,19 @@ public class TranslationKeyDrawer : PropertyDrawer
         if (Translator.Instance.Translation != null) //Translation exists
         {
             currentHeight += space;
-            if (Translator.TranslationExists(key))
+            
+            if (ExistsForType(key, keyAttribute.TranslationType))
             {
                 GUI.Label(new Rect(position.x, currentHeight, position.width, headerHeight),
                     "Edit Translations for key " + key, headingStyle);
                 currentHeight += headerHeight;
 
-                DrawEditUI(position, key, property.serializedObject.targetObject);
+                DrawEditUI(position, key, property.serializedObject.targetObject, keyAttribute.TranslationType);
                 DrawDeleteUI(position, key);
             }
             else //Translation does not exist
             {
-                string result = DrawSearchList(position, key);
+                string result = DrawSearchList(position, key, keyAttribute.TranslationType);
                 if (result != null)
                 {
                     property.stringValue = result;
@@ -115,6 +116,15 @@ public class TranslationKeyDrawer : PropertyDrawer
 
         DrawFooter(position);
         UpdateLocalizedComponent(property.serializedObject.targetObject);
+    }
+
+    private bool ExistsForType(string key, Type translationType)
+    {
+        if (translationType == typeof (string))
+            return Translator.Instance.StringKeyExists(key);
+        if (translationType == typeof (Sprite))
+            return Translator.Instance.SpriteKeyExists(key);
+        return false;
     }
 
     private string MigrateTextToKey(SerializedProperty property, string key)
@@ -183,37 +193,9 @@ public class TranslationKeyDrawer : PropertyDrawer
         return false;
     }
 
-    private string DrawSearchList(Rect position, string query)
+    private string DrawSearchList(Rect position, string query, Type searchType)
     {
-        string[] querySplit = query.Split('.');
-        var foundKeys = Translator.Instance.Translation.TranslationDictionary.Keys
-            .Where(key =>
-            {
-                if (String.IsNullOrEmpty(key))
-                    return false;
-                string[] keySplit = key.Split('.');
-                if (keySplit.Length < querySplit.Length)
-                    return false;
-                string currentSegment = keySplit[querySplit.Length - 1];
-                return key.StartsWith(query, StringComparison.CurrentCultureIgnoreCase) && currentSegment != query;
-            })
-            .Select(key =>
-            {
-                string[] keySplit = key.Split('.');
-                StringBuilder builder = new StringBuilder();
-                for (int i = 0; i < querySplit.Length; i++)
-                {
-                    builder.Append(keySplit[i]);
-                    if (i < querySplit.Length - 1)
-                    {
-                        builder.Append(".");
-                    }
-                }
-                return querySplit.Length == keySplit.Length ? builder.ToString() : builder.Append('.').ToString();
-            })
-            .OrderBy(key => key, new TranslationKeyDrawer.DotFirstComparer())
-            .Distinct()
-            .ToArray();
+        string[] foundKeys = DoSearch(query, Translator.Instance.Translation, searchType);
 
         string selectedKey = null;
         foreach (var key in foundKeys.Take(maxShownAutoCompleteButtons))
@@ -259,7 +241,7 @@ public class TranslationKeyDrawer : PropertyDrawer
             else if (keyAttribute.TranslationType == typeof (Sprite))
             {
                 savedTranslationValues[i] = EditorGUI.ObjectField(new Rect(position.x, currentHeight, position.width, fieldHeight),
-                        translationAsset.LanguageName, (Sprite)savedTranslationValues[i], typeof(Sprite), false);
+                        translationAsset.LanguageName, (Sprite) savedTranslationValues[i], typeof(Sprite), false);
             }
             currentHeight += fieldHeight;
         }
@@ -284,31 +266,52 @@ public class TranslationKeyDrawer : PropertyDrawer
         }
     }
 
-    private void DrawEditUI(Rect position, string key, Object targetObject)
+    private void DrawEditUI(Rect position, string key, Object targetObject, Type editingType)
     {
         for (int i = 0; i < translationAssets.Length; i++)
         {
             var translationAsset = translationAssets[i];
+            
+            Func<string, bool> existsFunc;
+            if (editingType == typeof (Sprite))
+                existsFunc = translationAsset.SpriteDictionary.ContainsKey;
+            else
+                existsFunc = translationAsset.TranslationDictionary.ContainsKey;
+
             EditorGUI.PrefixLabel(new Rect(position.x, currentHeight, position.width, fieldHeight), new GUIContent(translationAsset.LanguageName));
-            DrawAutoTranslateButton(key, translationAsset, i, position);
+            if (editingType == typeof (string))
+            {
+                DrawAutoTranslateButton(key, translationAsset, i, position);
+            }
             currentHeight += fieldHeight;
 
-            if (!translationAsset.TranslationDictionary.ContainsKey(key))
+            if (!existsFunc(key))
             {
                 GUIStyle boldTextFieldStyle = new GUIStyle(EditorStyles.textField) { fontStyle = FontStyle.Bold };
                 bool button = GUI.Button(new Rect(position.x, currentHeight, position.width, fieldHeight),
                         "Add missing key", boldTextFieldStyle);
                 if (button)
                 {
-                    translationAsset.TranslationDictionary.Add(key, "");
+                    if (editingType == typeof(Sprite))
+                        translationAsset.SpriteDictionary.Add(key, null);
+                    else
+                        translationAsset.TranslationDictionary.Add(key, "");
                 }
                 currentHeight += fieldHeight;
             }
             else
             {
                 EditorGUI.BeginChangeCheck();
-                translationAsset.TranslationDictionary[key] =
-                    EditorGUI.TextArea(new Rect(position.x, currentHeight, position.width, fieldHeight*3), translationAsset.TranslationDictionary[key]);
+                if (editingType == typeof (Sprite))
+                {
+                    translationAsset.SpriteDictionary[key] = (Sprite) EditorGUI.ObjectField(new Rect(position.x, currentHeight, position.width, fieldHeight * 3),
+                        translationAsset.SpriteDictionary[key], typeof(Sprite), false);
+                }
+                else
+                {
+                    translationAsset.TranslationDictionary[key] = EditorGUI.TextArea(new Rect(position.x, currentHeight, position.width, fieldHeight * 3),
+                            translationAsset.TranslationDictionary[key]);
+                }
                 currentHeight += fieldHeight*3;
 
                 if (EditorGUI.EndChangeCheck())
@@ -424,7 +427,7 @@ public class TranslationKeyDrawer : PropertyDrawer
         if (Translator.Instance == null || Translator.Instance.Translation == null)
             return name;
 
-        if (Translator.TranslationExists(name))
+        if (Translator.StringExists(name))
         {
             return name + "_1";
         }
@@ -476,10 +479,16 @@ public class TranslationKeyDrawer : PropertyDrawer
         }
     }
 
-    public static string[] DoSearch(string query, TranslationAsset asset)
+    public static string[] DoSearch(string query, TranslationAsset asset, Type searchType)
     {
         string[] querySplit = query.Split('.');
-        string[] searchResults = asset.TranslationDictionary.Keys
+        ICollection<string> keys;
+        if (searchType == typeof (Sprite))
+            keys = asset.SpriteDictionary.Keys;
+        else
+            keys = asset.TranslationDictionary.Keys;
+
+        string[] searchResults = keys
             .Where(key =>
             {
                 if (String.IsNullOrEmpty(key))

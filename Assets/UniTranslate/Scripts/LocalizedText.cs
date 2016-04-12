@@ -29,7 +29,7 @@ public class LocalizedText : LocalizedStringComponent
         {
             text = GetComponent<Text>(); //Null reference fix
             if (Translator.Instance == null || Translator.Instance.Translation == null
-                || !Translator.TranslationExists(key))
+                || !Translator.StringExists(key))
                 return;
         }
 #endif

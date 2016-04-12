@@ -241,7 +241,7 @@ public class TranslationWindow : EditorWindow
         };
 
         if (firstAsset != null)
-            searchResults = TranslationKeyDrawer.DoSearch("", firstAsset);
+            searchResults = TranslationKeyDrawer.DoSearch("", firstAsset, typeof(string));
     }
 
     private void OnGUI()
@@ -359,7 +359,7 @@ public class TranslationWindow : EditorWindow
                 EditorPrefs.SetString("TranslationWindow_FirstAssetGuid", firstGuid);
                 EditorPrefs.SetString("TranslationWindow_SecondAssetGuid", secondGuid);
                 if (firstAsset != null)
-                    searchResults = TranslationKeyDrawer.DoSearch("", firstAsset);
+                    searchResults = TranslationKeyDrawer.DoSearch("", firstAsset, typeof(string));
             }
             catch (Exception e)
             {
@@ -375,7 +375,7 @@ public class TranslationWindow : EditorWindow
         filter = EditorGUILayout.TextField("Filter", filter) ?? "";
         if (EditorGUI.EndChangeCheck())
         {
-            searchResults = TranslationKeyDrawer.DoSearch(filter, firstAsset);
+            searchResults = TranslationKeyDrawer.DoSearch(filter, firstAsset, typeof(string));
         }
         
         var result = DrawSearchList(filter, firstAsset);
@@ -524,7 +524,7 @@ public class TranslationWindow : EditorWindow
             if (GUILayout.Button(key, textFieldLeftMarginStyle))
             {
                 selectedKey = key;
-                searchResults = TranslationKeyDrawer.DoSearch(selectedKey, firstAsset);
+                searchResults = TranslationKeyDrawer.DoSearch(selectedKey, firstAsset, typeof(string));
                 GUIUtility.keyboardControl = 0;
             }
         }

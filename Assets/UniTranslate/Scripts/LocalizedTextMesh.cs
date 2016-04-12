@@ -29,7 +29,7 @@ public class LocalizedTextMesh : LocalizedStringComponent
         {
             textMesh = GetComponent<TextMesh>(); //Null reference fix
             if (Translator.Instance == null || Translator.Instance.Translation == null
-                || !Translator.TranslationExists(key))
+                || !Translator.StringExists(key))
                 return;
         }
 #endif

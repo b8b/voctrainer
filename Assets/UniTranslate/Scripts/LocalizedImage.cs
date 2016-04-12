@@ -29,10 +29,10 @@ public class LocalizedImage : LocalizedSpriteComponent
         {
             image = GetComponent<Image>(); //Null reference fix
             if (Translator.Instance == null || Translator.Instance.Translation == null
-                || !Translator.TranslationExists(key))
+                || !Translator.SpriteExists(key))
                 return;
         }
 #endif
-        image.sprite = Translator.Translate<Sprite>(key);
+        image.sprite = Translator.TranslateSprite(key);
     }
 }

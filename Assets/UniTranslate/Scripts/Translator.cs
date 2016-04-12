@@ -189,36 +189,18 @@ public class Translator : MonoBehaviour
         return translationVal;
     }
 
-    /// <summary>
-    /// Translates the key by performing a lookup in the currently assigned <see cref="TranslationAsset"/>.
-    /// Returns the default value for the specified type if the key does not exist in the active <see cref="TranslationAsset"/>. 
-    /// This overload of the Translate method supports translating strings and sprites.
-    /// </summary>
-    /// <typeparam name="TValue">The type you want to translate (string or Sprite). If another type is specified, its default value will be returned.</typeparam>
-    /// <param name="key">The translation key string.</param>
-    /// <returns>The translated value assigned to the given key or the key string itself 
-    /// if the key does not exist in the active <see cref="TranslationAsset"/>.</returns>
-    public TValue TranslateKey<TValue>(string key)
+    public Sprite TranslateSpriteKey(string key)
     {
         if (translation == null)
         {
             Debug.LogWarning("Translator: Translation asset is null", gameObject);
-            return default(TValue);
+            return null;
         }
 
         if (string.IsNullOrEmpty(key))
-            return default(TValue);
+            return null;
 
-        if (typeof (TValue) == typeof (string))
-        {
-            return (TValue) (object) translation.TranslationDictionary[key, defaultValue: key];
-        }
-        if (typeof (TValue) == typeof (Sprite))
-        {
-            return (TValue) (object)translation.SpriteDictionary[key, defaultValue: null];
-        }
-        Debug.LogError("Translator: Wrong value type specified");
-        return default(TValue);
+        return translation.SpriteDictionary[key, defaultValue: null];
     }
 
     /// <summary>
@@ -226,7 +208,7 @@ public class Translator : MonoBehaviour
     /// </summary>
     /// <param name="key">The key to locate in the active <see cref="TranslationAsset"/>.</param>
     /// <returns>true if the active <see cref="TranslationAsset"/> contains an element with the specified key; otherwise, false.</returns>
-    public bool KeyExists(string key)
+    public bool StringKeyExists(string key)
     {
         if (string.IsNullOrEmpty(key))
             return false;
@@ -236,6 +218,18 @@ public class Translator : MonoBehaviour
             return false;
         }
         return translation.TranslationDictionary.ContainsKey(key);
+    }
+
+    public bool SpriteKeyExists(string key)
+    {
+        if (string.IsNullOrEmpty(key))
+            return false;
+        if (translation == null)
+        {
+            Debug.LogWarning("Translator: Translation asset is null", gameObject);
+            return false;
+        }
+        return translation.SpriteDictionary.ContainsKey(key);
     }
 
     /// <summary>
@@ -249,22 +243,13 @@ public class Translator : MonoBehaviour
     {
         return CheckInstance() ? Instance.TranslateKey(key) : key;
     }
-
-    /// <summary>
-    /// Translates the key by performing a lookup in the currently assigned <see cref="TranslationAsset"/>.
-    /// Returns the default value for the specified type if the key does not exist in the active <see cref="TranslationAsset"/>. 
-    /// This overload of the Translate method supports translating strings and sprites.
-    /// </summary>
-    /// <typeparam name="TValue">The type you want to translate (string or Sprite). If another type is specified, its default value will be returned.</typeparam>
-    /// <param name="key">The translation key string.</param>
-    /// <returns>The translated value assigned to the given key or the key string itself 
-    /// if the key does not exist in the active <see cref="TranslationAsset"/>.</returns>
-    public static TValue Translate<TValue>(string key)
+    
+    public static Sprite TranslateSprite(string key)
     {
         if (!CheckInstance())
-            return default(TValue);
+            return null;
 
-        return Instance.TranslateKey<TValue>(key);
+        return Instance.TranslateSpriteKey(key);
     }
 
     /// <summary>
@@ -310,8 +295,13 @@ public class Translator : MonoBehaviour
     /// </summary>
     /// <param name="key">The key to locate in the active <see cref="TranslationAsset"/>.</param>
     /// <returns>true if the active <see cref="TranslationAsset"/> contains an element with the specified key; otherwise, false.</returns>
-    public static bool TranslationExists(string key)
+    public static bool StringExists(string key)
     {
-        return Instance.KeyExists(key);
+        return Instance.StringKeyExists(key);
+    }
+
+    public static bool SpriteExists(string key)
+    {
+        return Instance.SpriteKeyExists(key);
     }
 }

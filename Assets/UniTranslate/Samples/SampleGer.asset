@@ -15,12 +15,12 @@ MonoBehaviour:
   languageCode: de
   translationDictionary:
     _Buckets: 02000000ffffffffffffffffffffffff03000000ffffffff01000000
-    _HashCodes: 6c15ee35bc04221596b6684cb69d2d00000000000000000000000000
-    _Next: ffffffffffffffff00000000ffffffff000000000000000000000000
-    _Count: 4
-    _Version: 85086
-    _FreeList: -1
-    _FreeCount: 0
+    _HashCodes: 6c15ee35bc04221596b6684cb69d2d00ffffffff0000000000000000
+    _Next: ffffffffffffffff00000000ffffffffffffffff0000000000000000
+    _Count: 5
+    _Version: 86282
+    _FreeList: 4
+    _FreeCount: 1
     _Keys:
     - Test.DummyTitle
     - Test.HelloWorld
@@ -38,18 +38,18 @@ MonoBehaviour:
     - 
     - 
   spriteDictionary:
-    _Buckets: ffffffffffffffffffffffff
-    _HashCodes: 000000000000000000000000
-    _Next: 000000000000000000000000
-    _Count: 0
-    _Version: 0
+    _Buckets: 0200000000000000ffffffff
+    _HashCodes: c037e93a80e92f00dde76e0e
+    _Next: ffffffffffffffff01000000
+    _Count: 3
+    _Version: 3075
     _FreeList: -1
     _FreeCount: 0
     _Keys:
-    - 
-    - 
-    - 
+    - jjjjjj
+    - ffff
+    - Test.Hi
     _Values:
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
+    - {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
     - {fileID: 0}

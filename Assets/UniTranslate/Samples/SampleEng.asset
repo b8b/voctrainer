@@ -18,7 +18,7 @@ MonoBehaviour:
     _HashCodes: 6c15ee35bc04221596b6684cffffffff000000000000000000000000
     _Next: ffffffffffffffff00000000ffffffff000000000000000000000000
     _Count: 4
-    _Version: 74644
+    _Version: 75848
     _FreeList: 3
     _FreeCount: 1
     _Keys:
@@ -38,18 +38,18 @@ MonoBehaviour:
     - 
     - 
   spriteDictionary:
-    _Buckets: ffffffffffffffffffffffff
-    _HashCodes: ffffffff0000000000000000
-    _Next: ffffffff0000000000000000
-    _Count: 1
-    _Version: 9
-    _FreeList: 0
-    _FreeCount: 1
+    _Buckets: 0200000000000000ffffffff
+    _HashCodes: c037e93a80e92f00dde76e0e
+    _Next: ffffffffffffffff01000000
+    _Count: 3
+    _Version: 3600
+    _FreeList: -1
+    _FreeCount: 0
     _Keys:
-    - 
-    - 
-    - 
+    - jjjjjj
+    - ffff
+    - Test.Hi
     _Values:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+    - {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
+    - {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}

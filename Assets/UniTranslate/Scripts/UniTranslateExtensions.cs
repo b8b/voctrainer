@@ -38,6 +38,6 @@
     /// <returns>true if the active <see cref="TranslationAsset"/> contains an element with the specified key; otherwise, false.</returns>
     public static bool TranslationKeyExists(this string key)
     {
-        return Translator.TranslationExists(key);
+        return Translator.StringExists(key);
     }
 }
