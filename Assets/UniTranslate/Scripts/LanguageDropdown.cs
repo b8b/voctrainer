@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.UI;
 
+[AddComponentMenu("UniTranslate/Language Dropdown")]
 [RequireComponent(typeof(Dropdown))]
 public class LanguageDropdown : MonoBehaviour
 {

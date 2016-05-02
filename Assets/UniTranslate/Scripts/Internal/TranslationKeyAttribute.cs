@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using System.Collections;
 
 /// <summary>
 /// Enables in-component validation and editing in the Unity editor

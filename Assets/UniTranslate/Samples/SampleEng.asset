@@ -14,42 +14,34 @@ MonoBehaviour:
   languageName: Sample English
   languageCode: en
   translationDictionary:
-    _Buckets: 02000000ffffffffffffffffffffffffffffffffffffffff01000000
-    _HashCodes: 6c15ee35bc04221596b6684cffffffff000000000000000000000000
-    _Next: ffffffffffffffff00000000ffffffff000000000000000000000000
-    _Count: 4
-    _Version: 75848
-    _FreeList: 3
+    _Buckets: ffffffff0000000002000000
+    _HashCodes: bc042215ffffffff96b6684c
+    _Next: ffffffffffffffffffffffff
+    _Count: 3
+    _Version: 3541
+    _FreeList: 1
     _FreeCount: 1
     _Keys:
-    - Test.DummyTitle
     - Test.HelloWorld
+    - 
     - Test.TextMesh
-    - 
-    - 
-    - 
-    - 
     _Values:
-    - My amazing title
     - Hello, World.
+    - 
     - I'm a translatable TextMesh.
-    - 
-    - 
-    - 
-    - 
   spriteDictionary:
-    _Buckets: 0200000000000000ffffffff
-    _HashCodes: c037e93a80e92f00dde76e0e
-    _Next: ffffffffffffffff01000000
-    _Count: 3
-    _Version: 3600
-    _FreeList: -1
-    _FreeCount: 0
+    _Buckets: ffffffffffffffff01000000
+    _HashCodes: ffffffff2decdb0c00000000
+    _Next: ffffffffffffffff00000000
+    _Count: 2
+    _Version: 727
+    _FreeList: 0
+    _FreeCount: 1
     _Keys:
-    - jjjjjj
-    - ffff
-    - Test.Hi
+    - 
+    - Test.FlagSprite
+    - 
     _Values:
-    - {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
-    - {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
-    - {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+    - {fileID: 0}
+    - {fileID: 21300000, guid: 523ff5f50fa00a9469eb59b63b5669a8, type: 3}
+    - {fileID: 0}

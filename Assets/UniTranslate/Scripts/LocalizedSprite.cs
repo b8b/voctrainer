@@ -1,19 +1,18 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 /// <summary>
-/// Localizes the sprite of NGUI <see cref="Image"/> components.
+/// Localizes the sprite of <see cref="SpriteRenderer"/> components.
 /// </summary>
-[RequireComponent(typeof(Image))]
-[AddComponentMenu("UniTranslate/Localized Image")]
+[RequireComponent(typeof(SpriteRenderer))]
+[AddComponentMenu("UniTranslate/Localized Sprite")]
 [ExecuteInEditMode]
-public class LocalizedImage : LocalizedSpriteComponent
+public class LocalizedSprite : LocalizedSpriteComponent
 {
-    private Image image;
+    private SpriteRenderer spriteRenderer;
 
     private void Awake()
     {
-        image = GetComponent<Image>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Start()
@@ -26,12 +25,12 @@ public class LocalizedImage : LocalizedSpriteComponent
 #if UNITY_EDITOR
         if (!Application.isPlaying)
         {
-            image = GetComponent<Image>(); //Null reference fix
+            spriteRenderer = GetComponent<SpriteRenderer>(); //Null reference fix
             if (Translator.Instance == null || Translator.Instance.Translation == null
                 || !Translator.SpriteExists(key))
                 return;
         }
 #endif
-        image.sprite = Translator.TranslateSprite(key);
+        spriteRenderer.sprite = Translator.TranslateSprite(key);
     }
 }

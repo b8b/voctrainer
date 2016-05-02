@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
 
 /// <summary>
 /// Localizes the text of 3D <see cref="TextMesh"/> components.
@@ -35,4 +33,12 @@ public class LocalizedTextMesh : LocalizedStringComponent
 #endif
         textMesh.text = Translator.Translate(key);
     }
+
+#if UNITY_EDITOR
+    public override string TextValue
+    {
+        get { return textMesh.text; }
+        set { textMesh.text = value; }
+    }
+#endif
 }

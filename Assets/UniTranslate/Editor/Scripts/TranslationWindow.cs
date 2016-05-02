@@ -1,11 +1,10 @@
 ﻿using System;
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEditor;
 using UnityEditorInternal;
+using UniTranslateEditor;
 
 [InitializeOnLoad]
 public class TranslationWindow : EditorWindow
@@ -21,7 +20,6 @@ public class TranslationWindow : EditorWindow
 
     private TranslationAsset firstAsset;
     private TranslationAsset secondAsset;
-    private int lastFocusedTranslation;
     private Vector2 scrollPos = Vector2.zero;
     private ReorderableList list;
     private Texture2D translateServiceImage;
@@ -29,56 +27,72 @@ public class TranslationWindow : EditorWindow
     private string filter = "";
     private string[] searchResults;
     private bool[] autoTranslating;
-
-    private const float leftHeaderMargin = 12f;
+    
+    private static readonly Type[] translationTypes = new Type[] {typeof(string), typeof(Sprite), typeof(Texture), typeof(AudioClip), typeof(Font), typeof(ScriptableObject)};
+    private static readonly string[] translationTypeToolbarStrings = new string[] {"Strings", "Sprites", "Textures", "Audio", "Fonts", "Scriptable Objects"};
+    private static Type currentTranslationType = translationTypes[0];
+    private static int currentTranslationTypeIndex = 0;
+    
+    private const float leftHeaderMargin = 13f;
     private const float twoColumnMinWidth = 600f;
     public const int maxShownAutoCompleteButtons = 15;
     public const string googleTranslateLogoPath = "Assets/UniTranslate/Editor/Images/GoogleTranslate.png";
-    
+
+    #region Initialization
     static TranslationWindow()
     {
         CheckMissingKeys = EditorPrefs.GetBool("TranslationWindow_CheckMissingKeys", true);
         AutoTranslateOnAdd = EditorPrefs.GetBool("TranslationWindow_AutoTranslateOnAdd", false);
+        currentTranslationTypeIndex = EditorPrefs.GetInt("TranslationWindow_CurrentTranslationTypeIndex", 0);
+        if (currentTranslationTypeIndex > translationTypes.Length - 1 || currentTranslationTypeIndex < 0)
+            currentTranslationTypeIndex = 0;
     }
 
     private void OnEnable()
     {
+        this.titleContent = new GUIContent("Translations");
+        translateServiceImage = AssetDatabase.LoadAssetAtPath<Texture2D>(googleTranslateLogoPath);
+
         InitializeData();
         InitializeList();
     }
 
     private void InitializeData()
     {
-        this.titleContent = new GUIContent("Translations");
         autoTranslating = new bool[2];
-        translateServiceImage = AssetDatabase.LoadAssetAtPath<Texture2D>(googleTranslateLogoPath);
  
         //Load asset GUIDs from prefs
         try
         {
             string firstGuid = EditorPrefs.GetString("TranslationWindow_FirstAssetGuid", null);
             string secondGuid = EditorPrefs.GetString("TranslationWindow_SecondAssetGuid", null);
-            if (firstGuid != null)
+            if (firstGuid != null) { 
                 firstAsset = (TranslationAsset)AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(firstGuid), typeof(TranslationAsset));
-            if (secondGuid != null)
+            }
+            if (secondGuid != null) { 
                 secondAsset = (TranslationAsset)AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(secondGuid), typeof(TranslationAsset));
+            }
         }
         catch (Exception e)
         {
             Debug.LogError("Error when loading the last used translation assets: " + e.Message);
         }
-
-
     }
+#endregion
 
+    #region List UI Events
     private void InitializeList()
     {
         list = new ReorderableList(new List<string>(), typeof (string), draggable: true,
             displayHeader: true, displayAddButton: true, displayRemoveButton: true);
+
         list.drawHeaderCallback = rect =>
         {
-            rect.x += leftHeaderMargin;
-            rect.width -= leftHeaderMargin;
+            if (string.IsNullOrEmpty(filter))
+            {
+                rect.x += leftHeaderMargin;
+                rect.width -= leftHeaderMargin;
+            }
 
             EditorGUI.LabelField(new Rect(rect.x, rect.y, rect.width*0.2f, rect.height), "Key");
             if (firstAsset != secondAsset && secondAsset != null)
@@ -95,92 +109,28 @@ public class TranslationWindow : EditorWindow
             }
         };
 
-
         list.drawElementCallback = (rect, index, active, focused) =>
         {
             try
             {
                 float height = rect.height - 3;
                 string currentKey = (string) list.list[index];
-
-                EditorGUI.BeginChangeCheck();
-                string newKey = EditorGUI.TextField(new Rect(rect.x, rect.y, rect.width*0.2f, height), currentKey);
-                if (EditorGUI.EndChangeCheck())
-                {
-                    if (firstAsset.TranslationDictionary.ContainsKey(currentKey))
-                    {
-                        string oldValue1 = firstAsset.TranslationDictionary[currentKey];
-                        firstAsset.TranslationDictionary.Remove(currentKey);
-                        firstAsset.TranslationDictionary[newKey] = oldValue1;
-                    }
-
-                    if (secondAsset != null && secondAsset.TranslationDictionary.ContainsKey(currentKey))
-                    {
-                        string oldValue2 = secondAsset.TranslationDictionary[currentKey];
-                        secondAsset.TranslationDictionary.Remove(currentKey);
-                        secondAsset.TranslationDictionary[newKey] = oldValue2;
-                    }
-
-                    UpdateList();
-                    TranslationDictionaryDrawer.SetScriptableObjectDirty(firstAsset);
-                    TranslationDictionaryDrawer.SetScriptableObjectDirty(secondAsset);
-                }
-                else
-                {
-                    newKey = currentKey;
-                }
+                string key = DrawKeyField(rect, height, currentKey);
 
                 EditorGUI.BeginChangeCheck();
 
-                if (secondAsset != null && secondAsset != firstAsset)
-                {
-                    firstAsset.TranslationDictionary[newKey] =
-                        EditorGUI.TextField(new Rect(rect.x + rect.width*0.2f, rect.y, rect.width*0.4f, height),
-                            firstAsset.TranslationDictionary[newKey]);
-
-                    if (secondAsset != null && secondAsset.TranslationDictionary.ContainsKey(newKey))
-                    {
-                        secondAsset.TranslationDictionary[newKey] =
-                            EditorGUI.TextField(new Rect(rect.x + rect.width*0.6f, rect.y, rect.width*0.4f, height),
-                                secondAsset.TranslationDictionary[newKey]);
-                    }
-                    else
-                    {
-                        GUIStyle boldTextFieldStyle = new GUIStyle(EditorStyles.textField) {fontStyle = FontStyle.Bold};
-                        bool button = GUI.Button(new Rect(rect.x + rect.width*0.6f, rect.y, rect.width*0.4f, height),
-                            "Add missing key", boldTextFieldStyle);
-
-                        if (button)
-                        {
-                            secondAsset.TranslationDictionary.Add(newKey, "");
-                            if (AutoTranslateOnAdd && firstAsset != null && firstAsset.TranslationDictionary != null && Translator.Settings != null)
-                            {
-                                TranslationService.Translate(firstAsset.TranslationDictionary[newKey, ""],
-                                    firstAsset.LanguageCode, secondAsset.LanguageCode,
-                                    silently: true, callback: result =>
-                                    {
-                                        if (!result.Error)
-                                        {
-                                            secondAsset.TranslationDictionary[newKey] = result.TranslatedText;
-                                        }
-                                    });
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    firstAsset.TranslationDictionary[newKey] =
-                        EditorGUI.TextField(new Rect(rect.x + rect.width*0.2f, rect.y, rect.width*0.8f, height),
-                            firstAsset.TranslationDictionary[newKey]);
-                }
+                DrawValueFields(key, rect);
 
                 if (EditorGUI.EndChangeCheck())
                 {
                     UpdateList();
-                    TranslationDictionaryDrawer.SetScriptableObjectDirty(firstAsset);
-                    TranslationDictionaryDrawer.SetScriptableObjectDirty(secondAsset);
+                    TranslationKeyDrawer.SetScriptableObjectDirty(firstAsset);
+                    TranslationKeyDrawer.SetScriptableObjectDirty(secondAsset);
                 }
+            }
+            catch (ExitGUIException)
+            {
+                throw;
             }
             catch (Exception e)
             {
@@ -192,14 +142,14 @@ public class TranslationWindow : EditorWindow
         {
             try
             {
-                firstAsset.TranslationDictionary.Add("", "");
-                TranslationDictionaryDrawer.SetScriptableObjectDirty(firstAsset);
-
+                TranslationKeyDrawer.SetScriptableObjectDirty(firstAsset);
+                firstAsset.CreateNewEmptyKey(currentTranslationType);
                 if (secondAsset != firstAsset)
                 {
-                    secondAsset.TranslationDictionary.Add("", "");
-                    TranslationDictionaryDrawer.SetScriptableObjectDirty(secondAsset);
+                    secondAsset.CreateNewEmptyKey(currentTranslationType);
+                    TranslationKeyDrawer.SetScriptableObjectDirty(secondAsset);
                 }
+                
                 UpdateList();
                 Repaint();
             }
@@ -218,31 +168,91 @@ public class TranslationWindow : EditorWindow
 
         list.onReorderCallback = reorderableList =>
         {
-            var firstNewDict = new TranslationAsset.TranslationDictionaryType();
-            foreach (string key in list.list)
-            {
-                firstNewDict.Add(key, firstAsset.TranslationDictionary[key]);
-            }
-            firstAsset.TranslationDictionary = firstNewDict;
-            TranslationDictionaryDrawer.SetScriptableObjectDirty(firstAsset);
+            firstAsset.ReorderDictionary(currentTranslationType, list.list);
+            TranslationKeyDrawer.SetScriptableObjectDirty(firstAsset);
 
             if (secondAsset == null || secondAsset == firstAsset)
                 return;
 
-            var secondNewDict = new TranslationAsset.TranslationDictionaryType();
-            foreach (string key in list.list)
-            {
-                if (!secondAsset.TranslationDictionary.ContainsKey(key))
-                    continue;
-                secondNewDict.Add(key, secondAsset.TranslationDictionary[key]);
-            }
-            secondAsset.TranslationDictionary = secondNewDict;
-            TranslationDictionaryDrawer.SetScriptableObjectDirty(secondAsset);
+            secondAsset.ReorderDictionary(currentTranslationType, list.list);
+            TranslationKeyDrawer.SetScriptableObjectDirty(secondAsset);
         };
 
         if (firstAsset != null)
-            searchResults = TranslationKeyDrawer.DoSearch("", firstAsset, typeof(string));
+            searchResults = TranslationKeyDrawer.DoSearch("", firstAsset, currentTranslationType);
     }
+
+    private string DrawKeyField(Rect rect, float height, string oldKey)
+    {
+        EditorGUI.BeginChangeCheck();
+        string newKey = EditorGUI.TextField(new Rect(rect.x, rect.y, rect.width*0.2f, height), oldKey);
+        if (EditorGUI.EndChangeCheck())
+        {
+            firstAsset.ChangeKey(currentTranslationType, oldKey, newKey);
+            TranslationKeyDrawer.SetScriptableObjectDirty(firstAsset);
+            if (secondAsset != null)
+            {
+                secondAsset.ChangeKey(currentTranslationType, oldKey, newKey);
+                TranslationKeyDrawer.SetScriptableObjectDirty(secondAsset);
+            }
+            UpdateList();
+        }
+        else
+        {
+            newKey = oldKey;
+        }
+        return newKey;
+    }
+
+    private void DrawValueFields(string key, Rect rect)
+    {
+        float y = currentTranslationType == typeof (string) ? rect.y : rect.y + 1;
+        float height = currentTranslationType == typeof(string) ? rect.height - 3 : TranslationKeyDrawer.fieldHeight;
+        var firstRect = new Rect(rect.x + rect.width*0.2f, y,
+            firstAsset != secondAsset ? rect.width*0.4f : rect.width*0.8f, height);
+        
+        firstAsset.DrawFieldForKey(currentTranslationType, firstRect, key);
+        if (secondAsset != null && secondAsset != firstAsset)
+        {
+            var secondRect = new Rect(rect.x + rect.width*0.6f, y, rect.width*0.4f, height);
+            if (secondAsset.KeyExists(currentTranslationType, key))
+            {
+                secondAsset.DrawFieldForKey(currentTranslationType, secondRect, key);
+            }
+            else
+            {
+                DrawAddMissingButton(key, rect, height);
+            }
+        }
+    }
+
+    
+
+    private void DrawAddMissingButton(string key, Rect rect, float height)
+    {
+        GUIStyle boldTextFieldStyle = new GUIStyle(EditorStyles.textField) {fontStyle = FontStyle.Bold};
+        bool button = GUI.Button(new Rect(rect.x + rect.width*0.6f, rect.y, rect.width*0.4f, height),
+            "Add missing key", boldTextFieldStyle);
+
+        if (button)
+        {
+            secondAsset.Add(currentTranslationType, key);
+            if (!AutoTranslateOnAdd || firstAsset == null || firstAsset.TranslationDictionary == null ||
+                Translator.Settings == null || currentTranslationType != typeof(string))
+                return;
+
+            EditorTranslationService.Translate(firstAsset.TranslationDictionary[key, ""],
+                firstAsset.LanguageCode, secondAsset.LanguageCode,
+                silently: true, callback: result =>
+                {
+                    if (!result.Error)
+                    {
+                        secondAsset.TranslationDictionary[key] = result.TranslatedText;
+                    }
+                });
+        }
+    }
+    #endregion
 
     private void OnGUI()
     {
@@ -274,7 +284,7 @@ public class TranslationWindow : EditorWindow
 
         if (position.width >= twoColumnMinWidth)
         {
-            if (list.index >= 0 && list.index < list.list.Count && firstAsset != null)
+            if (list.index >= 0 && list.index < list.list.Count && firstAsset != null && currentTranslationType == typeof(string))
             {
                 DrawEditUI((string)list.list[list.index], headingStyle, firstAsset,
                     secondAsset);
@@ -289,7 +299,9 @@ public class TranslationWindow : EditorWindow
             CustomGUI.Splitter();
         }
 
+        EditorGUILayout.BeginVertical();
         DrawTranslationList();
+        EditorGUILayout.EndVertical();
 
         if (position.width >= twoColumnMinWidth)
         {
@@ -297,7 +309,7 @@ public class TranslationWindow : EditorWindow
         }
         else
         {
-            if (list.index >= 0 && list.index < list.list.Count && firstAsset != null)
+            if (list.index >= 0 && list.index < list.list.Count && firstAsset != null && currentTranslationType == typeof(string))
             {
                 DrawEditUI((string)list.list[list.index], headingStyle, firstAsset,
                     secondAsset);
@@ -306,7 +318,7 @@ public class TranslationWindow : EditorWindow
         }
     }
 
-    private static void DrawToolbar()
+    private void DrawToolbar()
     {
         EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("Import from CSV", EditorStyles.toolbarButton, GUILayout.ExpandWidth(false)))
@@ -325,13 +337,25 @@ public class TranslationWindow : EditorWindow
                 EditorWindow.GetWindow<ExportCsvWindow>(true, "CSV Export Wizard").FileName = savePath;
             }
         }
-        GUILayout.Box(GUIContent.none, EditorStyles.toolbarButton, GUILayout.Width(10f));
+        
+        if (position.width < twoColumnMinWidth)
+        {
+            GUILayout.Box("", EditorStyles.toolbarButton);
+            DrawTranslationTypeSelect();
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+        }
+        else
+        {
+            GUILayout.Box("", EditorStyles.toolbarButton, GUILayout.ExpandWidth(false));
+        }
+
         EditorGUI.BeginChangeCheck();
-        CheckMissingKeys = GUILayout.Toggle(CheckMissingKeys, new GUIContent("Enable Translation Key Postprocessor",
+        CheckMissingKeys = GUILayout.Toggle(CheckMissingKeys, new GUIContent(position.width >= twoColumnMinWidth ? "Enable Translation Key Postprocessor" : "Enable Postprocessor",
             "If enabled, UniTranslate will search for missing keys after a scene is loaded in the editor or processed in a build. " +
             "The post processor might affect performance in editor, but is not included in builds. "),
             EditorStyles.toolbarButton, GUILayout.ExpandWidth(false));
-        AutoTranslateOnAdd = GUILayout.Toggle(AutoTranslateOnAdd, new GUIContent("Use Google Translator to Suggest Translations",
+        AutoTranslateOnAdd = GUILayout.Toggle(AutoTranslateOnAdd, new GUIContent(position.width >= twoColumnMinWidth ? "Use Google Translator to Suggest Translations" : "Suggest Translations",
             "If enabled, UniTranslate will use Google Translator to suggest translations whenever a new key is added on a text component " +
             "based on its content. Ensure that your language codes are right, so that it is recognized by Google Translator."),
             EditorStyles.toolbarButton, GUILayout.ExpandWidth(false));
@@ -342,7 +366,30 @@ public class TranslationWindow : EditorWindow
         }
 
         GUILayout.Box("", EditorStyles.toolbarButton);
+        if (position.width < twoColumnMinWidth)
+        {
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+        }
+        else
+        {
+            DrawTranslationTypeSelect();
+        }
+
         EditorGUILayout.EndHorizontal();
+    }
+
+    private void DrawTranslationTypeSelect()
+    {
+        EditorGUI.BeginChangeCheck();
+        currentTranslationTypeIndex = EditorGUILayout.Popup(currentTranslationTypeIndex, translationTypeToolbarStrings,
+            EditorStyles.toolbarDropDown, GUILayout.ExpandWidth(false));
+        currentTranslationType = translationTypes[currentTranslationTypeIndex];
+        if (EditorGUI.EndChangeCheck())
+        {
+            searchResults = TranslationKeyDrawer.DoSearch("", firstAsset, currentTranslationType);
+            EditorPrefs.SetInt("TranslationWindow_CurrentTranslationTypeIndex", currentTranslationTypeIndex);
+        }
     }
 
     private void DrawOptions()
@@ -359,7 +406,7 @@ public class TranslationWindow : EditorWindow
                 EditorPrefs.SetString("TranslationWindow_FirstAssetGuid", firstGuid);
                 EditorPrefs.SetString("TranslationWindow_SecondAssetGuid", secondGuid);
                 if (firstAsset != null)
-                    searchResults = TranslationKeyDrawer.DoSearch("", firstAsset, typeof(string));
+                    searchResults = TranslationKeyDrawer.DoSearch("", firstAsset, currentTranslationType);
             }
             catch (Exception e)
             {
@@ -375,7 +422,7 @@ public class TranslationWindow : EditorWindow
         filter = EditorGUILayout.TextField("Filter", filter) ?? "";
         if (EditorGUI.EndChangeCheck())
         {
-            searchResults = TranslationKeyDrawer.DoSearch(filter, firstAsset, typeof(string));
+            searchResults = TranslationKeyDrawer.DoSearch(filter, firstAsset, currentTranslationType);
         }
         
         var result = DrawSearchList(filter, firstAsset);
@@ -411,8 +458,8 @@ public class TranslationWindow : EditorWindow
 
     private void UpdateList()
     {
-        list.list = firstAsset.TranslationDictionary.Select(pair => pair.Key)
-            .Where(key => key.ToLower().StartsWith(filter != null ? filter.ToLower() : ""))
+        var keys = firstAsset.KeysForType(currentTranslationType);
+        list.list = keys.Where(key => key.ToLower().StartsWith(filter != null ? filter.ToLower() : ""))
             .ToList();
     }
 
@@ -461,7 +508,7 @@ public class TranslationWindow : EditorWindow
             }
         }
 
-        if (GUILayout.Button("Remove Translation"))
+        if (GUILayout.Button("Remove Key"))
             RemoveSelected();
     }
 
@@ -477,10 +524,10 @@ public class TranslationWindow : EditorWindow
             GUI.enabled = false;
         if (GUILayout.Button(new GUIContent(translateServiceImage), GUILayout.Width(30f), GUILayout.Height(20f)))
         {
-            string sourceLang = translationAsset == currentLang ? TranslationService.autoLangCode : currentLang.LanguageCode;
+            string sourceLang = translationAsset == currentLang ? EditorTranslationService.autoLangCode : currentLang.LanguageCode;
             autoTranslating[assetIndex] = true;
             GUIUtility.keyboardControl = 0;
-            TranslationService.Translate(currentLang.TranslationDictionary[key, ""],
+            EditorTranslationService.Translate(currentLang.TranslationDictionary[key, ""],
                 sourceLang: sourceLang,
                 targetLang: translationAsset.LanguageCode,
                 callback: result =>
@@ -498,16 +545,15 @@ public class TranslationWindow : EditorWindow
         if (list.list.Count - 1 < list.index)
             return;
         string selectedKey = (string)list.list[list.index] ?? "";
-        if (firstAsset.TranslationDictionary.ContainsKey(selectedKey))
+
+        firstAsset.RemoveIfKeyExists(currentTranslationType, selectedKey);
+        if (secondAsset != null)
         {
-            firstAsset.TranslationDictionary.Remove(selectedKey);
+            secondAsset.RemoveIfKeyExists(currentTranslationType, selectedKey);
         }
-        if (secondAsset != null && secondAsset.TranslationDictionary.ContainsKey(selectedKey))
-        {
-            secondAsset.TranslationDictionary.Remove(selectedKey);
-        }
-        TranslationDictionaryDrawer.SetScriptableObjectDirty(firstAsset);
-        TranslationDictionaryDrawer.SetScriptableObjectDirty(secondAsset);
+
+        TranslationKeyDrawer.SetScriptableObjectDirty(firstAsset);
+        TranslationKeyDrawer.SetScriptableObjectDirty(secondAsset);
     }
 
     public string DrawSearchList(string query, TranslationAsset asset)
@@ -524,7 +570,7 @@ public class TranslationWindow : EditorWindow
             if (GUILayout.Button(key, textFieldLeftMarginStyle))
             {
                 selectedKey = key;
-                searchResults = TranslationKeyDrawer.DoSearch(selectedKey, firstAsset, typeof(string));
+                searchResults = TranslationKeyDrawer.DoSearch(selectedKey, firstAsset, currentTranslationType);
                 GUIUtility.keyboardControl = 0;
             }
         }

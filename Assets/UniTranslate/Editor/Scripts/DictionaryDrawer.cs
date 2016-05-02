@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEditor;
 using UnityEngine;
 using UnityObject = UnityEngine.Object;
@@ -16,15 +14,15 @@ public abstract class DictionaryDrawer<TK, TV> : PropertyDrawer
     {
         CheckInitialize(property, label);
         if (_Foldout)
-            return (_Dictionary.Count + 1) * 17f;
-        return 17f;
+            return (_Dictionary.Count + 1) * 16f;
+        return 16f;
     }
 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         CheckInitialize(property, label);
 
-        position.height = 17f;
+        position.height = 16f;
 
         var foldoutRect = position;
         foldoutRect.width -= 2 * kButtonWidth;
@@ -40,7 +38,7 @@ public abstract class DictionaryDrawer<TK, TV> : PropertyDrawer
         if (GUI.Button(buttonRect, new GUIContent("+", "Add item"), EditorStyles.miniButton))
         {
             AddNewItem();
-            SetScriptableObjectDirty(property.serializedObject.targetObject);
+            TranslationKeyDrawer.SetScriptableObjectDirty(property.serializedObject.targetObject);
         }
 
         buttonRect.x -= kButtonWidth;
@@ -48,7 +46,7 @@ public abstract class DictionaryDrawer<TK, TV> : PropertyDrawer
         if (GUI.Button(buttonRect, new GUIContent("X", "Clear dictionary"), EditorStyles.miniButtonRight))
         {
             ClearDictionary();
-            SetScriptableObjectDirty(property.serializedObject.targetObject);
+            TranslationKeyDrawer.SetScriptableObjectDirty(property.serializedObject.targetObject);
         }
 
         if (!_Foldout)
@@ -59,7 +57,7 @@ public abstract class DictionaryDrawer<TK, TV> : PropertyDrawer
             var key = item.Key;
             var value = item.Value;
 
-            position.y += 17f;
+            position.y += 16f;
 
             var keyRect = position;
             keyRect.width /= 2;
@@ -72,7 +70,7 @@ public abstract class DictionaryDrawer<TK, TV> : PropertyDrawer
                 {
                     _Dictionary.Remove(key);
                     _Dictionary.Add(newKey, value);
-                    SetScriptableObjectDirty(property.serializedObject.targetObject);
+                    TranslationKeyDrawer.SetScriptableObjectDirty(property.serializedObject.targetObject);
                 }
                 catch (Exception e)
                 {
@@ -89,7 +87,7 @@ public abstract class DictionaryDrawer<TK, TV> : PropertyDrawer
             if (EditorGUI.EndChangeCheck())
             {
                 _Dictionary[key] = value;
-                SetScriptableObjectDirty(property.serializedObject.targetObject);
+                TranslationKeyDrawer.SetScriptableObjectDirty(property.serializedObject.targetObject);
                 break;
             }
 
@@ -99,19 +97,9 @@ public abstract class DictionaryDrawer<TK, TV> : PropertyDrawer
             if (GUI.Button(removeRect, new GUIContent("x", "Remove item"), EditorStyles.miniButtonRight))
             {
                 RemoveItem(key);
-                SetScriptableObjectDirty(property.serializedObject.targetObject);
-
+                TranslationKeyDrawer.SetScriptableObjectDirty(property.serializedObject.targetObject);
                 break;
             }
-        }
-    }
-
-    public static void SetScriptableObjectDirty(UnityObject targetObject)
-    {
-        var serializedObject = targetObject as ScriptableObject;
-        if (serializedObject != null)
-        {
-            EditorUtility.SetDirty(serializedObject);
         }
     }
 
@@ -186,8 +174,20 @@ public abstract class DictionaryDrawer<TK, TV> : PropertyDrawer
     }
 }
 
-[CustomPropertyDrawer(typeof(TranslationAsset.TranslationDictionaryType))]
-public class TranslationDictionaryDrawer : DictionaryDrawer<string, string> { }
+[CustomPropertyDrawer(typeof(TranslationAsset.StringDictionaryType))]
+public class StringDictionaryDrawer : DictionaryDrawer<string, string> { }
 
 [CustomPropertyDrawer(typeof(TranslationAsset.SpriteDictionaryType))]
 public class SpriteDictionaryDrawer : DictionaryDrawer<string, Sprite> { }
+
+[CustomPropertyDrawer(typeof(TranslationAsset.TextureDictionaryType))]
+public class TextureDictionaryDrawer : DictionaryDrawer<string, Texture> { }
+
+[CustomPropertyDrawer(typeof(TranslationAsset.AudioDictionaryType))]
+public class AudioDictionaryDrawer : DictionaryDrawer<string, AudioClip> { }
+
+[CustomPropertyDrawer(typeof(TranslationAsset.FontDictionaryType))]
+public class FontDictionaryDrawer : DictionaryDrawer<string, Font> { }
+
+[CustomPropertyDrawer(typeof(TranslationAsset.ScriptableObjectDictionaryType))]
+public class ScriptableObjectDictionaryDrawer : DictionaryDrawer<string, ScriptableObject> { }

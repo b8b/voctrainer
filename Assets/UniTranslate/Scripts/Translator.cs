@@ -1,8 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -89,6 +86,7 @@ public class Translator : MonoBehaviour
 #endif
         {
             var obj = new GameObject("Runtime Translator");
+            obj.hideFlags = HideFlags.HideInHierarchy;
             instance = obj.AddComponent<Translator>();
             instance.translation = Settings.StartupLanguage;
             //Debug.Log("UniTranslate " + version + " initialized!");

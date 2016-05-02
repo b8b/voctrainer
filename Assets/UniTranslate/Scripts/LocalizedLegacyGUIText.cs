@@ -1,19 +1,18 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 /// <summary>
-/// Localizes the text of NGUI <see cref="Text"/> components.
+/// Localizes the text of legacy <see cref="GUIText"/> components.
 /// </summary>
-[RequireComponent(typeof(Text))]
-[AddComponentMenu("UniTranslate/Localized Text")]
+[RequireComponent(typeof(GUIText))]
+[AddComponentMenu("UniTranslate/Localized Legacy GUI Text")]
 [ExecuteInEditMode]
-public class LocalizedText : LocalizedStringComponent
+public class LocalizedLegacyGUIText : LocalizedStringComponent
 {
-    private Text text;
+    private GUIText text;
     
     private void Awake()
     {
-        text = GetComponent<Text>();
+        text = GetComponent<GUIText>();
     }
     
     private void Start()
@@ -26,7 +25,7 @@ public class LocalizedText : LocalizedStringComponent
 #if UNITY_EDITOR
         if (!Application.isPlaying)
         {
-            text = GetComponent<Text>(); //Null reference fix
+            text = GetComponent<GUIText>(); //Null reference fix
             if (Translator.Instance == null || Translator.Instance.Translation == null
                 || !Translator.StringExists(key))
                 return;

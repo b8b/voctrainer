@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 /// <summary>
 /// The base class for sprite based localizable components.
 /// </summary>
 public abstract class LocalizedStringComponent : LocalizedComponent
 {
-    [SerializeField] [TranslationKey(typeof(string), AlwaysFoldout = true)] protected new string key;
+    [SerializeField] [TranslationKey(typeof(string), AlwaysFoldout = true)] protected string key;
 
     /// <summary>
     /// The currently used translation key.
@@ -21,4 +20,8 @@ public abstract class LocalizedStringComponent : LocalizedComponent
             UpdateTranslation();
         }
     }
+
+#if UNITY_EDITOR
+    public abstract string TextValue { get; set; }
+#endif
 }

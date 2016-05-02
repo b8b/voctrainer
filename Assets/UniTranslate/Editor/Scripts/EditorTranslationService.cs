@@ -1,12 +1,10 @@
 ﻿using System;
 using UnityEngine;
-using System.Collections;
 using Newtonsoft.Json.Linq;
 using UnityEditor;
 using UnityEngine.Events;
-using UnityEngine.Experimental.Networking;
 
-public class TranslationService
+public class EditorTranslationService
 {
     public const string autoLangCode = "auto";
 
@@ -29,8 +27,6 @@ public class TranslationService
     public static void Translate(string text, string sourceLang, string targetLang, bool silently, UnityAction<TranslationResult> callback)
     {
         string escapedText = WWW.EscapeURL(text);
-        //UnityWebRequest req = UnityWebRequest.Get(BuildURI(escapedText, sourceLang, targetLang));
-        //req.Send();
         WWW req = new WWW(BuildURI(escapedText, sourceLang, targetLang));
         ContinuationManager.Add(() => req.isDone, () =>
         {
@@ -51,7 +47,7 @@ public class TranslationService
                         callback(TranslationResult.ErrorResult);
                         if (!silently)
                             Debug.LogError("Auto translator: The language code '" + sourceLang +
-                                           "' of the source language is unsupported. Please change your language code and try again. ");
+                                           "' of the source language is not supported by Google Translator. Please change your language code and try again. ");
                     }
                     else
                     {
