@@ -130,7 +130,7 @@ public class TranslationKeyDrawer : PropertyDrawer
         var localizedComponent = property.serializedObject.targetObject as LocalizedStringComponent;
         if (localizedComponent != null)
         {
-            string text = localizedComponent.TextValue;
+            string text = localizedComponent.TextValue ?? "";
             
             if (key != text && String.IsNullOrEmpty(key))
             {

@@ -14,27 +14,27 @@ MonoBehaviour:
   languageName: Sample English
   languageCode: en
   translationDictionary:
-    _Buckets: ffffffff0000000002000000
-    _HashCodes: bc042215ffffffff96b6684c
-    _Next: ffffffffffffffffffffffff
-    _Count: 3
-    _Version: 3541
-    _FreeList: 1
-    _FreeCount: 1
+    _Buckets: ffffffff0000000001000000
+    _HashCodes: bc04221596b6684c00000000
+    _Next: ffffffffffffffff00000000
+    _Count: 2
+    _Version: 557
+    _FreeList: -1
+    _FreeCount: 0
     _Keys:
     - Test.HelloWorld
-    - 
     - Test.TextMesh
+    - 
     _Values:
     - Hello, World.
-    - 
     - I'm a translatable TextMesh.
+    - 
   spriteDictionary:
     _Buckets: ffffffffffffffff01000000
     _HashCodes: ffffffff2decdb0c00000000
     _Next: ffffffffffffffff00000000
     _Count: 2
-    _Version: 727
+    _Version: 946
     _FreeList: 0
     _FreeCount: 1
     _Keys:
@@ -44,4 +44,68 @@ MonoBehaviour:
     _Values:
     - {fileID: 0}
     - {fileID: 21300000, guid: 523ff5f50fa00a9469eb59b63b5669a8, type: 3}
+    - {fileID: 0}
+  textureDictionary:
+    _Buckets: ffffffffffffffffffffffff
+    _HashCodes: 000000000000000000000000
+    _Next: 000000000000000000000000
+    _Count: 0
+    _Version: 2
+    _FreeList: -1
+    _FreeCount: 0
+    _Keys:
+    - 
+    - 
+    - 
+    _Values:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+  audioDictionary:
+    _Buckets: ffffffffffffffffffffffff
+    _HashCodes: 000000000000000000000000
+    _Next: 000000000000000000000000
+    _Count: 0
+    _Version: 2
+    _FreeList: -1
+    _FreeCount: 0
+    _Keys:
+    - 
+    - 
+    - 
+    _Values:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+  fontDictionary:
+    _Buckets: ffffffffffffffffffffffff
+    _HashCodes: 000000000000000000000000
+    _Next: 000000000000000000000000
+    _Count: 0
+    _Version: 2
+    _FreeList: -1
+    _FreeCount: 0
+    _Keys:
+    - 
+    - 
+    - 
+    _Values:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+  scriptableObjectDictionary:
+    _Buckets: ffffffffffffffffffffffff
+    _HashCodes: 000000000000000000000000
+    _Next: 000000000000000000000000
+    _Count: 0
+    _Version: 4
+    _FreeList: -1
+    _FreeCount: 0
+    _Keys:
+    - 
+    - 
+    - 
+    _Values:
+    - {fileID: 0}
+    - {fileID: 0}
     - {fileID: 0}

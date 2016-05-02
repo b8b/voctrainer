@@ -14,35 +14,27 @@ MonoBehaviour:
   languageName: Sample German
   languageCode: de
   translationDictionary:
-    _Buckets: 02000000ffffffffffffffffffffffffffffffffffffffff00000000
-    _HashCodes: bc042215ffffffff96b6684cffffffff000000000000000000000000
-    _Next: ffffffff03000000ffffffffffffffff000000000000000000000000
-    _Count: 4
-    _Version: 5179
-    _FreeList: 1
-    _FreeCount: 2
+    _Buckets: ffffffff0000000001000000
+    _HashCodes: bc04221596b6684c00000000
+    _Next: ffffffffffffffff00000000
+    _Count: 2
+    _Version: 557
+    _FreeList: -1
+    _FreeCount: 0
     _Keys:
     - Test.HelloWorld
-    - 
     - Test.TextMesh
-    - 
-    - 
-    - 
     - 
     _Values:
     - Hallo, Welt.
-    - 
     - "Ich bin ein \xFCbersetzbares TextMesh."
-    - 
-    - 
-    - 
     - 
   spriteDictionary:
     _Buckets: ffffffffffffffff01000000
     _HashCodes: ffffffff2decdb0c00000000
     _Next: ffffffffffffffff00000000
     _Count: 2
-    _Version: 726
+    _Version: 945
     _FreeList: 0
     _FreeCount: 1
     _Keys:
@@ -52,4 +44,68 @@ MonoBehaviour:
     _Values:
     - {fileID: 0}
     - {fileID: 21300000, guid: 9568c336aa7f09e4c997b2f1ede35581, type: 3}
+    - {fileID: 0}
+  textureDictionary:
+    _Buckets: ffffffffffffffffffffffff
+    _HashCodes: 000000000000000000000000
+    _Next: 000000000000000000000000
+    _Count: 0
+    _Version: 0
+    _FreeList: -1
+    _FreeCount: 0
+    _Keys:
+    - 
+    - 
+    - 
+    _Values:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+  audioDictionary:
+    _Buckets: ffffffffffffffffffffffff
+    _HashCodes: 000000000000000000000000
+    _Next: 000000000000000000000000
+    _Count: 0
+    _Version: 0
+    _FreeList: -1
+    _FreeCount: 0
+    _Keys:
+    - 
+    - 
+    - 
+    _Values:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+  fontDictionary:
+    _Buckets: ffffffffffffffffffffffff
+    _HashCodes: 000000000000000000000000
+    _Next: 000000000000000000000000
+    _Count: 0
+    _Version: 0
+    _FreeList: -1
+    _FreeCount: 0
+    _Keys:
+    - 
+    - 
+    - 
+    _Values:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+  scriptableObjectDictionary:
+    _Buckets: ffffffffffffffffffffffff
+    _HashCodes: 000000000000000000000000
+    _Next: 000000000000000000000000
+    _Count: 0
+    _Version: 0
+    _FreeList: -1
+    _FreeCount: 0
+    _Keys:
+    - 
+    - 
+    - 
+    _Values:
+    - {fileID: 0}
+    - {fileID: 0}
     - {fileID: 0}
