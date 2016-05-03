@@ -189,16 +189,37 @@ public class Translator : MonoBehaviour
 
     public Sprite TranslateSpriteKey(string key)
     {
-        if (translation == null)
-        {
-            Debug.LogWarning("Translator: Translation asset is null", gameObject);
+        if (!ValidateKey(key))
             return null;
-        }
-
-        if (string.IsNullOrEmpty(key))
-            return null;
-
         return translation.SpriteDictionary[key, defaultValue: null];
+    }
+
+    public Texture TranslateTextureKey(string key)
+    {
+        if (!ValidateKey(key))
+            return null;
+        return translation.TextureDictionary[key, defaultValue: null];
+    }
+
+    public AudioClip TranslateAudioKey(string key)
+    {
+        if (!ValidateKey(key))
+            return null;
+        return translation.AudioDictionary[key, defaultValue: null];
+    }
+
+    public Font TranslateFontKey(string key)
+    {
+        if (!ValidateKey(key))
+            return null;
+        return translation.FontDictionary[key, defaultValue: null];
+    }
+
+    public ScriptableObject TranslateScriptableObjectKey(string key)
+    {
+        if (!ValidateKey(key))
+            return null;
+        return translation.ScriptableObjectDictionary[key, defaultValue: null];
     }
 
     /// <summary>
@@ -208,17 +229,47 @@ public class Translator : MonoBehaviour
     /// <returns>true if the active <see cref="TranslationAsset"/> contains an element with the specified key; otherwise, false.</returns>
     public bool StringKeyExists(string key)
     {
-        if (string.IsNullOrEmpty(key))
+        if (!ValidateKey(key))
             return false;
-        if (translation == null)
-        {
-            Debug.LogWarning("Translator: Translation asset is null", gameObject);
-            return false;
-        }
         return translation.TranslationDictionary.ContainsKey(key);
     }
 
     public bool SpriteKeyExists(string key)
+    {
+        if (!ValidateKey(key))
+            return false;
+        return translation.SpriteDictionary.ContainsKey(key);
+    }
+
+    public bool TextureKeyExists(string key)
+    {
+        if (!ValidateKey(key))
+            return false;
+        return translation.TextureDictionary.ContainsKey(key);
+    }
+
+    public bool AudioKeyExists(string key)
+    {
+        if (!ValidateKey(key))
+            return false;
+        return translation.AudioDictionary.ContainsKey(key);
+    }
+
+    public bool FontKeyExists(string key)
+    {
+        if (!ValidateKey(key))
+            return false;
+        return translation.FontDictionary.ContainsKey(key);
+    }
+
+    public bool ScriptableObjectKeyExists(string key)
+    {
+        if (!ValidateKey(key))
+            return false;
+        return translation.ScriptableObjectDictionary.ContainsKey(key);
+    }
+
+    private bool ValidateKey(string key)
     {
         if (string.IsNullOrEmpty(key))
             return false;
@@ -227,7 +278,7 @@ public class Translator : MonoBehaviour
             Debug.LogWarning("Translator: Translation asset is null", gameObject);
             return false;
         }
-        return translation.SpriteDictionary.ContainsKey(key);
+        return true;
     }
 
     /// <summary>
@@ -240,14 +291,6 @@ public class Translator : MonoBehaviour
     public static string Translate(string key)
     {
         return CheckInstance() ? Instance.TranslateKey(key) : key;
-    }
-    
-    public static Sprite TranslateSprite(string key)
-    {
-        if (!CheckInstance())
-            return null;
-
-        return Instance.TranslateSpriteKey(key);
     }
 
     /// <summary>
@@ -267,6 +310,31 @@ public class Translator : MonoBehaviour
     public static string Translate(string key, object replacementTokens)
     {
         return CheckInstance() ? Instance.TranslateKey(key, replacementTokens) : key;
+    }
+
+    public static Sprite TranslateSprite(string key)
+    {
+        return CheckInstance() ? Instance.TranslateSpriteKey(key) : null;
+    }
+
+    public static Texture TranslateTexture(string key)
+    {
+        return CheckInstance() ? Instance.TranslateTextureKey(key) : null;
+    }
+
+    public static AudioClip TranslateAudio(string key)
+    {
+        return CheckInstance() ? Instance.TranslateAudioKey(key) : null;
+    }
+
+    public static Font TranslateFont(string key)
+    {
+        return CheckInstance() ? Instance.TranslateFontKey(key) : null;
+    }
+
+    public static ScriptableObject TranslateScriptableObject(string key)
+    {
+        return CheckInstance() ? Instance.TranslateScriptableObjectKey(key) : null;
     }
 
     private static bool CheckInstance()
@@ -301,5 +369,25 @@ public class Translator : MonoBehaviour
     public static bool SpriteExists(string key)
     {
         return Instance.SpriteKeyExists(key);
+    }
+
+    public static bool TextureExists(string key)
+    {
+        return Instance.TextureKeyExists(key);
+    }
+
+    public static bool AudioExists(string key)
+    {
+        return Instance.AudioKeyExists(key);
+    }
+
+    public static bool FontExists(string key)
+    {
+        return Instance.FontKeyExists(key);
+    }
+
+    public static bool ScriptableObjectExists(string key)
+    {
+        return Instance.ScriptableObjectKeyExists(key);
     }
 }
