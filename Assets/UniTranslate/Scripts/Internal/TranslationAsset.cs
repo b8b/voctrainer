@@ -41,6 +41,8 @@ public class TranslationAsset : ScriptableObject
 
     [SerializeField] private string languageName;
     [SerializeField] private string languageCode;
+    [SerializeField] private bool rightToLeftLanguage;
+
     [SerializeField] private StringDictionaryType translationDictionary;
     [SerializeField] private SpriteDictionaryType spriteDictionary;
     [SerializeField] private TextureDictionaryType textureDictionary;
@@ -62,6 +64,14 @@ public class TranslationAsset : ScriptableObject
     public string LanguageCode
     {
         get { return languageCode; }
+    }
+
+    /// <summary>
+    /// Is the language described by the translation asset a right-to-left language (like Arabic)?
+    /// </summary>
+    public bool IsRightToLeftLanguage
+    {
+        get { return rightToLeftLanguage; }
     }
 
     /// <summary>

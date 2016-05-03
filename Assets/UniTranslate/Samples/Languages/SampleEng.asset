@@ -13,28 +13,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   languageName: Sample English
   languageCode: en
+  rightToLeftLanguage: 0
   translationDictionary:
-    _Buckets: ffffffff0000000001000000
-    _HashCodes: bc04221596b6684c00000000
-    _Next: ffffffffffffffff00000000
-    _Count: 2
-    _Version: 6011
+    _Buckets: ffffffff0000000002000000
+    _HashCodes: bc04221596b6684ca676fb0d
+    _Next: ffffffffffffffff01000000
+    _Count: 3
+    _Version: 13693
     _FreeList: -1
     _FreeCount: 0
     _Keys:
     - Test.HelloWorld
     - Test.TextMesh
-    - 
+    - Test.PlayAudio
     _Values:
     - Hello, World.
-    - I'm a translatable TextMesh.
-    - 
+    - I'm a localizable TextMesh.
+    - Play audio
   spriteDictionary:
     _Buckets: ffffffffffffffff01000000
     _HashCodes: ffffffff2decdb0c00000000
     _Next: ffffffffffffffff00000000
     _Count: 2
-    _Version: 1228
+    _Version: 1721
     _FreeList: 0
     _FreeCount: 1
     _Keys:
@@ -46,15 +47,15 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 523ff5f50fa00a9469eb59b63b5669a8, type: 3}
     - {fileID: 0}
   textureDictionary:
-    _Buckets: ffffffffffffffff00000000
-    _HashCodes: 1c8026480000000000000000
+    _Buckets: ffffffff00000000ffffffff
+    _HashCodes: b52768100000000000000000
     _Next: ffffffff0000000000000000
     _Count: 1
-    _Version: 502
+    _Version: 2677
     _FreeList: -1
     _FreeCount: 0
     _Keys:
-    - dfsgsdadf
+    - Test.SampleTexture
     - 
     - 
     _Values:
@@ -62,50 +63,50 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
   audioDictionary:
-    _Buckets: 00000000ffffffffffffffff
-    _HashCodes: 000000000000000000000000
-    _Next: ffffffff0000000000000000
-    _Count: 1
-    _Version: 35
-    _FreeList: -1
-    _FreeCount: 0
+    _Buckets: 01000000ffffffffffffffff
+    _HashCodes: fffffffff0cc3f4e00000000
+    _Next: ffffffffffffffff00000000
+    _Count: 2
+    _Version: 746
+    _FreeList: 0
+    _FreeCount: 1
     _Keys:
     - 
-    - 
+    - Test.SampleAudio
     - 
     _Values:
     - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 8300000, guid: 1030e206b2e0dff46bbcec1db09602d9, type: 3}
     - {fileID: 0}
   fontDictionary:
-    _Buckets: ffffffffffffffffffffffff
-    _HashCodes: 000000000000000000000000
-    _Next: 000000000000000000000000
-    _Count: 0
-    _Version: 2
+    _Buckets: 00000000ffffffffffffffff
+    _HashCodes: f54f467a0000000000000000
+    _Next: ffffffff0000000000000000
+    _Count: 1
+    _Version: 1146
     _FreeList: -1
     _FreeCount: 0
     _Keys:
-    - 
+    - Test.SampleFont
     - 
     - 
     _Values:
-    - {fileID: 0}
+    - {fileID: 12800000, guid: 2f85a42936bf42e409560b514519c75b, type: 3}
     - {fileID: 0}
     - {fileID: 0}
   scriptableObjectDictionary:
-    _Buckets: 0100000000000000ffffffff
-    _HashCodes: e29fba720000000000000000
-    _Next: ffffffffffffffff00000000
+    _Buckets: ffffffffffffffffffffffff
+    _HashCodes: ffffffffffffffff00000000
+    _Next: ffffffff0000000000000000
     _Count: 2
-    _Version: 20
-    _FreeList: -1
-    _FreeCount: 0
+    _Version: 80
+    _FreeList: 1
+    _FreeCount: 2
     _Keys:
-    - dsdfgdsgd
+    - 
     - 
     - 
     _Values:
-    - {fileID: 11400000, guid: ba8cd218c5ed21147bad0eb3ad0db401, type: 2}
+    - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}

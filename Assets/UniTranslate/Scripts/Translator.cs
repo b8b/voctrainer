@@ -18,8 +18,9 @@ using UnityEditor;
 [ExecuteInEditMode]
 public class Translator : MonoBehaviour
 {
-    public const string version = "1.0";
+    public const string uniTranslateVersion = "1.0";
     protected static Translator instance;
+    private static TranslatorSettings settings;
 
     /// <summary>
     /// The current Translator instance.
@@ -40,7 +41,17 @@ public class Translator : MonoBehaviour
     /// <summary>
     /// The current <see cref="TranslatorSettings"/> asset.
     /// </summary>
-    public static TranslatorSettings Settings { get; private set; }
+    public static TranslatorSettings Settings
+    {
+        get
+        {
+            if (settings == null)
+            {
+                Initialize();
+            }
+            return settings;
+        }
+    }
 
     protected Translator() { }
 
@@ -66,7 +77,7 @@ public class Translator : MonoBehaviour
     /// </summary>
     public static void Initialize()
     {
-        Settings = Resources.Load<TranslatorSettings>("TranslatorSettings");
+        settings = Resources.Load<TranslatorSettings>("TranslatorSettings");
         if (Settings == null)
         {
             Debug.LogError("No TranslatorSettings asset found!");
@@ -92,25 +103,6 @@ public class Translator : MonoBehaviour
             //Debug.Log("UniTranslate " + version + " initialized!");
         }
     }
-
-#if UNITY_EDITOR
-    /// <summary>
-    /// Sets the <see cref="TranslatorSettings.StartupLanguage"/> of the <see cref="TranslatorSettings"/> asset in "Resources/TranslatorSettings" 
-    /// to the <see cref="TranslationAsset"/> of the editor translator.
-    /// </summary>
-    public static bool UpdateStartupLanguage()
-    {
-        var settings = Resources.Load<TranslatorSettings>("TranslatorSettings");
-        if (settings == null)
-        {
-            Debug.LogError("Could not save startup language - no TranslatorSettings in resource folder found!");
-            return false;
-        }
-        settings.StartupLanguage = instance.translation;
-        EditorUtility.SetDirty(settings);
-        return true;
-    }
-#endif
 
     /// <summary>
     /// Calls <see cref="LocalizedComponent.UpdateTranslation"/> method of all <see cref="LocalizedComponent"/>s in the current scene.
@@ -156,7 +148,8 @@ public class Translator : MonoBehaviour
 	    if (string.IsNullOrEmpty(key))
 	        return key;
 
-	    return translation.TranslationDictionary[key, defaultValue: key];
+        string translatedString = translation.TranslationDictionary[key, defaultValue: key];
+        return translation.IsRightToLeftLanguage ? UniTranslateExtensions.FlipString(translatedString) : translatedString;
     }
 
     /// <summary>

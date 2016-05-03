@@ -330,7 +330,7 @@ public class TranslationKeyDrawer : PropertyDrawer
     {
         EditorGUI.BeginChangeCheck();
         var serializedTranslator = new SerializedObject(Translator.Instance);
-        EditorGUI.PropertyField(new Rect(position.x, currentHeight, position.width, fieldHeight), serializedTranslator.FindProperty("translation"), new GUIContent("Preview"));
+        EditorGUI.PropertyField(new Rect(position.x, currentHeight, position.width, fieldHeight), serializedTranslator.FindProperty("translation"), new GUIContent("Preview language"));
         currentHeight += fieldHeight;
         if (EditorGUI.EndChangeCheck())
         {

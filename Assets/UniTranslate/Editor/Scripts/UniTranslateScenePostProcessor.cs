@@ -10,26 +10,60 @@ public class UniTranslateScenePostProcessor
     {
         if (!TranslationWindow.CheckMissingKeys)
             return;
-        
-        ProcessStringKeys(Resources.FindObjectsOfTypeAll<LocalizedStringComponent>());
-        ProcessSpriteKeys(Resources.FindObjectsOfTypeAll<LocalizedSpriteComponent>());
+
+        var assets = TranslationKeyDrawer.GetTranslationAssets();
+        ProcessStringKeys(assets);
+        ProcessSpriteKeys(assets);
+        ProcessTextureKeys(assets);
+        ProcessAudioKeys(assets);
+        ProcessFontKeys(assets);
     }
 
-    private static void ProcessStringKeys(LocalizedStringComponent[] sceneComponents)
+    private static void ProcessStringKeys(TranslationAsset[] assets)
     {
-        var allKeys =
-            TranslationKeyDrawer.GetTranslationAssets()
+        var sceneComponents = Resources.FindObjectsOfTypeAll<LocalizedStringComponent>();
+        var allKeys = assets
                 .SelectMany(asset => asset.TranslationDictionary.AsEnumerable())
                 .Select(pair => pair.Key).ToArray();
 
         CheckKeysInComponents(sceneComponents, allKeys);
     }
 
-    private static void ProcessSpriteKeys(LocalizedSpriteComponent[] sceneComponents)
+    private static void ProcessSpriteKeys(TranslationAsset[] assets)
     {
-        var allKeys =
-            TranslationKeyDrawer.GetTranslationAssets()
+        var sceneComponents = Resources.FindObjectsOfTypeAll<LocalizedSpriteComponent>();
+        var allKeys = assets
                 .SelectMany(asset => asset.SpriteDictionary.AsEnumerable())
+                .Select(pair => pair.Key).ToArray();
+
+        CheckKeysInComponents(sceneComponents, allKeys);
+    }
+
+    private static void ProcessTextureKeys(TranslationAsset[] assets)
+    {
+        var sceneComponents = Resources.FindObjectsOfTypeAll<LocalizedTextureComponent>();
+        var allKeys = assets
+                .SelectMany(asset => asset.TextureDictionary.AsEnumerable())
+                .Select(pair => pair.Key).ToArray();
+
+        CheckKeysInComponents(sceneComponents, allKeys);
+    }
+
+    private static void ProcessAudioKeys(TranslationAsset[] assets)
+    {
+        var sceneComponents = Resources.FindObjectsOfTypeAll<LocalizedAudioComponent>();
+        var allKeys = assets
+                .SelectMany(asset => asset.AudioDictionary.AsEnumerable())
+                .Select(pair => pair.Key).ToArray();
+
+        CheckKeysInComponents(sceneComponents, allKeys);
+    }
+
+    private static void ProcessFontKeys(TranslationAsset[] assets)
+    {
+        var sceneComponents = Resources.FindObjectsOfTypeAll<LocalizedFont>();
+        var allKeys = assets
+                .SelectMany(asset => asset.FontDictionary.AsEnumerable())
                 .Select(pair => pair.Key).ToArray();
 
         CheckKeysInComponents(sceneComponents, allKeys);
@@ -42,7 +76,8 @@ public class UniTranslateScenePostProcessor
             if (!allKeys.Contains(comp.Key))
             {
                 Debug.LogWarning("Translation key found in scene '" + EditorSceneManager.GetActiveScene().name +
-                                 "' does not exist for one or more languages:\nKey '" + comp.Key + "' on component '" + comp +
+                                 "' " + (string.IsNullOrEmpty(comp.Key) ? "is empty" : "does not exist") +
+                                 " for one or more languages:\nKey '" + comp.Key + "' on component '" + comp +
                                  "'.", comp.gameObject);
             }
         }

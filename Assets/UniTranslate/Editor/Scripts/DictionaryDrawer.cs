@@ -74,7 +74,7 @@ public abstract class DictionaryDrawer<TK, TV> : PropertyDrawer
                 }
                 catch (Exception e)
                 {
-                    Debug.Log(e.Message);
+                    Debug.LogError(e.Message);
                 }
                 break;
             }
@@ -191,3 +191,6 @@ public class FontDictionaryDrawer : DictionaryDrawer<string, Font> { }
 
 [CustomPropertyDrawer(typeof(TranslationAsset.ScriptableObjectDictionaryType))]
 public class ScriptableObjectDictionaryDrawer : DictionaryDrawer<string, ScriptableObject> { }
+
+[CustomPropertyDrawer(typeof(TranslatorSettings.MappingDictionaryType))]
+public class MappingDictionaryDrawer : DictionaryDrawer<SystemLanguage, TranslationAsset> { }

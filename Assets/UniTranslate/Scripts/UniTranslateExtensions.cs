@@ -1,4 +1,7 @@
-﻿public static class UniTranslateExtensions
+﻿using System;
+using System.Text;
+
+public static class UniTranslateExtensions
 {
     /// <summary>
     /// Translates the key by performing a lookup in the currently assigned <see cref="TranslationAsset"/>.
@@ -39,5 +42,18 @@
     public static bool TranslationKeyExists(this string key)
     {
         return Translator.StringExists(key);
+    }
+
+    internal static string FlipString(string str)
+    {
+        string[] lineSplit = str.Split('\n');
+        StringBuilder builder = new StringBuilder(str.Length);
+        foreach (var line in lineSplit)
+        {
+            char[] lineArr = line.ToCharArray();
+            Array.Reverse(lineArr);
+            builder.AppendLine(new string(lineArr));
+        }
+        return builder.ToString();
     }
 }

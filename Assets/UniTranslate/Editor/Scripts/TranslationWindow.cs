@@ -208,10 +208,11 @@ public class TranslationWindow : EditorWindow
     {
         float y = currentTranslationType == typeof (string) ? rect.y : rect.y + 1;
         float height = currentTranslationType == typeof(string) ? rect.height - 3 : TranslationKeyDrawer.fieldHeight;
+
         var firstRect = new Rect(rect.x + rect.width*0.2f, y,
-            firstAsset != secondAsset ? rect.width*0.4f : rect.width*0.8f, height);
-        
+            firstAsset != secondAsset && secondAsset != null ? rect.width*0.4f : rect.width*0.8f, height);
         firstAsset.DrawFieldForKey(currentTranslationType, firstRect, key);
+
         if (secondAsset != null && secondAsset != firstAsset)
         {
             var secondRect = new Rect(rect.x + rect.width*0.6f, y, rect.width*0.4f, height);
@@ -225,8 +226,6 @@ public class TranslationWindow : EditorWindow
             }
         }
     }
-
-    
 
     private void DrawAddMissingButton(string key, Rect rect, float height)
     {
@@ -600,22 +599,10 @@ public class TranslationWindow : EditorWindow
         if (Translator.Instance.Translation != null)
         {
             EditorGUILayout.LabelField("Preview language name:", Translator.Instance.Translation.ToString());
-            if (GUILayout.Button("Set as startup language"))
-            {
-                Translator.UpdateStartupLanguage();
-            }
         }
-
-        if (Translator.Settings != null)
+        if (GUILayout.Button("Edit Settings"))
         {
-            if (Translator.Settings.StartupLanguage != null)
-            {
-                EditorGUILayout.LabelField("Startup language: ", Translator.Settings.StartupLanguage.ToString());
-            }
-            else
-            {
-                EditorGUILayout.LabelField("Startup language: ", "No startup language set!");
-            }
+            Selection.activeObject = Translator.Settings;
         }
         EditorGUILayout.Space();
     }

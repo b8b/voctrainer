@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 
 /// <summary>
-/// Localizes the sprite of NGUI <see cref="Image"/> components.
+/// Localizes the sprite of uGUI <see cref="Image"/> components.
 /// </summary>
 [RequireComponent(typeof(Image))]
 [AddComponentMenu("UniTranslate/Localized Image")]
