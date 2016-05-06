@@ -101,6 +101,11 @@ public class Translator : MonoBehaviour
             instance = obj.AddComponent<Translator>();
             instance.translation = Settings.StartupLanguage;
             //Debug.Log("UniTranslate " + version + " initialized!");
+
+            if (!string.IsNullOrEmpty(Settings.RemoteManifestURL))
+            {
+                obj.AddComponent<RemoteUpdater>().RunWithSettings(Settings);
+            }
         }
     }
 

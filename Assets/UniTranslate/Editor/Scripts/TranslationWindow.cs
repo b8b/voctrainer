@@ -27,12 +27,12 @@ public class TranslationWindow : EditorWindow
     private string filter = "";
     private string[] searchResults;
     private bool[] autoTranslating;
-    
-    private static readonly Type[] translationTypes = new Type[] {typeof(string), typeof(Sprite), typeof(Texture), typeof(AudioClip), typeof(Font), typeof(ScriptableObject)};
-    private static readonly string[] translationTypeToolbarStrings = new string[] {"Strings", "Sprites", "Textures", "Audio", "Fonts", "Scriptable Objects"};
+
+    private static readonly Type[] translationTypes = new Type[] { typeof(string), typeof(Sprite), typeof(Texture), typeof(AudioClip), typeof(Font), typeof(ScriptableObject) };
+    private static readonly string[] translationTypeToolbarStrings = new string[] { "Strings", "Sprites", "Textures", "Audio", "Fonts", "Scriptable Objects" };
     private static Type currentTranslationType = translationTypes[0];
     private static int currentTranslationTypeIndex = 0;
-    
+
     private const float leftHeaderMargin = 13f;
     private const float twoColumnMinWidth = 600f;
     public const int maxShownAutoCompleteButtons = 15;
@@ -60,16 +60,18 @@ public class TranslationWindow : EditorWindow
     private void InitializeData()
     {
         autoTranslating = new bool[2];
- 
+
         //Load asset GUIDs from prefs
         try
         {
             string firstGuid = EditorPrefs.GetString("TranslationWindow_FirstAssetGuid", null);
             string secondGuid = EditorPrefs.GetString("TranslationWindow_SecondAssetGuid", null);
-            if (firstGuid != null) { 
+            if (firstGuid != null)
+            {
                 firstAsset = (TranslationAsset)AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(firstGuid), typeof(TranslationAsset));
             }
-            if (secondGuid != null) { 
+            if (secondGuid != null)
+            {
                 secondAsset = (TranslationAsset)AssetDatabase.LoadAssetAtPath(AssetDatabase.GUIDToAssetPath(secondGuid), typeof(TranslationAsset));
             }
         }
@@ -78,12 +80,12 @@ public class TranslationWindow : EditorWindow
             Debug.LogError("Error when loading the last used translation assets: " + e.Message);
         }
     }
-#endregion
+    #endregion
 
     #region List UI Events
     private void InitializeList()
     {
-        list = new ReorderableList(new List<string>(), typeof (string), draggable: true,
+        list = new ReorderableList(new List<string>(), typeof(string), draggable: true,
             displayHeader: true, displayAddButton: true, displayRemoveButton: true);
 
         list.drawHeaderCallback = rect =>
@@ -94,17 +96,17 @@ public class TranslationWindow : EditorWindow
                 rect.width -= leftHeaderMargin;
             }
 
-            EditorGUI.LabelField(new Rect(rect.x, rect.y, rect.width*0.2f, rect.height), "Key");
+            EditorGUI.LabelField(new Rect(rect.x, rect.y, rect.width * 0.2f, rect.height), "Key");
             if (firstAsset != secondAsset && secondAsset != null)
             {
-                EditorGUI.LabelField(new Rect(rect.x + rect.width*0.2f, rect.y, rect.width*0.4f, rect.height),
+                EditorGUI.LabelField(new Rect(rect.x + rect.width * 0.2f, rect.y, rect.width * 0.4f, rect.height),
                     firstAsset.LanguageName);
-                EditorGUI.LabelField(new Rect(rect.x + rect.width*0.6f, rect.y, rect.width*0.4f, rect.height),
+                EditorGUI.LabelField(new Rect(rect.x + rect.width * 0.6f, rect.y, rect.width * 0.4f, rect.height),
                     secondAsset.LanguageName);
             }
             else
             {
-                EditorGUI.LabelField(new Rect(rect.x + rect.width*0.2f, rect.y, rect.width*0.8f, rect.height),
+                EditorGUI.LabelField(new Rect(rect.x + rect.width * 0.2f, rect.y, rect.width * 0.8f, rect.height),
                     firstAsset.LanguageName);
             }
         };
@@ -114,7 +116,7 @@ public class TranslationWindow : EditorWindow
             try
             {
                 float height = rect.height - 3;
-                string currentKey = (string) list.list[index];
+                string currentKey = (string)list.list[index];
                 string key = DrawKeyField(rect, height, currentKey);
 
                 EditorGUI.BeginChangeCheck();
@@ -149,7 +151,7 @@ public class TranslationWindow : EditorWindow
                     secondAsset.CreateNewEmptyKey(currentTranslationType);
                     TranslationKeyDrawer.SetScriptableObjectDirty(secondAsset);
                 }
-                
+
                 UpdateList();
                 Repaint();
             }
@@ -185,7 +187,7 @@ public class TranslationWindow : EditorWindow
     private string DrawKeyField(Rect rect, float height, string oldKey)
     {
         EditorGUI.BeginChangeCheck();
-        string newKey = EditorGUI.TextField(new Rect(rect.x, rect.y, rect.width*0.2f, height), oldKey);
+        string newKey = EditorGUI.TextField(new Rect(rect.x, rect.y, rect.width * 0.2f, height), oldKey);
         if (EditorGUI.EndChangeCheck())
         {
             firstAsset.ChangeKey(currentTranslationType, oldKey, newKey);
@@ -206,16 +208,16 @@ public class TranslationWindow : EditorWindow
 
     private void DrawValueFields(string key, Rect rect)
     {
-        float y = currentTranslationType == typeof (string) ? rect.y : rect.y + 1;
+        float y = currentTranslationType == typeof(string) ? rect.y : rect.y + 1;
         float height = currentTranslationType == typeof(string) ? rect.height - 3 : TranslationKeyDrawer.fieldHeight;
 
-        var firstRect = new Rect(rect.x + rect.width*0.2f, y,
-            firstAsset != secondAsset && secondAsset != null ? rect.width*0.4f : rect.width*0.8f, height);
+        var firstRect = new Rect(rect.x + rect.width * 0.2f, y,
+            firstAsset != secondAsset && secondAsset != null ? rect.width * 0.4f : rect.width * 0.8f, height);
         firstAsset.DrawFieldForKey(currentTranslationType, firstRect, key);
 
         if (secondAsset != null && secondAsset != firstAsset)
         {
-            var secondRect = new Rect(rect.x + rect.width*0.6f, y, rect.width*0.4f, height);
+            var secondRect = new Rect(rect.x + rect.width * 0.6f, y, rect.width * 0.4f, height);
             if (secondAsset.KeyExists(currentTranslationType, key))
             {
                 secondAsset.DrawFieldForKey(currentTranslationType, secondRect, key);
@@ -229,8 +231,8 @@ public class TranslationWindow : EditorWindow
 
     private void DrawAddMissingButton(string key, Rect rect, float height)
     {
-        GUIStyle boldTextFieldStyle = new GUIStyle(EditorStyles.textField) {fontStyle = FontStyle.Bold};
-        bool button = GUI.Button(new Rect(rect.x + rect.width*0.6f, rect.y, rect.width*0.4f, height),
+        GUIStyle boldTextFieldStyle = new GUIStyle(EditorStyles.textField) { fontStyle = FontStyle.Bold };
+        bool button = GUI.Button(new Rect(rect.x + rect.width * 0.6f, rect.y, rect.width * 0.4f, height),
             "Add missing key", boldTextFieldStyle);
 
         if (button)
@@ -262,6 +264,7 @@ public class TranslationWindow : EditorWindow
         };
 
         DrawToolbar();
+        
 
         if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Delete && list.index >= 0)
         {
@@ -336,7 +339,13 @@ public class TranslationWindow : EditorWindow
                 EditorWindow.GetWindow<ExportCsvWindow>(true, "CSV Export Wizard").FileName = savePath;
             }
         }
-        
+
+        if (GUILayout.Button(new GUIContent("Web Deployment", "Opens the web deployment assistant, which allows you to deploy and change the settings for string localization upgrades during run-time."),
+            EditorStyles.toolbarButton, GUILayout.ExpandWidth(false)))
+        {
+            EditorWindow.GetWindow<WebDeploymentWindow>(true, "Web Deployment Wizard");
+        }
+
         if (position.width < twoColumnMinWidth)
         {
             GUILayout.Box("", EditorStyles.toolbarButton);
@@ -394,8 +403,8 @@ public class TranslationWindow : EditorWindow
     private void DrawOptions()
     {
         EditorGUI.BeginChangeCheck();
-        firstAsset = (TranslationAsset) EditorGUILayout.ObjectField("Primary language:", firstAsset, typeof(TranslationAsset), false);
-        secondAsset = (TranslationAsset) EditorGUILayout.ObjectField("Secondary language:", secondAsset, typeof(TranslationAsset), false);
+        firstAsset = (TranslationAsset)EditorGUILayout.ObjectField("Primary language:", firstAsset, typeof(TranslationAsset), false);
+        secondAsset = (TranslationAsset)EditorGUILayout.ObjectField("Secondary language:", secondAsset, typeof(TranslationAsset), false);
         if (EditorGUI.EndChangeCheck())
         {
             try
@@ -423,13 +432,13 @@ public class TranslationWindow : EditorWindow
         {
             searchResults = TranslationKeyDrawer.DoSearch(filter, firstAsset, currentTranslationType);
         }
-        
+
         var result = DrawSearchList(filter, firstAsset);
         if (result != null)
         {
             filter = result;
         }
-        
+
         list.draggable = string.IsNullOrEmpty(filter);
     }
 
@@ -446,7 +455,7 @@ public class TranslationWindow : EditorWindow
         {
             if (Event.current.type != EventType.Layout)
             {
-               UpdateList();
+                UpdateList();
             }
             list.DoLayoutList();
         }
@@ -467,9 +476,9 @@ public class TranslationWindow : EditorWindow
         GUI.skin.label.wordWrap = true;
         EditorGUILayout.Space();
         CustomGUI.Splitter();
-        
+
         GUILayout.Label("Edit Translations for key " + key, headingStyle, GUILayout.ExpandWidth(false));
-        
+
         TranslationAsset previousAsset = null;
         for (int i = 0; i < assets.Length; i++)
         {

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 /// <summary>
 /// Localizes the text of <see cref="AudioSource"/> components.

@@ -15,21 +15,89 @@ MonoBehaviour:
   languageCode: de
   rightToLeftLanguage: 0
   translationDictionary:
-    _Buckets: ffffffff0000000002000000
-    _HashCodes: bc04221596b6684ca676fb0d
-    _Next: ffffffffffffffff01000000
-    _Count: 3
-    _Version: 13656
-    _FreeList: -1
-    _FreeCount: 0
+    _Buckets: ffffffffffffffffffffffffffffffffffffffff01000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff02000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+    _HashCodes: bc04221596b6684ca676fb0dffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000000000000000000000000000000000000000000000000000000000000000000000000000000
+    _Next: ffffffffffffffffffffffffffffffff030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f0000001000000011000000120000001300000014000000150000001600000017000000180000001900000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    _Count: 27
+    _Version: 173544
+    _FreeList: 26
+    _FreeCount: 24
     _Keys:
     - Test.HelloWorld
     - Test.TextMesh
     - Test.PlayAudio
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
     _Values:
-    - Hallo, Welt.
+    - Hallo Welt.
     - Ich bin ein lokalisierbares TextMesh.
     - Audio abspielen
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
   spriteDictionary:
     _Buckets: ffffffffffffffff01000000
     _HashCodes: ffffffff2decdb0c00000000
@@ -51,7 +119,7 @@ MonoBehaviour:
     _HashCodes: b52768100000000000000000
     _Next: ffffffff0000000000000000
     _Count: 1
-    _Version: 2673
+    _Version: 2793
     _FreeList: -1
     _FreeCount: 0
     _Keys:

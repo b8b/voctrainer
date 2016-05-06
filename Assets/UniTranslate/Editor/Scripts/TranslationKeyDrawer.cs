@@ -6,7 +6,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using UnityEngine.UI;
 using UniTranslateEditor;
 using Object = UnityEngine.Object;
 

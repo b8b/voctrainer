@@ -1,0 +1,15 @@
+D:\VCS\Unity\UniTranslate\DropboxIntegration\DropboxIntegration\bin\Debug\DropboxIntegration.dll
+D:\VCS\Unity\UniTranslate\DropboxIntegration\DropboxIntegration\bin\Debug\DropboxIntegration.pdb
+D:\VCS\Unity\UniTranslate\DropboxIntegration\DropboxIntegration\bin\Debug\UnityEditor.dll
+D:\VCS\Unity\UniTranslate\DropboxIntegration\DropboxIntegration\bin\Debug\Mono.Cecil.dll
+D:\VCS\Unity\UniTranslate\DropboxIntegration\DropboxIntegration\bin\Debug\Unity.SerializationLogic.dll
+D:\VCS\Unity\UniTranslate\DropboxIntegration\DropboxIntegration\bin\Debug\Unity.DataContract.dll
+D:\VCS\Unity\UniTranslate\DropboxIntegration\DropboxIntegration\bin\Debug\ICSharpCode.NRefactory.dll
+D:\VCS\Unity\UniTranslate\DropboxIntegration\DropboxIntegration\bin\Debug\Unity.UNetWeaver.dll
+D:\VCS\Unity\UniTranslate\DropboxIntegration\DropboxIntegration\bin\Debug\Unity.CecilTools.dll
+D:\VCS\Unity\UniTranslate\DropboxIntegration\DropboxIntegration\bin\Debug\Mono.Cecil.Pdb.dll
+D:\VCS\Unity\UniTranslate\DropboxIntegration\DropboxIntegration\bin\Debug\Mono.Cecil.Mdb.dll
+D:\VCS\Unity\UniTranslate\DropboxIntegration\DropboxIntegration\bin\Debug\UnityEditor.xml
+D:\VCS\Unity\UniTranslate\DropboxIntegration\DropboxIntegration\obj\Debug\DropboxIntegration.csprojResolveAssemblyReference.cache
+D:\VCS\Unity\UniTranslate\DropboxIntegration\DropboxIntegration\obj\Debug\DropboxIntegration.dll
+D:\VCS\Unity\UniTranslate\DropboxIntegration\DropboxIntegration\obj\Debug\DropboxIntegration.pdb

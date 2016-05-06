@@ -10,19 +10,35 @@ public class TranslatorSettings : ScriptableObject
     [Serializable] public class MappingDictionaryType : SerializableDictionary<SystemLanguage, TranslationAsset> { }
 
     [SerializeField] private MappingDictionaryType languageMappings;
-    [SerializeField] private TranslationAsset defaultLanguage;
+    [SerializeField] private TranslationAsset fallbackDefaultLanguage;
+    [SerializeField] private string remoteManifestURL;
+    [SerializeField] private int currentTranslationVersion;
+    [SerializeField] private UpdateFrequency remoteUpdateFrequency;
+
+    private TranslationAsset[] languagesCache;
+    private bool languagesCached = false;
 
     public TranslationAsset[] Languages
     {
         get
         {
-            var languages = new TranslationAsset[languageMappings.Count];
+            if (languagesCached)
+                return languagesCache;
+
+            bool containsDefaultLang = fallbackDefaultLanguage != null && languageMappings.ContainsValue(fallbackDefaultLanguage);
+            var languages = new TranslationAsset[containsDefaultLang ? languageMappings.Count : languageMappings.Count + 1];
             int i = 0;
             foreach (var mapping in languageMappings)
             {
                 languages[i] = mapping.Value;
                 i++;
             }
+            if (!containsDefaultLang)
+            {
+                languages[languages.Length - 1] = fallbackDefaultLanguage;
+            }
+            languagesCache = languages;
+            languagesCached = true;
             return languages;
         }
     }
@@ -36,11 +52,35 @@ public class TranslatorSettings : ScriptableObject
             if (currentLanguage != null)
                 return currentLanguage;
 #endif
-            if (Application.isPlaying && defaultLanguage == null)
+            if (Application.isPlaying && fallbackDefaultLanguage == null)
             {
                 Debug.LogError("No default langauge is specified in TranslatorSettings", this);
             }
-            return defaultLanguage;
+            return fallbackDefaultLanguage;
         }
+    }
+
+    public string RemoteManifestURL
+    {
+        get { return remoteManifestURL; }
+        set { remoteManifestURL = value; }
+    }
+
+    public int CurrentTranslationVersion
+    {
+        get { return currentTranslationVersion; }
+    }
+
+    public UpdateFrequency RemoteUpdateFrequency
+    {
+        get { return remoteUpdateFrequency; }
+    }
+
+    public enum UpdateFrequency
+    {
+        EveryStart,
+        Daily,
+        Weekly,
+        Monthly
     }
 }
