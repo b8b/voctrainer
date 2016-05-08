@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30791ab9f1d953d40b5d5d6109541bfc, type: 3}
+  m_Name: UIDataHolder
+  m_EditorClassIdentifier: 
+  googleTranslateIcon: {fileID: 2800000, guid: 7d1a8f37b25a40a4da3f75393b28b572, type: 3}
+  editorTranslator: {fileID: 11401814, guid: 4c0447add62caf5478644a382e5f19f5, type: 2}

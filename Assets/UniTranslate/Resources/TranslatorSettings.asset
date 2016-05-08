@@ -11,4 +11,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3592674d2a924444a3f1f73462b1b0e, type: 3}
   m_Name: TranslatorSettings
   m_EditorClassIdentifier: 
-  startupLanguage: {fileID: 11400000, guid: 5408dadc6fd0f784b8c93280db3f2b4f, type: 2}
+  languageMappings:
+    _Buckets: 0000000001000000ffffffff
+    _HashCodes: 0f0000000a000000ffffffff
+    _Next: ffffffffffffffffffffffff
+    _Count: 3
+    _Version: 34
+    _FreeList: 2
+    _FreeCount: 1
+    _Keys: 0f0000000a00000000000000
+    _Values:
+    - {fileID: 11400000, guid: c19ce03d97d189449a674838710c4bef, type: 2}
+    - {fileID: 11400000, guid: 5408dadc6fd0f784b8c93280db3f2b4f, type: 2}
+    - {fileID: 0}
+  fallbackDefaultLanguage: {fileID: 11400000, guid: 5408dadc6fd0f784b8c93280db3f2b4f,
+    type: 2}
+  remoteManifestURL: 
+  currentTranslationVersion: 0
+  remoteUpdateFrequency: 0

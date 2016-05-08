@@ -1,0 +1,94 @@
+\hypertarget{class_translator_settings}{}\section{Translator\+Settings Class Reference}
+\label{class_translator_settings}\index{Translator\+Settings@{Translator\+Settings}}
+
+
+The internally used settings asset for the \hyperlink{class_translator}{Translator}. Must be called \char`\"{}\+Translator\+Settings\char`\"{} and placed in the Resources folder.  
+
+
+Inheritance diagram for Translator\+Settings\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_translator_settings}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_translator_settings_1_1_mapping_dictionary_type}{Mapping\+Dictionary\+Type}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bfseries Update\+Frequency} \{ {\bfseries Every\+Start}, 
+{\bfseries Daily}, 
+{\bfseries Weekly}, 
+{\bfseries Monthly}
+ \}\hypertarget{class_translator_settings_a684c49f572533e0a92bbfaac667c769d}{}\label{class_translator_settings_a684c49f572533e0a92bbfaac667c769d}
+
+\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_translation_asset}{Translation\+Asset}\mbox{[}$\,$\mbox{]} \hyperlink{class_translator_settings_a7993a5fdb36afe44e18437c78a7f965b}{Languages}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em An array of languages configured in the translator settings. It contains all the languages from the language mappings plus the fallback language. \end{DoxyCompactList}\item 
+\hyperlink{class_translation_asset}{Translation\+Asset} \hyperlink{class_translator_settings_afad650d280bcf715350fdd971c0a0140}{Startup\+Language}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The \hyperlink{class_translation_asset}{Translation\+Asset} used at startup. Either one of the mappings or the fallback language if mapping failed. \end{DoxyCompactList}\item 
+string \hyperlink{class_translator_settings_aa5bc9368add517c7ba8b0daad0d6812c}{Remote\+Manifest\+U\+RL}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The U\+RL where the manifest (a file containing the version and path of the translation data) is located. If set to null, only translation assets included in the build are used (no downloads and the cache file will be also unused). \end{DoxyCompactList}\item 
+int \hyperlink{class_translator_settings_a2a603738d719808bc6190cb42923e355}{Current\+Translation\+Version}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The translation version of the translations contained in the build. Compared against remote versions. \end{DoxyCompactList}\item 
+Update\+Frequency \hyperlink{class_translator_settings_a7ec0ae9e38d63a03a8f327c7fca65298}{Remote\+Update\+Frequency}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Defines how often Uni\+Translate will check for updated translations. See also \begin{DoxySeeAlso}{See also}
+Update\+Frequency
+
+
+\end{DoxySeeAlso}
+\end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The internally used settings asset for the \hyperlink{class_translator}{Translator}. Must be called \char`\"{}\+Translator\+Settings\char`\"{} and placed in the Resources folder. 
+
+
+
+\subsection{Property Documentation}
+\index{Translator\+Settings@{Translator\+Settings}!Current\+Translation\+Version@{Current\+Translation\+Version}}
+\index{Current\+Translation\+Version@{Current\+Translation\+Version}!Translator\+Settings@{Translator\+Settings}}
+\subsubsection[{\texorpdfstring{Current\+Translation\+Version}{CurrentTranslationVersion}}]{\setlength{\rightskip}{0pt plus 5cm}int Translator\+Settings.\+Current\+Translation\+Version\hspace{0.3cm}{\ttfamily [get]}}\hypertarget{class_translator_settings_a2a603738d719808bc6190cb42923e355}{}\label{class_translator_settings_a2a603738d719808bc6190cb42923e355}
+
+
+The translation version of the translations contained in the build. Compared against remote versions. 
+
+\index{Translator\+Settings@{Translator\+Settings}!Languages@{Languages}}
+\index{Languages@{Languages}!Translator\+Settings@{Translator\+Settings}}
+\subsubsection[{\texorpdfstring{Languages}{Languages}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Translation\+Asset} \mbox{[}$\,$\mbox{]} Translator\+Settings.\+Languages\hspace{0.3cm}{\ttfamily [get]}}\hypertarget{class_translator_settings_a7993a5fdb36afe44e18437c78a7f965b}{}\label{class_translator_settings_a7993a5fdb36afe44e18437c78a7f965b}
+
+
+An array of languages configured in the translator settings. It contains all the languages from the language mappings plus the fallback language. 
+
+\index{Translator\+Settings@{Translator\+Settings}!Remote\+Manifest\+U\+RL@{Remote\+Manifest\+U\+RL}}
+\index{Remote\+Manifest\+U\+RL@{Remote\+Manifest\+U\+RL}!Translator\+Settings@{Translator\+Settings}}
+\subsubsection[{\texorpdfstring{Remote\+Manifest\+U\+RL}{RemoteManifestURL}}]{\setlength{\rightskip}{0pt plus 5cm}string Translator\+Settings.\+Remote\+Manifest\+U\+RL\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}\hypertarget{class_translator_settings_aa5bc9368add517c7ba8b0daad0d6812c}{}\label{class_translator_settings_aa5bc9368add517c7ba8b0daad0d6812c}
+
+
+The U\+RL where the manifest (a file containing the version and path of the translation data) is located. If set to null, only translation assets included in the build are used (no downloads and the cache file will be also unused). 
+
+\index{Translator\+Settings@{Translator\+Settings}!Remote\+Update\+Frequency@{Remote\+Update\+Frequency}}
+\index{Remote\+Update\+Frequency@{Remote\+Update\+Frequency}!Translator\+Settings@{Translator\+Settings}}
+\subsubsection[{\texorpdfstring{Remote\+Update\+Frequency}{RemoteUpdateFrequency}}]{\setlength{\rightskip}{0pt plus 5cm}Update\+Frequency Translator\+Settings.\+Remote\+Update\+Frequency\hspace{0.3cm}{\ttfamily [get]}}\hypertarget{class_translator_settings_a7ec0ae9e38d63a03a8f327c7fca65298}{}\label{class_translator_settings_a7ec0ae9e38d63a03a8f327c7fca65298}
+
+
+Defines how often Uni\+Translate will check for updated translations. See also \begin{DoxySeeAlso}{See also}
+Update\+Frequency
+
+
+\end{DoxySeeAlso}
+
+
+\index{Translator\+Settings@{Translator\+Settings}!Startup\+Language@{Startup\+Language}}
+\index{Startup\+Language@{Startup\+Language}!Translator\+Settings@{Translator\+Settings}}
+\subsubsection[{\texorpdfstring{Startup\+Language}{StartupLanguage}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Translation\+Asset} Translator\+Settings.\+Startup\+Language\hspace{0.3cm}{\ttfamily [get]}}\hypertarget{class_translator_settings_afad650d280bcf715350fdd971c0a0140}{}\label{class_translator_settings_afad650d280bcf715350fdd971c0a0140}
+
+
+The \hyperlink{class_translation_asset}{Translation\+Asset} used at startup. Either one of the mappings or the fallback language if mapping failed. 
+

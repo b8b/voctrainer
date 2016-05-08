@@ -1,0 +1,62 @@
+\hypertarget{class_remote_update}{}\section{Remote\+Update Class Reference}
+\label{class_remote_update}\index{Remote\+Update@{Remote\+Update}}
+
+
+Used to download updated translation data from a server. Automatically instanciated if a manifest U\+RL is set in \hyperlink{class_translator_settings}{Translator\+Settings}. 
+
+
+Inheritance diagram for Remote\+Update\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_remote_update}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_remote_update_a13352af6adc4415cfc962f08fa1fc667}{Run\+With\+Settings} (\hyperlink{class_translator_settings}{Translator\+Settings} settings)
+\begin{DoxyCompactList}\small\item\em Performs the remote update.\end{DoxyCompactList}\item 
+void {\bfseries Load\+Translation\+Cache} ()\hypertarget{class_remote_update_ab77c232b5e41c0cb25d21ba49a9f9c65}{}\label{class_remote_update_ab77c232b5e41c0cb25d21ba49a9f9c65}
+
+\item 
+bool {\bfseries Check\+Version} (int remote\+Version)\hypertarget{class_remote_update_a73b8c500cbae6b6784349cc60cfa2980}{}\label{class_remote_update_a73b8c500cbae6b6784349cc60cfa2980}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static Dictionary$<$ string, string $>$ {\bfseries Parse\+Manifest} (string text)\hypertarget{class_remote_update_a9acab47ea606584caf6c3f4a65ad4a87}{}\label{class_remote_update_a9acab47ea606584caf6c3f4a65ad4a87}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const string {\bfseries cache\+File\+Name} = \char`\"{}localization\+\_\+cache.\+dat\char`\"{}\hypertarget{class_remote_update_ab3cde07d7ad4c817f25aef736230cf36}{}\label{class_remote_update_ab3cde07d7ad4c817f25aef736230cf36}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Used to download updated translation data from a server. Automatically instanciated if a manifest U\+RL is set in \hyperlink{class_translator_settings}{Translator\+Settings}.
+
+Please note that newly downloaded translations are not displayed immediately by default, but whenever a translation is loaded by a \hyperlink{class_localized_component}{Localized\+Component} (e.\+g. when the displayed language is changed or a new scene is loaded). 
+
+\subsection{Member Function Documentation}
+\index{Remote\+Update@{Remote\+Update}!Run\+With\+Settings@{Run\+With\+Settings}}
+\index{Run\+With\+Settings@{Run\+With\+Settings}!Remote\+Update@{Remote\+Update}}
+\subsubsection[{\texorpdfstring{Run\+With\+Settings(\+Translator\+Settings settings)}{RunWithSettings(TranslatorSettings settings)}}]{\setlength{\rightskip}{0pt plus 5cm}void Remote\+Update.\+Run\+With\+Settings (
+\begin{DoxyParamCaption}
+\item[{{\bf Translator\+Settings}}]{settings}
+\end{DoxyParamCaption}
+)}\hypertarget{class_remote_update_a13352af6adc4415cfc962f08fa1fc667}{}\label{class_remote_update_a13352af6adc4415cfc962f08fa1fc667}
+
+
+Performs the remote update.
+
+Please note that newly downloaded translations are not displayed immediately by default, but whenever a translation is loaded by a \hyperlink{class_localized_component}{Localized\+Component} (e.\+g. when the displayed language is changed or a new scene is loaded). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em settings} & The settings used by to update\\
+\hline
+\end{DoxyParams}
