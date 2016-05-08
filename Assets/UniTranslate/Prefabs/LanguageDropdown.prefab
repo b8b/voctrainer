@@ -477,7 +477,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5901bb98213c6d4096ca4169b5712ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  translationAssets: []
 --- !u!114 &11445296
 MonoBehaviour:
   m_ObjectHideFlags: 1
