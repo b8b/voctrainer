@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
 
+/// <summary>
+/// Localizes the text of 3D <see cref="TextMesh"/> components.
+/// </summary>
 [RequireComponent(typeof(TextMesh))]
 [AddComponentMenu("UniTranslate/Localized TextMesh")]
 [ExecuteInEditMode]
-public class LocalizedTextMesh : LocalizedComponent
+public class LocalizedTextMesh : LocalizedStringComponent
 {
     private TextMesh textMesh;
 
@@ -26,10 +27,27 @@ public class LocalizedTextMesh : LocalizedComponent
         {
             textMesh = GetComponent<TextMesh>(); //Null reference fix
             if (Translator.Instance == null || Translator.Instance.Translation == null
-                || !Translator.TranslationExists(key))
+                || !Translator.StringExists(key))
                 return;
         }
 #endif
         textMesh.text = Translator.Translate(key);
     }
+
+#if UNITY_EDITOR
+    //Only used in the editor for internal purposes
+    public override string TextValue
+    {
+        get
+        {
+            textMesh = GetComponent<TextMesh>(); //Null reference fix
+            return textMesh.text;
+        }
+        set
+        {
+            textMesh = GetComponent<TextMesh>(); //Null reference fix
+            textMesh.text = value;
+        }
+    }
+#endif
 }

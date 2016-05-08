@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 
+/// <summary>
+/// Localizes the text of uGUI <see cref="Text"/> components.
+/// </summary>
 [RequireComponent(typeof(Text))]
 [AddComponentMenu("UniTranslate/Localized Text")]
 [ExecuteInEditMode]
-public class LocalizedText : LocalizedComponent
+public class LocalizedText : LocalizedStringComponent
 {
     private Text text;
     
@@ -18,7 +20,7 @@ public class LocalizedText : LocalizedComponent
     {
         UpdateTranslation();
     }
-
+    
     public override void UpdateTranslation()
     {
 #if UNITY_EDITOR
@@ -26,10 +28,27 @@ public class LocalizedText : LocalizedComponent
         {
             text = GetComponent<Text>(); //Null reference fix
             if (Translator.Instance == null || Translator.Instance.Translation == null
-                || !Translator.TranslationExists(key))
+                || !Translator.StringExists(key))
                 return;
         }
 #endif
         text.text = Translator.Translate(key);
     }
+
+#if UNITY_EDITOR
+    //Only used in the editor for internal purposes
+    public override string TextValue
+    {
+        get
+        {
+            text = GetComponent<Text>(); //Null reference fix
+            return text.text;
+        }
+        set
+        {
+            text = GetComponent<Text>(); //Null reference fix
+            text.text = value;
+        }
+    }
+#endif
 }

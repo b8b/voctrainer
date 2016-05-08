@@ -1,0 +1,180 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e593f69f50bcf19428e35dcee2274b29, type: 3}
+  m_Name: SampleEng
+  m_EditorClassIdentifier: 
+  languageName: Sample English
+  languageCode: en
+  rightToLeftLanguage: 0
+  translationDictionary:
+    _Buckets: ffffffffffffffffffffffffffffffffffffffff01000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff02000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+    _HashCodes: bc04221596b6684ca676fb0dffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000000000000000000000000000000000000000000000000000000000000000000000000000000
+    _Next: ffffffffffffffffffffffffffffffff030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f0000001000000011000000120000001300000014000000150000001600000017000000180000001900000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    _Count: 27
+    _Version: 182656
+    _FreeList: 26
+    _FreeCount: 24
+    _Keys:
+    - Test.HelloWorld
+    - Test.TextMesh
+    - Test.PlayAudio
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    _Values:
+    - Hello, World.
+    - I'm a localizable TextMesh.
+    - Play audio
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+    - 
+  spriteDictionary:
+    _Buckets: ffffffffffffffff01000000
+    _HashCodes: ffffffff2decdb0c00000000
+    _Next: ffffffffffffffff00000000
+    _Count: 2
+    _Version: 3243
+    _FreeList: 0
+    _FreeCount: 1
+    _Keys:
+    - 
+    - Test.FlagSprite
+    - 
+    _Values:
+    - {fileID: 0}
+    - {fileID: 21300000, guid: 523ff5f50fa00a9469eb59b63b5669a8, type: 3}
+    - {fileID: 0}
+  textureDictionary:
+    _Buckets: ffffffff00000000ffffffff
+    _HashCodes: b52768100000000000000000
+    _Next: ffffffff0000000000000000
+    _Count: 1
+    _Version: 2809
+    _FreeList: -1
+    _FreeCount: 0
+    _Keys:
+    - Test.SampleTexture
+    - 
+    - 
+    _Values:
+    - {fileID: 2800000, guid: 523ff5f50fa00a9469eb59b63b5669a8, type: 3}
+    - {fileID: 0}
+    - {fileID: 0}
+  audioDictionary:
+    _Buckets: 01000000ffffffffffffffff
+    _HashCodes: fffffffff0cc3f4e00000000
+    _Next: ffffffffffffffff00000000
+    _Count: 2
+    _Version: 1120
+    _FreeList: 0
+    _FreeCount: 1
+    _Keys:
+    - 
+    - Test.SampleAudio
+    - 
+    _Values:
+    - {fileID: 0}
+    - {fileID: 8300000, guid: 1030e206b2e0dff46bbcec1db09602d9, type: 3}
+    - {fileID: 0}
+  fontDictionary:
+    _Buckets: 00000000ffffffffffffffff
+    _HashCodes: f54f467a0000000000000000
+    _Next: ffffffff0000000000000000
+    _Count: 1
+    _Version: 1851
+    _FreeList: -1
+    _FreeCount: 0
+    _Keys:
+    - Test.SampleFont
+    - 
+    - 
+    _Values:
+    - {fileID: 12800000, guid: 2f85a42936bf42e409560b514519c75b, type: 3}
+    - {fileID: 0}
+    - {fileID: 0}
+  scriptableObjectDictionary:
+    _Buckets: ffffffffffffffffffffffff
+    _HashCodes: ffffffffffffffff00000000
+    _Next: ffffffff0000000000000000
+    _Count: 2
+    _Version: 80
+    _FreeList: 1
+    _FreeCount: 2
+    _Keys:
+    - 
+    - 
+    - 
+    _Values:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}

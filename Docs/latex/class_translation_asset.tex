@@ -1,0 +1,135 @@
+\hypertarget{class_translation_asset}{}\section{Translation\+Asset Class Reference}
+\label{class_translation_asset}\index{Translation\+Asset@{Translation\+Asset}}
+
+
+An asset used to store information about a language and assign language-\/dependent values to translation keys.  
+
+
+Inheritance diagram for Translation\+Asset\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_translation_asset}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_translation_asset_1_1_audio_dictionary_type}{Audio\+Dictionary\+Type}
+\begin{DoxyCompactList}\small\item\em The serializable dictionary type used for localizable Audio\+Clips. \end{DoxyCompactList}\item 
+class \hyperlink{class_translation_asset_1_1_font_dictionary_type}{Font\+Dictionary\+Type}
+\begin{DoxyCompactList}\small\item\em The serializable dictionary type used for localizable Fonts. \end{DoxyCompactList}\item 
+class \hyperlink{class_translation_asset_1_1_scriptable_object_dictionary_type}{Scriptable\+Object\+Dictionary\+Type}
+\begin{DoxyCompactList}\small\item\em The serializable dictionary type used for custom localizable data (see Scriptable\+Object). \end{DoxyCompactList}\item 
+class \hyperlink{class_translation_asset_1_1_sprite_dictionary_type}{Sprite\+Dictionary\+Type}
+\begin{DoxyCompactList}\small\item\em The serializable dictionary type used for localizable Sprites. \end{DoxyCompactList}\item 
+class \hyperlink{class_translation_asset_1_1_string_dictionary_type}{String\+Dictionary\+Type}
+\begin{DoxyCompactList}\small\item\em The serializable dictionary type used for localizable string values. \end{DoxyCompactList}\item 
+class \hyperlink{class_translation_asset_1_1_texture_dictionary_type}{Texture\+Dictionary\+Type}
+\begin{DoxyCompactList}\small\item\em The serializable dictionary type used for localizable Textures. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override string {\bfseries To\+String} ()\hypertarget{class_translation_asset_a2dbeddca8e91a58cfc33a703c04445c0}{}\label{class_translation_asset_a2dbeddca8e91a58cfc33a703c04445c0}
+
+\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+string \hyperlink{class_translation_asset_a85c98c092730390bc574a75f5e1dca50}{Language\+Name}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The user-\/friendly name of the language. \end{DoxyCompactList}\item 
+string \hyperlink{class_translation_asset_a77f3ad37c6e582d64fce3dce103133d7}{Language\+Code}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em A code used to identify the language internally. \end{DoxyCompactList}\item 
+bool \hyperlink{class_translation_asset_a63b9ef3eaf6d598babbced5f0df2a947}{Is\+Right\+To\+Left\+Language}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Is the language described by the translation asset a right-\/to-\/left language (like Arabic)? \end{DoxyCompactList}\item 
+\hyperlink{class_translation_asset_1_1_string_dictionary_type}{String\+Dictionary\+Type} \hyperlink{class_translation_asset_a313f9943f1dc9f48fb45633452093f1b}{Translation\+Dictionary}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The Serializable\+Dictionary$<$\+T\+Key,\+T\+Value$>$ which stores translation keys and values for string localizations. \end{DoxyCompactList}\item 
+\hyperlink{class_translation_asset_1_1_sprite_dictionary_type}{Sprite\+Dictionary\+Type} \hyperlink{class_translation_asset_a360f0776ee8f75f6d24e46543f47f029}{Sprite\+Dictionary}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The Serializable\+Dictionary$<$\+T\+Key,\+T\+Value$>$ which stores translation keys and values for Sprite localizations. \end{DoxyCompactList}\item 
+\hyperlink{class_translation_asset_1_1_texture_dictionary_type}{Texture\+Dictionary\+Type} \hyperlink{class_translation_asset_a044032e0de74a8c42a74d76258c479f1}{Texture\+Dictionary}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The Serializable\+Dictionary$<$\+T\+Key,\+T\+Value$>$ which stores translation keys and values for Texture localizations. \end{DoxyCompactList}\item 
+\hyperlink{class_translation_asset_1_1_audio_dictionary_type}{Audio\+Dictionary\+Type} \hyperlink{class_translation_asset_ab6f5c704931460ca1cf58506a9681c65}{Audio\+Dictionary}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The Serializable\+Dictionary$<$\+T\+Key,\+T\+Value$>$ which stores translation keys and values for Audio\+Clip localizations. \end{DoxyCompactList}\item 
+\hyperlink{class_translation_asset_1_1_font_dictionary_type}{Font\+Dictionary\+Type} \hyperlink{class_translation_asset_afcfa466e5de06d5da5aab787fb93d54f}{Font\+Dictionary}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The Serializable\+Dictionary$<$\+T\+Key,\+T\+Value$>$ which stores translation keys and values for Font localizations. \end{DoxyCompactList}\item 
+\hyperlink{class_translation_asset_1_1_scriptable_object_dictionary_type}{Scriptable\+Object\+Dictionary\+Type} \hyperlink{class_translation_asset_a94c96a2eb5ea41e83a3d1d91002b86d6}{Scriptable\+Object\+Dictionary}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The Serializable\+Dictionary$<$\+T\+Key,\+T\+Value$>$ which stores translation keys and values for custom localizable data (see Scriptable\+Object). \end{DoxyCompactList}\item 
+\hyperlink{class_translation_asset_1_1_string_dictionary_type}{String\+Dictionary\+Type} \hyperlink{class_translation_asset_a5a26cba32a5fab09ee1072ea0b626f4a}{Cached\+Translation\+Dictionary}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Used internally when working with remote updates. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+An asset used to store information about a language and assign language-\/dependent values to translation keys. 
+
+
+
+\subsection{Property Documentation}
+\index{Translation\+Asset@{Translation\+Asset}!Audio\+Dictionary@{Audio\+Dictionary}}
+\index{Audio\+Dictionary@{Audio\+Dictionary}!Translation\+Asset@{Translation\+Asset}}
+\subsubsection[{\texorpdfstring{Audio\+Dictionary}{AudioDictionary}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Audio\+Dictionary\+Type} Translation\+Asset.\+Audio\+Dictionary\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}\hypertarget{class_translation_asset_ab6f5c704931460ca1cf58506a9681c65}{}\label{class_translation_asset_ab6f5c704931460ca1cf58506a9681c65}
+
+
+The Serializable\+Dictionary$<$\+T\+Key,\+T\+Value$>$ which stores translation keys and values for Audio\+Clip localizations. 
+
+\index{Translation\+Asset@{Translation\+Asset}!Cached\+Translation\+Dictionary@{Cached\+Translation\+Dictionary}}
+\index{Cached\+Translation\+Dictionary@{Cached\+Translation\+Dictionary}!Translation\+Asset@{Translation\+Asset}}
+\subsubsection[{\texorpdfstring{Cached\+Translation\+Dictionary}{CachedTranslationDictionary}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf String\+Dictionary\+Type} Translation\+Asset.\+Cached\+Translation\+Dictionary\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}\hypertarget{class_translation_asset_a5a26cba32a5fab09ee1072ea0b626f4a}{}\label{class_translation_asset_a5a26cba32a5fab09ee1072ea0b626f4a}
+
+
+Used internally when working with remote updates. 
+
+\index{Translation\+Asset@{Translation\+Asset}!Font\+Dictionary@{Font\+Dictionary}}
+\index{Font\+Dictionary@{Font\+Dictionary}!Translation\+Asset@{Translation\+Asset}}
+\subsubsection[{\texorpdfstring{Font\+Dictionary}{FontDictionary}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Font\+Dictionary\+Type} Translation\+Asset.\+Font\+Dictionary\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}\hypertarget{class_translation_asset_afcfa466e5de06d5da5aab787fb93d54f}{}\label{class_translation_asset_afcfa466e5de06d5da5aab787fb93d54f}
+
+
+The Serializable\+Dictionary$<$\+T\+Key,\+T\+Value$>$ which stores translation keys and values for Font localizations. 
+
+\index{Translation\+Asset@{Translation\+Asset}!Is\+Right\+To\+Left\+Language@{Is\+Right\+To\+Left\+Language}}
+\index{Is\+Right\+To\+Left\+Language@{Is\+Right\+To\+Left\+Language}!Translation\+Asset@{Translation\+Asset}}
+\subsubsection[{\texorpdfstring{Is\+Right\+To\+Left\+Language}{IsRightToLeftLanguage}}]{\setlength{\rightskip}{0pt plus 5cm}bool Translation\+Asset.\+Is\+Right\+To\+Left\+Language\hspace{0.3cm}{\ttfamily [get]}}\hypertarget{class_translation_asset_a63b9ef3eaf6d598babbced5f0df2a947}{}\label{class_translation_asset_a63b9ef3eaf6d598babbced5f0df2a947}
+
+
+Is the language described by the translation asset a right-\/to-\/left language (like Arabic)? 
+
+\index{Translation\+Asset@{Translation\+Asset}!Language\+Code@{Language\+Code}}
+\index{Language\+Code@{Language\+Code}!Translation\+Asset@{Translation\+Asset}}
+\subsubsection[{\texorpdfstring{Language\+Code}{LanguageCode}}]{\setlength{\rightskip}{0pt plus 5cm}string Translation\+Asset.\+Language\+Code\hspace{0.3cm}{\ttfamily [get]}}\hypertarget{class_translation_asset_a77f3ad37c6e582d64fce3dce103133d7}{}\label{class_translation_asset_a77f3ad37c6e582d64fce3dce103133d7}
+
+
+A code used to identify the language internally. 
+
+\index{Translation\+Asset@{Translation\+Asset}!Language\+Name@{Language\+Name}}
+\index{Language\+Name@{Language\+Name}!Translation\+Asset@{Translation\+Asset}}
+\subsubsection[{\texorpdfstring{Language\+Name}{LanguageName}}]{\setlength{\rightskip}{0pt plus 5cm}string Translation\+Asset.\+Language\+Name\hspace{0.3cm}{\ttfamily [get]}}\hypertarget{class_translation_asset_a85c98c092730390bc574a75f5e1dca50}{}\label{class_translation_asset_a85c98c092730390bc574a75f5e1dca50}
+
+
+The user-\/friendly name of the language. 
+
+\index{Translation\+Asset@{Translation\+Asset}!Scriptable\+Object\+Dictionary@{Scriptable\+Object\+Dictionary}}
+\index{Scriptable\+Object\+Dictionary@{Scriptable\+Object\+Dictionary}!Translation\+Asset@{Translation\+Asset}}
+\subsubsection[{\texorpdfstring{Scriptable\+Object\+Dictionary}{ScriptableObjectDictionary}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Scriptable\+Object\+Dictionary\+Type} Translation\+Asset.\+Scriptable\+Object\+Dictionary\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}\hypertarget{class_translation_asset_a94c96a2eb5ea41e83a3d1d91002b86d6}{}\label{class_translation_asset_a94c96a2eb5ea41e83a3d1d91002b86d6}
+
+
+The Serializable\+Dictionary$<$\+T\+Key,\+T\+Value$>$ which stores translation keys and values for custom localizable data (see Scriptable\+Object). 
+
+\index{Translation\+Asset@{Translation\+Asset}!Sprite\+Dictionary@{Sprite\+Dictionary}}
+\index{Sprite\+Dictionary@{Sprite\+Dictionary}!Translation\+Asset@{Translation\+Asset}}
+\subsubsection[{\texorpdfstring{Sprite\+Dictionary}{SpriteDictionary}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Sprite\+Dictionary\+Type} Translation\+Asset.\+Sprite\+Dictionary\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}\hypertarget{class_translation_asset_a360f0776ee8f75f6d24e46543f47f029}{}\label{class_translation_asset_a360f0776ee8f75f6d24e46543f47f029}
+
+
+The Serializable\+Dictionary$<$\+T\+Key,\+T\+Value$>$ which stores translation keys and values for Sprite localizations. 
+
+\index{Translation\+Asset@{Translation\+Asset}!Texture\+Dictionary@{Texture\+Dictionary}}
+\index{Texture\+Dictionary@{Texture\+Dictionary}!Translation\+Asset@{Translation\+Asset}}
+\subsubsection[{\texorpdfstring{Texture\+Dictionary}{TextureDictionary}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Texture\+Dictionary\+Type} Translation\+Asset.\+Texture\+Dictionary\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}\hypertarget{class_translation_asset_a044032e0de74a8c42a74d76258c479f1}{}\label{class_translation_asset_a044032e0de74a8c42a74d76258c479f1}
+
+
+The Serializable\+Dictionary$<$\+T\+Key,\+T\+Value$>$ which stores translation keys and values for Texture localizations. 
+
+\index{Translation\+Asset@{Translation\+Asset}!Translation\+Dictionary@{Translation\+Dictionary}}
+\index{Translation\+Dictionary@{Translation\+Dictionary}!Translation\+Asset@{Translation\+Asset}}
+\subsubsection[{\texorpdfstring{Translation\+Dictionary}{TranslationDictionary}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf String\+Dictionary\+Type} Translation\+Asset.\+Translation\+Dictionary\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}\hypertarget{class_translation_asset_a313f9943f1dc9f48fb45633452093f1b}{}\label{class_translation_asset_a313f9943f1dc9f48fb45633452093f1b}
+
+
+The Serializable\+Dictionary$<$\+T\+Key,\+T\+Value$>$ which stores translation keys and values for string localizations. 
+

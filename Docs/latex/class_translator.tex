@@ -1,0 +1,298 @@
+\hypertarget{class_translator}{}\section{Translator Class Reference}
+\label{class_translator}\index{Translator@{Translator}}
+
+
+Translates strings with lookups in the \hyperlink{class_translation_asset_a313f9943f1dc9f48fb45633452093f1b}{Translation\+Asset.\+Translation\+Dictionary} of the attached \hyperlink{class_translation_asset}{Translation\+Asset}.  
+
+
+Inheritance diagram for Translator\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_translator}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+string \hyperlink{class_translator_a603e98880e2c1786727dfca7f00bab18}{Translate\+Key} (string key)
+\begin{DoxyCompactList}\small\item\em Translates the key by performing a lookup in the currently assigned \hyperlink{class_translation_asset}{Translation\+Asset}. Returns the key string itself if the key does not exist in the active \hyperlink{class_translation_asset}{Translation\+Asset}. \end{DoxyCompactList}\item 
+string \hyperlink{class_translator_aed1e626ef3e062f37de2bc381c413dab}{Translate\+Key} (string key, object replacement\+Tokens)
+\begin{DoxyCompactList}\small\item\em Translates the key by performing a lookup in the currently assigned \hyperlink{class_translation_asset}{Translation\+Asset}. Returns the key string itself if the key does not exist in the active \hyperlink{class_translation_asset}{Translation\+Asset}. \end{DoxyCompactList}\item 
+Sprite {\bfseries Translate\+Sprite\+Key} (string key)\hypertarget{class_translator_ad94aae4c27a852e83a8212af029533d5}{}\label{class_translator_ad94aae4c27a852e83a8212af029533d5}
+
+\item 
+Texture {\bfseries Translate\+Texture\+Key} (string key)\hypertarget{class_translator_aba4cab6c1827643a5982105201b5f6be}{}\label{class_translator_aba4cab6c1827643a5982105201b5f6be}
+
+\item 
+Audio\+Clip {\bfseries Translate\+Audio\+Key} (string key)\hypertarget{class_translator_a9e627721b70ae9f6b07ca881da4c14d5}{}\label{class_translator_a9e627721b70ae9f6b07ca881da4c14d5}
+
+\item 
+Font {\bfseries Translate\+Font\+Key} (string key)\hypertarget{class_translator_ab7025e58ffc006a392d228a7d2e10cb8}{}\label{class_translator_ab7025e58ffc006a392d228a7d2e10cb8}
+
+\item 
+Scriptable\+Object {\bfseries Translate\+Scriptable\+Object\+Key} (string key)\hypertarget{class_translator_a837b8f143c94cdbd6071bb15515c44b2}{}\label{class_translator_a837b8f143c94cdbd6071bb15515c44b2}
+
+\item 
+bool \hyperlink{class_translator_a4f6ac2cf37d3f416a77a1a6c75173e16}{String\+Key\+Exists} (string key)
+\begin{DoxyCompactList}\small\item\em Checks if a specified key exists in the active \hyperlink{class_translation_asset}{Translation\+Asset}. \end{DoxyCompactList}\item 
+bool {\bfseries Sprite\+Key\+Exists} (string key)\hypertarget{class_translator_a2e0bc9c5c53cf92a308afb5e9153ff73}{}\label{class_translator_a2e0bc9c5c53cf92a308afb5e9153ff73}
+
+\item 
+bool {\bfseries Texture\+Key\+Exists} (string key)\hypertarget{class_translator_aac32593fc0c17193b4f5aa9d01e69979}{}\label{class_translator_aac32593fc0c17193b4f5aa9d01e69979}
+
+\item 
+bool {\bfseries Audio\+Key\+Exists} (string key)\hypertarget{class_translator_a6174bb933a1c78659ec6de23b7f619b7}{}\label{class_translator_a6174bb933a1c78659ec6de23b7f619b7}
+
+\item 
+bool {\bfseries Font\+Key\+Exists} (string key)\hypertarget{class_translator_a5c57f65e88bc66abb26b296d92a560ca}{}\label{class_translator_a5c57f65e88bc66abb26b296d92a560ca}
+
+\item 
+bool {\bfseries Scriptable\+Object\+Key\+Exists} (string key)\hypertarget{class_translator_a7e8092c1aa97c08ce7a860f2955a5f7e}{}\label{class_translator_a7e8092c1aa97c08ce7a860f2955a5f7e}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{class_translator_a500801acca715c9239fce6360d381da4}{Initialize} ()
+\begin{DoxyCompactList}\small\item\em Initializes the translator. \end{DoxyCompactList}\item 
+static void \hyperlink{class_translator_abca6544e146bc4523fad14e4d9811ef9}{Update\+Translations} ()
+\begin{DoxyCompactList}\small\item\em Calls \hyperlink{class_localized_component_a74e7c07ec348cebcd9be67364a66a81d}{Localized\+Component.\+Update\+Translation} method of all \hyperlink{class_localized_component}{Localized\+Component}s in the current scene. \end{DoxyCompactList}\item 
+static string \hyperlink{class_translator_a4c9eb0f86f1267f24bb805dd90304746}{Translate} (string key)
+\begin{DoxyCompactList}\small\item\em Translates the key by performing a lookup in the currently assigned \hyperlink{class_translation_asset}{Translation\+Asset}. Returns the key string itself if the key does not exist in the active \hyperlink{class_translation_asset}{Translation\+Asset}. \end{DoxyCompactList}\item 
+static string \hyperlink{class_translator_a305f299787a705318c0639770219dd7a}{Translate} (string key, object replacement\+Tokens)
+\begin{DoxyCompactList}\small\item\em Translates the key by performing a lookup in the currently assigned \hyperlink{class_translation_asset}{Translation\+Asset}. Returns the key string itself if the key does not exist in the active \hyperlink{class_translation_asset}{Translation\+Asset}. \end{DoxyCompactList}\item 
+static Sprite {\bfseries Translate\+Sprite} (string key)\hypertarget{class_translator_afe021b2d7c313f6ca7d7204237af2e12}{}\label{class_translator_afe021b2d7c313f6ca7d7204237af2e12}
+
+\item 
+static Texture {\bfseries Translate\+Texture} (string key)\hypertarget{class_translator_a1ba8fdf6f85183cc8a9b7ea8864745ad}{}\label{class_translator_a1ba8fdf6f85183cc8a9b7ea8864745ad}
+
+\item 
+static Audio\+Clip {\bfseries Translate\+Audio} (string key)\hypertarget{class_translator_aa273a1c9abeb6f6d4a04feff6fafb47a}{}\label{class_translator_aa273a1c9abeb6f6d4a04feff6fafb47a}
+
+\item 
+static Font {\bfseries Translate\+Font} (string key)\hypertarget{class_translator_a63c906f2f68d566b0a3ad74b2ffe6848}{}\label{class_translator_a63c906f2f68d566b0a3ad74b2ffe6848}
+
+\item 
+static Scriptable\+Object {\bfseries Translate\+Scriptable\+Object} (string key)\hypertarget{class_translator_a9e75595771387b38be82c65be76a0d9e}{}\label{class_translator_a9e75595771387b38be82c65be76a0d9e}
+
+\item 
+static bool \hyperlink{class_translator_acaf6656c18f9538158b9a413808f2e2e}{String\+Exists} (string key)
+\begin{DoxyCompactList}\small\item\em Checks if a specified key exists in the active \hyperlink{class_translation_asset}{Translation\+Asset}. \end{DoxyCompactList}\item 
+static bool {\bfseries Sprite\+Exists} (string key)\hypertarget{class_translator_a4e5a05f181d4b72fa7212d2b16dd1f5a}{}\label{class_translator_a4e5a05f181d4b72fa7212d2b16dd1f5a}
+
+\item 
+static bool {\bfseries Texture\+Exists} (string key)\hypertarget{class_translator_a6c183df20ca75fade9c693c6ce184597}{}\label{class_translator_a6c183df20ca75fade9c693c6ce184597}
+
+\item 
+static bool {\bfseries Audio\+Exists} (string key)\hypertarget{class_translator_a4979b15c32d4a64a78bd9b4f87149159}{}\label{class_translator_a4979b15c32d4a64a78bd9b4f87149159}
+
+\item 
+static bool {\bfseries Font\+Exists} (string key)\hypertarget{class_translator_a789e64d3f13d19941c75202c95bccc68}{}\label{class_translator_a789e64d3f13d19941c75202c95bccc68}
+
+\item 
+static bool {\bfseries Scriptable\+Object\+Exists} (string key)\hypertarget{class_translator_a42e0799feb3a6cb8150c64cd9bbdd06e}{}\label{class_translator_a42e0799feb3a6cb8150c64cd9bbdd06e}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const string {\bfseries uni\+Translate\+Version} = \char`\"{}1.\+0\char`\"{}\hypertarget{class_translator_a62c024fc93bb86e0ecb63e7fa1783a5a}{}\label{class_translator_a62c024fc93bb86e0ecb63e7fa1783a5a}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{class_translator}{Translator} {\bfseries instance}\hypertarget{class_translator_ab80f7408ad3912619056b9125336c158}{}\label{class_translator_ab80f7408ad3912619056b9125336c158}
+
+\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{class_translator}{Translator} \hyperlink{class_translator_a72c84ed89a4595faa92d191f911a5bf4}{Instance}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The current \hyperlink{class_translator}{Translator} instance. \end{DoxyCompactList}\item 
+static \hyperlink{class_translator_settings}{Translator\+Settings} \hyperlink{class_translator_a2d3689fa017bbfbe57d38dba4e359941}{Settings}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The current \hyperlink{class_translator_settings}{Translator\+Settings} asset. \end{DoxyCompactList}\item 
+\hyperlink{class_translation_asset}{Translation\+Asset} \hyperlink{class_translator_af3c31a41df2a540fa0bd94f92b69209e}{Translation}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The currently used \hyperlink{class_translation_asset}{Translation\+Asset}. If set, the Update\+Translation method of all Localized\+Components in the current scene is called. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Translates strings with lookups in the \hyperlink{class_translation_asset_a313f9943f1dc9f48fb45633452093f1b}{Translation\+Asset.\+Translation\+Dictionary} of the attached \hyperlink{class_translation_asset}{Translation\+Asset}. 
+
+An object with a \hyperlink{class_translator}{Translator} component is automatically instantiated when needed and intended for internal use. You can also initialize it manually using the \hyperlink{class_translator_a4c9eb0f86f1267f24bb805dd90304746}{Translator.\+Translate(string)} method if you adjust the script execution order. Otherwise, it will be created at the first translation request. 
+
+\subsection{Member Function Documentation}
+\index{Translator@{Translator}!Initialize@{Initialize}}
+\index{Initialize@{Initialize}!Translator@{Translator}}
+\subsubsection[{\texorpdfstring{Initialize()}{Initialize()}}]{\setlength{\rightskip}{0pt plus 5cm}static void Translator.\+Initialize (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{class_translator_a500801acca715c9239fce6360d381da4}{}\label{class_translator_a500801acca715c9239fce6360d381da4}
+
+
+Initializes the translator. 
+
+Loads the \hyperlink{class_translator_settings}{Translator\+Settings} from an asset in \char`\"{}\+Resources/\+Translator\+Settings\char`\"{} and then uses the editor translator located in Editor/\+Resources/\+Editor\+Translator if the application is not running in the editor or initializes a new Game\+Object with a \hyperlink{class_translator}{Translator} at runtime. \index{Translator@{Translator}!String\+Exists@{String\+Exists}}
+\index{String\+Exists@{String\+Exists}!Translator@{Translator}}
+\subsubsection[{\texorpdfstring{String\+Exists(string key)}{StringExists(string key)}}]{\setlength{\rightskip}{0pt plus 5cm}static bool Translator.\+String\+Exists (
+\begin{DoxyParamCaption}
+\item[{string}]{key}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{class_translator_acaf6656c18f9538158b9a413808f2e2e}{}\label{class_translator_acaf6656c18f9538158b9a413808f2e2e}
+
+
+Checks if a specified key exists in the active \hyperlink{class_translation_asset}{Translation\+Asset}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & The key to locate in the active \hyperlink{class_translation_asset}{Translation\+Asset}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the active \hyperlink{class_translation_asset}{Translation\+Asset} contains an element with the specified key; otherwise, false.
+\end{DoxyReturn}
+\index{Translator@{Translator}!String\+Key\+Exists@{String\+Key\+Exists}}
+\index{String\+Key\+Exists@{String\+Key\+Exists}!Translator@{Translator}}
+\subsubsection[{\texorpdfstring{String\+Key\+Exists(string key)}{StringKeyExists(string key)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Translator.\+String\+Key\+Exists (
+\begin{DoxyParamCaption}
+\item[{string}]{key}
+\end{DoxyParamCaption}
+)}\hypertarget{class_translator_a4f6ac2cf37d3f416a77a1a6c75173e16}{}\label{class_translator_a4f6ac2cf37d3f416a77a1a6c75173e16}
+
+
+Checks if a specified key exists in the active \hyperlink{class_translation_asset}{Translation\+Asset}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & The key to locate in the active \hyperlink{class_translation_asset}{Translation\+Asset}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the active \hyperlink{class_translation_asset}{Translation\+Asset} contains an element with the specified key; otherwise, false.
+\end{DoxyReturn}
+\index{Translator@{Translator}!Translate@{Translate}}
+\index{Translate@{Translate}!Translator@{Translator}}
+\subsubsection[{\texorpdfstring{Translate(string key)}{Translate(string key)}}]{\setlength{\rightskip}{0pt plus 5cm}static string Translator.\+Translate (
+\begin{DoxyParamCaption}
+\item[{string}]{key}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{class_translator_a4c9eb0f86f1267f24bb805dd90304746}{}\label{class_translator_a4c9eb0f86f1267f24bb805dd90304746}
+
+
+Translates the key by performing a lookup in the currently assigned \hyperlink{class_translation_asset}{Translation\+Asset}. Returns the key string itself if the key does not exist in the active \hyperlink{class_translation_asset}{Translation\+Asset}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & The translation key string.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The translated value assigned to the given key or the key string itself if the key does not exist in the active \hyperlink{class_translation_asset}{Translation\+Asset}.
+\end{DoxyReturn}
+\index{Translator@{Translator}!Translate@{Translate}}
+\index{Translate@{Translate}!Translator@{Translator}}
+\subsubsection[{\texorpdfstring{Translate(string key, object replacement\+Tokens)}{Translate(string key, object replacementTokens)}}]{\setlength{\rightskip}{0pt plus 5cm}static string Translator.\+Translate (
+\begin{DoxyParamCaption}
+\item[{string}]{key, }
+\item[{object}]{replacement\+Tokens}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{class_translator_a305f299787a705318c0639770219dd7a}{}\label{class_translator_a305f299787a705318c0639770219dd7a}
+
+
+Translates the key by performing a lookup in the currently assigned \hyperlink{class_translation_asset}{Translation\+Asset}. Returns the key string itself if the key does not exist in the active \hyperlink{class_translation_asset}{Translation\+Asset}. 
+
+The parameter \char`\"{}replacement\+Tokens\char`\"{} can contain properties you want to replace with dynamic values. If you want to replace tokens in your translation string dynamically, you can put those values in \{curly brackets\} and pass an anonymous object with the desired values\+:
+
+\hyperlink{class_translator_a4c9eb0f86f1267f24bb805dd90304746}{Translator.\+Translate}(\char`\"{}\+Test.\+X\+Y\+Z\char`\"{}, new \{val1 = \char`\"{}\+Hello\char`\"{}, val2 = \char`\"{}\+World\char`\"{}\}); turns \char`\"{}\{val1\}, \{val2\}!\char`\"{} into \char`\"{}\+Hello, World!\char`\"{} if \char`\"{}\{val1\}, \{val2\}!\char`\"{} is assigned to the key \char`\"{}\+Text.\+X\+Y\+Z\char`\"{}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & The translation key string.\\
+\hline
+{\em replacement\+Tokens} & An object with properties which should be replaced with their assigned values.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The translated value assigned to the given key or the key string itself if the key does not exist in the active \hyperlink{class_translation_asset}{Translation\+Asset}.
+\end{DoxyReturn}
+\index{Translator@{Translator}!Translate\+Key@{Translate\+Key}}
+\index{Translate\+Key@{Translate\+Key}!Translator@{Translator}}
+\subsubsection[{\texorpdfstring{Translate\+Key(string key)}{TranslateKey(string key)}}]{\setlength{\rightskip}{0pt plus 5cm}string Translator.\+Translate\+Key (
+\begin{DoxyParamCaption}
+\item[{string}]{key}
+\end{DoxyParamCaption}
+)}\hypertarget{class_translator_a603e98880e2c1786727dfca7f00bab18}{}\label{class_translator_a603e98880e2c1786727dfca7f00bab18}
+
+
+Translates the key by performing a lookup in the currently assigned \hyperlink{class_translation_asset}{Translation\+Asset}. Returns the key string itself if the key does not exist in the active \hyperlink{class_translation_asset}{Translation\+Asset}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & The translation key string.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The translated value assigned to the given key or the key string itself if the key does not exist in the active \hyperlink{class_translation_asset}{Translation\+Asset}.
+\end{DoxyReturn}
+\index{Translator@{Translator}!Translate\+Key@{Translate\+Key}}
+\index{Translate\+Key@{Translate\+Key}!Translator@{Translator}}
+\subsubsection[{\texorpdfstring{Translate\+Key(string key, object replacement\+Tokens)}{TranslateKey(string key, object replacementTokens)}}]{\setlength{\rightskip}{0pt plus 5cm}string Translator.\+Translate\+Key (
+\begin{DoxyParamCaption}
+\item[{string}]{key, }
+\item[{object}]{replacement\+Tokens}
+\end{DoxyParamCaption}
+)}\hypertarget{class_translator_aed1e626ef3e062f37de2bc381c413dab}{}\label{class_translator_aed1e626ef3e062f37de2bc381c413dab}
+
+
+Translates the key by performing a lookup in the currently assigned \hyperlink{class_translation_asset}{Translation\+Asset}. Returns the key string itself if the key does not exist in the active \hyperlink{class_translation_asset}{Translation\+Asset}. 
+
+The parameter \char`\"{}replacement\+Tokens\char`\"{} can contain properties you want to replace with dynamic values. If you want to replace tokens in your translation string dynamically, you can put those values in \{curly brackets\} and pass an anonymous object with the desired values\+:
+
+\hyperlink{class_translator_a4c9eb0f86f1267f24bb805dd90304746}{Translator.\+Translate}(\char`\"{}\+Test.\+X\+Y\+Z\char`\"{}, new \{val1 = \char`\"{}\+Hello\char`\"{}, val2 = \char`\"{}\+World\char`\"{}\}); turns \char`\"{}\{val1\}, \{val2\}!\char`\"{} into \char`\"{}\+Hello, World!\char`\"{} if \char`\"{}\{val1\}, \{val2\}!\char`\"{} is assigned to the key \char`\"{}\+Text.\+X\+Y\+Z\char`\"{}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & The translation key string.\\
+\hline
+{\em replacement\+Tokens} & An object with properties which should be replaced with their assigned values.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The translated value assigned to the given key or the key string itself if the key does not exist in the active \hyperlink{class_translation_asset}{Translation\+Asset}.
+\end{DoxyReturn}
+\index{Translator@{Translator}!Update\+Translations@{Update\+Translations}}
+\index{Update\+Translations@{Update\+Translations}!Translator@{Translator}}
+\subsubsection[{\texorpdfstring{Update\+Translations()}{UpdateTranslations()}}]{\setlength{\rightskip}{0pt plus 5cm}static void Translator.\+Update\+Translations (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{class_translator_abca6544e146bc4523fad14e4d9811ef9}{}\label{class_translator_abca6544e146bc4523fad14e4d9811ef9}
+
+
+Calls \hyperlink{class_localized_component_a74e7c07ec348cebcd9be67364a66a81d}{Localized\+Component.\+Update\+Translation} method of all \hyperlink{class_localized_component}{Localized\+Component}s in the current scene. 
+
+
+
+\subsection{Property Documentation}
+\index{Translator@{Translator}!Instance@{Instance}}
+\index{Instance@{Instance}!Translator@{Translator}}
+\subsubsection[{\texorpdfstring{Instance}{Instance}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Translator} Translator.\+Instance\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [get]}}\hypertarget{class_translator_a72c84ed89a4595faa92d191f911a5bf4}{}\label{class_translator_a72c84ed89a4595faa92d191f911a5bf4}
+
+
+The current \hyperlink{class_translator}{Translator} instance. 
+
+\index{Translator@{Translator}!Settings@{Settings}}
+\index{Settings@{Settings}!Translator@{Translator}}
+\subsubsection[{\texorpdfstring{Settings}{Settings}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Translator\+Settings} Translator.\+Settings\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [get]}}\hypertarget{class_translator_a2d3689fa017bbfbe57d38dba4e359941}{}\label{class_translator_a2d3689fa017bbfbe57d38dba4e359941}
+
+
+The current \hyperlink{class_translator_settings}{Translator\+Settings} asset. 
+
+\index{Translator@{Translator}!Translation@{Translation}}
+\index{Translation@{Translation}!Translator@{Translator}}
+\subsubsection[{\texorpdfstring{Translation}{Translation}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Translation\+Asset} Translator.\+Translation\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}\hypertarget{class_translator_af3c31a41df2a540fa0bd94f92b69209e}{}\label{class_translator_af3c31a41df2a540fa0bd94f92b69209e}
+
+
+The currently used \hyperlink{class_translation_asset}{Translation\+Asset}. If set, the Update\+Translation method of all Localized\+Components in the current scene is called. 
+
