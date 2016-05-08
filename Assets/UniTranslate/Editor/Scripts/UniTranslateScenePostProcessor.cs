@@ -73,6 +73,9 @@ public class UniTranslateScenePostProcessor
     {
         foreach (var comp in sceneComponents)
         {
+            if (comp.gameObject.scene != EditorSceneManager.GetActiveScene())
+                continue;
+
             if (!allKeys.Contains(comp.Key))
             {
                 Debug.LogWarning("Translation key found in scene '" + EditorSceneManager.GetActiveScene().name +

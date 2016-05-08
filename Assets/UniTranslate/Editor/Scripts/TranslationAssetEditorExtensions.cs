@@ -247,7 +247,7 @@ namespace UniTranslateEditor
             label = label ?? GUIContent.none;
             if (type == typeof(string))
             {
-                return rect.height > 20 ? EditorGUI.TextArea(rect, displayedObject.ToString()) : EditorGUI.TextField(rect, label, displayedObject.ToString());
+                return rect.height > 20 ? EditorGUI.TextArea(rect, displayedObject != null ? displayedObject.ToString() : "") : EditorGUI.TextField(rect, label, displayedObject != null ? displayedObject.ToString() : "");
             }
             return EditorGUI.ObjectField(rect, label, (UnityEngine.Object) displayedObject, type, true);
         }

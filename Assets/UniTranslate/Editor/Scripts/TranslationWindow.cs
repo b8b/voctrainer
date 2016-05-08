@@ -9,7 +9,7 @@ using UniTranslateEditor;
 [InitializeOnLoad]
 public class TranslationWindow : EditorWindow
 {
-    [MenuItem("Window/Translation Editor")]
+    [MenuItem("Window/UniTranslate/Translation Editor", false, 0)]
     public static void ShowWindow()
     {
         EditorWindow.GetWindow<TranslationWindow>();
@@ -36,7 +36,6 @@ public class TranslationWindow : EditorWindow
     private const float leftHeaderMargin = 13f;
     private const float twoColumnMinWidth = 600f;
     public const int maxShownAutoCompleteButtons = 15;
-    public const string googleTranslateLogoPath = "Assets/UniTranslate/Editor/Images/GoogleTranslate.png";
 
     #region Initialization
     static TranslationWindow()
@@ -51,7 +50,6 @@ public class TranslationWindow : EditorWindow
     private void OnEnable()
     {
         this.titleContent = new GUIContent("Translations");
-        translateServiceImage = AssetDatabase.LoadAssetAtPath<Texture2D>(googleTranslateLogoPath);
 
         InitializeData();
         InitializeList();
@@ -264,7 +262,8 @@ public class TranslationWindow : EditorWindow
         };
 
         DrawToolbar();
-        
+        if (translateServiceImage == null)
+            translateServiceImage = UIDataHolder.GoogleTranslateIcon;
 
         if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Delete && list.index >= 0)
         {

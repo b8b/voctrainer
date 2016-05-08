@@ -35,10 +35,19 @@ public class LocalizedLegacyGUIText : LocalizedStringComponent
     }
 
 #if UNITY_EDITOR
+    //Only used in the editor for internal purposes
     public override string TextValue
     {
-        get { return text.text; }
-        set { text.text = value; }
+        get
+        {
+            text = GetComponent<GUIText>(); //Null reference fix
+            return text.text;
+        }
+        set
+        {
+            text = GetComponent<GUIText>(); //Null reference fix
+            text.text = value;
+        }
     }
 #endif
 }

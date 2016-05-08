@@ -50,6 +50,8 @@ public class TranslationAsset : ScriptableObject
     [SerializeField] private FontDictionaryType fontDictionary;
     [SerializeField] private ScriptableObjectDictionaryType scriptableObjectDictionary;
 
+    private StringDictionaryType cachedTranslationDictionary;
+
     /// <summary>
     /// The user-friendly name of the language.
     /// </summary>
@@ -126,6 +128,15 @@ public class TranslationAsset : ScriptableObject
     {
         get { return scriptableObjectDictionary; }
         set { scriptableObjectDictionary = value; }
+    }
+
+    /// <summary>
+    /// Used internally when working with remote updates.
+    /// </summary>
+    public StringDictionaryType CachedTranslationDictionary
+    {
+        get { return cachedTranslationDictionary; }
+        set { cachedTranslationDictionary = value; }
     }
 
     public override string ToString()

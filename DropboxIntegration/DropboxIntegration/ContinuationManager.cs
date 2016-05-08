@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 
-internal static class ContinuationManager
+public static class ContinuationManager
 {
     private class Job
     {

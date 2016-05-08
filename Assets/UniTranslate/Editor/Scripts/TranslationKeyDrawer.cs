@@ -33,15 +33,16 @@ public class TranslationKeyDrawer : PropertyDrawer
 
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
+        UpdateUI(new Rect(0, 0, 0, 0), property, label, false);
         return currentHeight - yPos;
     }
 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
-        UpdateUI(position, property, label);
+        UpdateUI(position, property, label, true);
     }
 
-    private void UpdateUI(Rect position, SerializedProperty property, GUIContent label)
+    private void UpdateUI(Rect position, SerializedProperty property, GUIContent label, bool drawing)
     {
         GUIStyle headingStyle = new GUIStyle(GUI.skin.label)
         {
@@ -49,7 +50,7 @@ public class TranslationKeyDrawer : PropertyDrawer
             fontSize = 14
         };
         if (translateServiceImage == null)
-            translateServiceImage = AssetDatabase.LoadAssetAtPath<Texture2D>(TranslationWindow.googleTranslateLogoPath);
+            translateServiceImage = UIDataHolder.GoogleTranslateIcon;
 
         translationAssets = GetTranslationAssets();
 
@@ -63,13 +64,17 @@ public class TranslationKeyDrawer : PropertyDrawer
         currentHeight = yPos;
         var keyAttribute = (TranslationKeyAttribute) attribute;
 
-        if (keyAttribute.AlwaysFoldout)
+        if (drawing)
         {
-            foldOut = true;
-        }
-        else
-        {
-            foldOut = EditorGUI.Foldout(new Rect(position.x, currentHeight, 130, fieldHeight), foldOut, GUIContent.none);
+            if (keyAttribute.AlwaysFoldout)
+            {
+                foldOut = true;
+            }
+            else
+            {
+                foldOut = EditorGUI.Foldout(new Rect(position.x, currentHeight, 130, fieldHeight), foldOut,
+                    GUIContent.none);
+            }
         }
 
         bool notFound = Translator.Instance == null || Translator.Instance.Translation == null ||
@@ -77,7 +82,10 @@ public class TranslationKeyDrawer : PropertyDrawer
 
         EditorGUI.BeginChangeCheck();
         GUI.SetNextControlName("keyField");
-        string key = EditorGUI.TextField(new Rect(position.x, currentHeight, position.width, fieldHeight), notFound ? label.text + " (Missing!)" : label.text, property.stringValue) ?? "";
+        string key = property.stringValue;
+        if (drawing) { 
+            key = EditorGUI.TextField(new Rect(position.x, currentHeight, position.width, fieldHeight), notFound ? label.text + " (Missing!)" : label.text, property.stringValue) ?? "";
+        }
         currentHeight += fieldHeight;
 
         key = MigrateTextToKey(property, key);
@@ -86,7 +94,7 @@ public class TranslationKeyDrawer : PropertyDrawer
         if (!foldOut)
             return;
 
-        if (DrawErrorMessages(position)) return;
+        if (DrawErrorMessages(position, drawing)) return;
 
         if (Translator.Instance.Translation != null) //Translation exists
         {
@@ -94,16 +102,19 @@ public class TranslationKeyDrawer : PropertyDrawer
             
             if (Translator.Instance.Translation.KeyExists(keyAttribute.TranslationType, key))
             {
-                GUI.Label(new Rect(position.x, currentHeight, position.width, headerHeight),
-                    "Edit Translations for key " + key, headingStyle);
+                if (drawing)
+                {
+                    GUI.Label(new Rect(position.x, currentHeight, position.width, headerHeight),
+                        "Edit Translations for key " + key, headingStyle);
+                }
                 currentHeight += headerHeight;
 
-                DrawEditUI(position, key, keyAttribute.TranslationType);
-                DrawDeleteUI(position, key, keyAttribute.TranslationType);
+                DrawEditUI(position, key, keyAttribute.TranslationType, drawing);
+                DrawDeleteUI(position, key, keyAttribute.TranslationType, drawing);
             }
             else //Translation does not exist
             {
-                string result = DrawSearchList(position, key, keyAttribute.TranslationType);
+                string result = DrawSearchList(position, key, keyAttribute.TranslationType, drawing);
                 if (result != null)
                 {
                     property.stringValue = result;
@@ -111,16 +122,19 @@ public class TranslationKeyDrawer : PropertyDrawer
 
                 if (!key.EndsWith(".") && key != String.Empty)
                 {
-                    GUI.Label(new Rect(position.x, currentHeight, position.width, headerHeight),
-                    "New translation for key " + key, headingStyle);
+                    if (drawing)
+                    {
+                        GUI.Label(new Rect(position.x, currentHeight, position.width, headerHeight),
+                            "New translation for key " + key, headingStyle);
+                    }
                     currentHeight += headerHeight;
-                    DrawAddUI(position, key);
+                    DrawAddUI(position, key, drawing);
                 }
             }
         }
         currentHeight += space;
 
-        DrawFooter(position);
+        DrawFooter(position, drawing);
         UpdateLocalizedComponent(property.serializedObject.targetObject);
     }
 
@@ -161,35 +175,44 @@ public class TranslationKeyDrawer : PropertyDrawer
         return key;
     }
 
-    private bool DrawErrorMessages(Rect position)
+    private bool DrawErrorMessages(Rect position, bool drawing)
     {
         if (Translator.Instance == null)
         {
-            EditorGUI.HelpBox(new Rect(position.x, currentHeight, position.width, helpBoxHeight),
-                "No translator instance was found. Please create a GameObject with a Translator component attached to it.",
-                MessageType.Warning);
+            if (drawing)
+            {
+                EditorGUI.HelpBox(new Rect(position.x, currentHeight, position.width, helpBoxHeight),
+                    "No translator instance was found. Please create a GameObject with a Translator component attached to it.",
+                    MessageType.Warning);
+            }
             currentHeight += helpBoxHeight;
             return true;
         }
         if (translationAssets == null)
         {
-            EditorGUI.HelpBox(new Rect(position.x, currentHeight, position.width, helpBoxHeight),
-                "No translation assets were found. Please create at least one translation asset in your project assets folder.",
-                MessageType.Warning);
+            if (drawing)
+            {
+                EditorGUI.HelpBox(new Rect(position.x, currentHeight, position.width, helpBoxHeight),
+                    "No translation assets were found. Please create at least one translation asset in your project assets folder.",
+                    MessageType.Warning);
+            }
             currentHeight += helpBoxHeight;
             return true;
         }
         return false;
     }
 
-    private string DrawSearchList(Rect position, string query, Type searchType)
+    private string DrawSearchList(Rect position, string query, Type searchType, bool drawing)
     {
         string[] foundKeys = DoSearch(query, Translator.Instance.Translation, searchType);
 
         string selectedKey = null;
         foreach (var key in foundKeys.Take(maxShownAutoCompleteButtons))
         {
-            bool button = GUI.Button(new Rect(position.x + searchLeftMargin, currentHeight, position.width - searchLeftMargin, fieldHeight), key, EditorStyles.textField);
+            bool button = false;
+            if (drawing) { 
+                button = GUI.Button(new Rect(position.x + searchLeftMargin, currentHeight, position.width - searchLeftMargin, fieldHeight), key, EditorStyles.textField);
+            }
             currentHeight += fieldHeight;
             if (button)
             {
@@ -199,13 +222,15 @@ public class TranslationKeyDrawer : PropertyDrawer
         }
         if (foundKeys.Length > maxShownAutoCompleteButtons)
         {
-            GUI.Button(new Rect(position.x + searchLeftMargin, currentHeight, position.width - searchLeftMargin, fieldHeight), "...", EditorStyles.textField);
+            if (drawing) { 
+                GUI.Button(new Rect(position.x + searchLeftMargin, currentHeight, position.width - searchLeftMargin, fieldHeight), "...", EditorStyles.textField);
+            }
             currentHeight += fieldHeight;
         }
         return selectedKey;
     }
 
-    private void DrawAddUI(Rect position, string key)
+    private void DrawAddUI(Rect position, string key, bool drawing)
     {
         var keyAttribute = (TranslationKeyAttribute) attribute;
         for (int i = 0; i < translationAssets.Length; i++)
@@ -213,21 +238,39 @@ public class TranslationKeyDrawer : PropertyDrawer
             var translationAsset = translationAssets[i];
             if (string.IsNullOrEmpty(translationAsset.LanguageName))
             {
-                EditorGUI.HelpBox(new Rect(position.x, currentHeight, position.width, helpBoxHeight), "No name is set for this language. Please select that file and add a name.", MessageType.Warning);
+                if (drawing)
+                {
+                    EditorGUI.HelpBox(new Rect(position.x, currentHeight, position.width, helpBoxHeight),
+                        "No name is set for this language. Please select that file and add a name.", MessageType.Warning);
+                }
                 currentHeight += helpBoxHeight;
             }
             if (string.IsNullOrEmpty(translationAsset.LanguageCode))
             {
-                EditorGUI.HelpBox(new Rect(position.x, currentHeight, position.width, helpBoxHeight), "No language code is set for this language. Please select that file and add a code.", MessageType.Warning);
+                if (drawing)
+                {
+                    EditorGUI.HelpBox(new Rect(position.x, currentHeight, position.width, helpBoxHeight),
+                        "No language code is set for this language. Please select that file and add a code.",
+                        MessageType.Warning);
+                }
                 currentHeight += helpBoxHeight;
             }
 
-            savedTranslationValues[i] = TranslationAssetEditorExtensions.DrawTypedField(keyAttribute.TranslationType,
-                new Rect(position.x, currentHeight, position.width, fieldHeight), savedTranslationValues[i], translationAsset.LanguageName);
+            if (drawing)
+            {
+                savedTranslationValues[i] = TranslationAssetEditorExtensions.DrawTypedField(
+                    keyAttribute.TranslationType,
+                    new Rect(position.x, currentHeight, position.width, fieldHeight), savedTranslationValues[i],
+                    translationAsset.LanguageName);
+            }
             currentHeight += fieldHeight;
         }
 
-        bool button = GUI.Button(new Rect(position.x, currentHeight, position.width, buttonHeight), "Add");
+        bool button = false;
+        if (drawing)
+        {
+            button = GUI.Button(new Rect(position.x, currentHeight, position.width, buttonHeight), "Add");
+        }
         currentHeight += buttonHeight;
         if (button || (Event.current.type == EventType.keyDown && Event.current.keyCode == KeyCode.Return))
         {
@@ -240,26 +283,37 @@ public class TranslationKeyDrawer : PropertyDrawer
         }
     }
 
-    private void DrawEditUI(Rect position, string key, Type editingType)
+    private void DrawEditUI(Rect position, string key, Type editingType, bool drawing)
     {
         for (int i = 0; i < translationAssets.Length; i++)
         {
             var translationAsset = translationAssets[i];
             if (editingType == typeof(string))
             {
-                DrawAutoTranslateButton(key, translationAsset, i, position);
+                if (drawing)
+                {
+                    DrawAutoTranslateButton(key, translationAsset, i, position);
+                }
             }
             if (editingType == typeof (string) || !translationAsset.KeyExists(editingType, key))
             {
-                EditorGUI.PrefixLabel(new Rect(position.x, currentHeight, position.width, fieldHeight), new GUIContent(translationAsset.LanguageName));
+                if (drawing)
+                {
+                    EditorGUI.PrefixLabel(new Rect(position.x, currentHeight, position.width, fieldHeight),
+                        new GUIContent(translationAsset.LanguageName));
+                }
                 currentHeight += fieldHeight;
             }
 
             if (!translationAsset.KeyExists(editingType, key))
             {
                 GUIStyle boldTextFieldStyle = new GUIStyle(EditorStyles.textField) { fontStyle = FontStyle.Bold };
-                bool button = GUI.Button(new Rect(position.x, currentHeight, position.width, fieldHeight),
+                bool button = false;
+                if (drawing)
+                {
+                    button = GUI.Button(new Rect(position.x, currentHeight, position.width, fieldHeight),
                         "Add missing key", boldTextFieldStyle);
+                }
                 if (button)
                 {
                     translationAsset.CreateNewEmptyKey(editingType);
@@ -271,8 +325,12 @@ public class TranslationKeyDrawer : PropertyDrawer
                 EditorGUI.BeginChangeCheck();
 
                 float editorHeight = editingType == typeof (string) ? fieldHeight*3 : fieldHeight;
-                translationAsset.DrawFieldForKey(editingType, new Rect(position.x, currentHeight, position.width, editorHeight),
+                if (drawing)
+                {
+                    translationAsset.DrawFieldForKey(editingType,
+                        new Rect(position.x, currentHeight, position.width, editorHeight),
                         key, translationAsset.LanguageName);
+                }
                 currentHeight += editorHeight;
 
                 if (EditorGUI.EndChangeCheck())
@@ -311,25 +369,32 @@ public class TranslationKeyDrawer : PropertyDrawer
         }
     }
 
-    private void DrawDeleteUI(Rect position, string key, Type editingType)
+    private void DrawDeleteUI(Rect position, string key, Type editingType, bool drawing)
     {
-        if (GUI.Button(new Rect(position.x, currentHeight, position.width, buttonHeight), "Remove Key"))
+        if (drawing)
         {
-            for (int i = 0; i < translationAssets.Length; i++)
+            if (GUI.Button(new Rect(position.x, currentHeight, position.width, buttonHeight), "Remove Key"))
             {
-                var translationAsset = translationAssets[i];
-                translationAsset.RemoveIfKeyExists(editingType, key);
-                EditorUtility.SetDirty(translationAsset);
+                for (int i = 0; i < translationAssets.Length; i++)
+                {
+                    var translationAsset = translationAssets[i];
+                    translationAsset.RemoveIfKeyExists(editingType, key);
+                    EditorUtility.SetDirty(translationAsset);
+                }
             }
         }
         currentHeight += buttonHeight;
     }
 
-    private void DrawFooter(Rect position)
+    private void DrawFooter(Rect position, bool drawing)
     {
         EditorGUI.BeginChangeCheck();
         var serializedTranslator = new SerializedObject(Translator.Instance);
-        EditorGUI.PropertyField(new Rect(position.x, currentHeight, position.width, fieldHeight), serializedTranslator.FindProperty("translation"), new GUIContent("Preview language"));
+        if (drawing)
+        {
+            EditorGUI.PropertyField(new Rect(position.x, currentHeight, position.width, fieldHeight),
+                serializedTranslator.FindProperty("translation"), new GUIContent("Preview language"));
+        }
         currentHeight += fieldHeight;
         if (EditorGUI.EndChangeCheck())
         {
@@ -339,15 +404,21 @@ public class TranslationKeyDrawer : PropertyDrawer
 
         if (Translator.Instance.Translation != null)
         {
-            EditorGUI.LabelField(new Rect(position.x, currentHeight, position.width, fieldHeight),
-                "Preview language name:",
-                Translator.Instance.Translation.ToString());
+            if (drawing)
+            {
+                EditorGUI.LabelField(new Rect(position.x, currentHeight, position.width, fieldHeight),
+                    "Preview language name:",
+                    Translator.Instance.Translation.ToString());
+            }
             currentHeight += fieldHeight;
         }
 
-        if (GUI.Button(new Rect(position.x, currentHeight, position.width, buttonHeight), "Edit all translations"))
+        if (drawing)
         {
-            TranslationWindow.ShowWindow();
+            if (GUI.Button(new Rect(position.x, currentHeight, position.width, buttonHeight), "Edit all translations"))
+            {
+                TranslationWindow.ShowWindow();
+            }
         }
         currentHeight += buttonHeight + bottomMargin;
     }

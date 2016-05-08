@@ -17,7 +17,7 @@ public class WebDeploymentWindow : EditorWindow
         Custom
     }
 
-    private const string dataFileName = "translations_{ver}.dat";
+    private const string dataFileName = "translations_v{ver}.dat";
     private const string manifestFileName = "unitranslate.manifest";
 
     public string DeploymentPath { get; set; }
@@ -41,6 +41,11 @@ public class WebDeploymentWindow : EditorWindow
             assetsEnabled[i] = true;
         }
         this.position = new Rect(position.x, position.y, 600f, 400f);
+
+        if (Translator.Settings != null)
+        {
+            version = Translator.Settings.CurrentTranslationVersion + 1;
+        }
     }
 
     private void OnGUI()
@@ -57,7 +62,7 @@ public class WebDeploymentWindow : EditorWindow
         EditorGUILayout.HelpBox("This assistant will help you upload translation data to a web service, so you can update your string translations " +
                                 "without updating the entire application. It will generate two files: a " + manifestFileName + " file, where the current version " +
                                 "of your localizations is saved and a " + dataFileName.Replace("{ver}", "(version number)") + " file, where the actual data is stored. The manifest also " +
-                                "stores the URL to the data file. Translation files are only downloaded if their version number is greater than" +
+                                "stores the URL to the data file. Translation files are only downloaded if their version number is greater than " +
                                 "the minimum version number defined in the Translator Settings and greater the version number of the previously downloaded translation file.", MessageType.Info);
 
         EditorGUILayout.LabelField("1. Choose a platform for deployment:", headingStyle);
@@ -311,15 +316,15 @@ public class WebDeploymentWindow : EditorWindow
                              "data_file {1}", ver, dataFileUrl);
     }
 
-    private TranslationAsset.StringDictionaryType[] GatherTranslationDicts()
+    private SerializableDictionary<string, TranslationAsset.StringDictionaryType> GatherTranslationDicts()
     {
-        var list = new List<TranslationAsset.StringDictionaryType>();
+        var dict = new SerializableDictionary<string, TranslationAsset.StringDictionaryType>();
         for (int i = 0; i < translationAssets.Length; i++)
         {
             if (assetsEnabled[i])
-                list.Add(translationAssets[i].TranslationDictionary);
+                dict.Add(translationAssets[i].LanguageCode, translationAssets[i].TranslationDictionary);
         }
-        return list.ToArray();
+        return dict;
     }
 
     private byte[] ObjectToByteArray(object obj)

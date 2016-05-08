@@ -35,10 +35,19 @@ public class LocalizedTextMesh : LocalizedStringComponent
     }
 
 #if UNITY_EDITOR
+    //Only used in the editor for internal purposes
     public override string TextValue
     {
-        get { return textMesh.text; }
-        set { textMesh.text = value; }
+        get
+        {
+            textMesh = GetComponent<TextMesh>(); //Null reference fix
+            return textMesh.text;
+        }
+        set
+        {
+            textMesh = GetComponent<TextMesh>(); //Null reference fix
+            textMesh.text = value;
+        }
     }
 #endif
 }

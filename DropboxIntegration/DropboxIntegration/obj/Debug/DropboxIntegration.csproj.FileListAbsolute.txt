@@ -10,6 +10,5 @@ D:\VCS\Unity\UniTranslate\DropboxIntegration\DropboxIntegration\bin\Debug\Unity.
 D:\VCS\Unity\UniTranslate\DropboxIntegration\DropboxIntegration\bin\Debug\Mono.Cecil.Pdb.dll
 D:\VCS\Unity\UniTranslate\DropboxIntegration\DropboxIntegration\bin\Debug\Mono.Cecil.Mdb.dll
 D:\VCS\Unity\UniTranslate\DropboxIntegration\DropboxIntegration\bin\Debug\UnityEditor.xml
-D:\VCS\Unity\UniTranslate\DropboxIntegration\DropboxIntegration\obj\Debug\DropboxIntegration.csprojResolveAssemblyReference.cache
 D:\VCS\Unity\UniTranslate\DropboxIntegration\DropboxIntegration\obj\Debug\DropboxIntegration.dll
 D:\VCS\Unity\UniTranslate\DropboxIntegration\DropboxIntegration\obj\Debug\DropboxIntegration.pdb

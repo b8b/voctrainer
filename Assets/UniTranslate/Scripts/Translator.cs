@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -53,9 +55,11 @@ public class Translator : MonoBehaviour
         }
     }
 
-    protected Translator() { }
+    protected Translator()
+    { }
 
-    [SerializeField] private TranslationAsset translation;
+    [SerializeField]
+    private TranslationAsset translation;
 
     /// <summary>
     /// The currently used <see cref="TranslationAsset"/>. If set, the UpdateTranslation method of all LocalizedComponents in the current scene is called.
@@ -73,7 +77,10 @@ public class Translator : MonoBehaviour
     /// <summary>
     /// Initializes the translator.<para /> Loads the <see cref="TranslatorSettings"/> from an asset in "Resources/TranslatorSettings" 
     /// and then uses the editor translator located in Editor/Resources/EditorTranslator if the application is not running in the editor 
-    /// or initializes a new <see cref="GameObject"/> with a Translator at runtime.
+    /// or initializes a new <see cref="GameObject"/> with a Translator at runtime.<para/>
+    /// 
+    /// If a remote update URL in the translator settings is set, a <see cref="RemoteUpdate"/> component will be attached, 
+    /// which handles automatic localization updates and loading from cache.
     /// </summary>
     public static void Initialize()
     {
@@ -87,9 +94,9 @@ public class Translator : MonoBehaviour
 #if UNITY_EDITOR
         if (!Application.isPlaying)
         {
-            instance = AssetDatabase.LoadAssetAtPath<Translator>("Assets/UniTranslate/Editor/EditorTranslator.prefab");
+            instance = UIDataHolder.EditorTranslator;
             if (instance == null)
-                Debug.LogError("Could not initialize editor translator because the asset at path 'UniTranslate/Editor/EditorTranslator.prefab' was not found!");
+                Debug.LogError("Could not initialize editor translator.");
             else
                 instance.Translation = Settings.StartupLanguage;
         }
@@ -104,7 +111,7 @@ public class Translator : MonoBehaviour
 
             if (!string.IsNullOrEmpty(Settings.RemoteManifestURL))
             {
-                obj.AddComponent<RemoteUpdater>().RunWithSettings(Settings);
+                obj.AddComponent<RemoteUpdate>().RunWithSettings(Settings);
             }
         }
     }
@@ -121,7 +128,7 @@ public class Translator : MonoBehaviour
     }
 
     private void Start()
-	{
+    {
 #if UNITY_EDITOR
         if (!Application.isPlaying)
         {
@@ -144,16 +151,29 @@ public class Translator : MonoBehaviour
     /// <returns>The translated value assigned to the given key or the key string itself 
     /// if the key does not exist in the active <see cref="TranslationAsset"/>.</returns>
     public string TranslateKey(string key)
-	{
-	    if (translation == null)
-	    {
+    {
+        if (translation == null)
+        {
             Debug.LogWarning("Translator: Translation asset is null", gameObject);
-	        return key;
-	    }
-	    if (string.IsNullOrEmpty(key))
-	        return key;
+            return key;
+        }
+        if (String.IsNullOrEmpty(key))
+            return key;
 
-        string translatedString = translation.TranslationDictionary[key, defaultValue: key];
+        string translatedString;
+#if UNITY_EDITOR
+        if (!Application.isPlaying)
+        {
+            translatedString = translation.TranslationDictionary[key, defaultValue: key];
+        }
+        else
+#endif
+        {
+            translatedString = translation.CachedTranslationDictionary != null && translation.CachedTranslationDictionary.ContainsKey(key)
+                ? translation.CachedTranslationDictionary[key]
+                : translation.TranslationDictionary[key, defaultValue: key];
+        }
+
         return translation.IsRightToLeftLanguage ? UniTranslateExtensions.FlipString(translatedString) : translatedString;
     }
 
@@ -269,7 +289,7 @@ public class Translator : MonoBehaviour
 
     private bool ValidateKey(string key)
     {
-        if (string.IsNullOrEmpty(key))
+        if (String.IsNullOrEmpty(key))
             return false;
         if (translation == null)
         {
@@ -388,4 +408,17 @@ public class Translator : MonoBehaviour
     {
         return Instance.ScriptableObjectKeyExists(key);
     }
+
+#if UNITY_EDITOR
+    public void OnApplicationQuit()
+    {
+        if (settings == null || settings.Languages == null)
+            return;
+
+        foreach (var translationAsset in settings.Languages)
+        {
+            translationAsset.CachedTranslationDictionary = null;
+        }
+    }
+#endif
 }
