@@ -18,6 +18,7 @@ using UnityEditor;
 [InitializeOnLoad]
 #endif
 [ExecuteInEditMode]
+[AddComponentMenu("")]
 public class Translator : MonoBehaviour
 {
     public const string uniTranslateVersion = "1.0";

@@ -1,5 +1,25 @@
 fileFormatVersion: 2
 guid: 9568c336aa7f09e4c997b2f1ede35581
+labels:
+- String
+- Sprite
+- Audio
+- Font
+- ScriptableObject
+- Serialized
+- Fast
+- Performance
+- Workflow
+- Translator
+- Scripting
+- Localized
+- Easy
+- Translation
+- Localization
+- Localize
+- Translate
+- Translations
+- UniTranslate
 timeCreated: 1461946523
 licenseType: Free
 TextureImporter:

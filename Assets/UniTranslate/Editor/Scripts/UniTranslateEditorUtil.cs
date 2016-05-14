@@ -28,4 +28,10 @@ public class UniTranslateEditorUtil : MonoBehaviour
     {
         Application.OpenURL("http://skaillz.net/docs/unitranslate/");
     }
+
+    [MenuItem("Window/UniTranslate/Online Manual (with Quick Start Guide)")]
+    public static void OpenManualInBrowser()
+    {
+        Application.OpenURL("http://skaillz.net/unitranslate/UniTranslate%20Manual.pdf");
+    }
 }

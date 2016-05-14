@@ -16,6 +16,8 @@ using UnityEditor;
 /// but whenever a translation is loaded by a <see cref="LocalizedComponent"/> (e.g. when the 
 /// displayed language is changed or a new scene is loaded). 
 /// </summary>
+
+[AddComponentMenu("")]
 public class RemoteUpdate : MonoBehaviour
 {
     public const string cacheFileName = "localization_cache.dat";
