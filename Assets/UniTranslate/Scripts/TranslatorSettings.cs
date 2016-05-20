@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -29,20 +30,22 @@ public class TranslatorSettings : ScriptableObject
                 return languagesCache;
 
             bool containsDefaultLang = fallbackDefaultLanguage != null && languageMappings.ContainsValue(fallbackDefaultLanguage);
-            var languages = new TranslationAsset[containsDefaultLang ? languageMappings.Count : languageMappings.Count + 1];
-            int i = 0;
+            var languages = new List<TranslationAsset>();
+
             foreach (var mapping in languageMappings)
             {
-                languages[i] = mapping.Value;
-                i++;
+                if (mapping.Value != null)
+                    languages.Add(mapping.Value);
             }
             if (!containsDefaultLang)
             {
-                languages[languages.Length - 1] = fallbackDefaultLanguage;
+                languages.Add(fallbackDefaultLanguage);
             }
-            languagesCache = languages;
-            languagesCached = true;
-            return languages;
+            languagesCache = languages.ToArray();
+#if !UNITY_EDITOR
+            languagesCached = true; //Never cache languages in the editor
+#endif
+            return languagesCache;
         }
     }
 

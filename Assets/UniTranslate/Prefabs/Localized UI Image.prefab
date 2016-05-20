@@ -29,7 +29,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a19da544496689b4eb415e75fc9e2264, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  key: Test.FlagSprite
+  key: SampleScene.Image
 --- !u!114 &11436216
 MonoBehaviour:
   m_ObjectHideFlags: 1

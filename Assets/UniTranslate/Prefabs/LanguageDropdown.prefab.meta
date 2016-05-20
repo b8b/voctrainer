@@ -1,5 +1,25 @@
 fileFormatVersion: 2
 guid: b2c5991d0c0d1a143817253ef9a45a59
+labels:
+- String
+- Sprite
+- Audio
+- Font
+- ScriptableObject
+- Serialized
+- Fast
+- Performance
+- Workflow
+- Translator
+- Scripting
+- Localized
+- Easy
+- Translation
+- Localization
+- Localize
+- Translate
+- Translations
+- UniTranslate
 timeCreated: 1459606575
 licenseType: Free
 NativeFormatImporter:

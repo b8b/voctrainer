@@ -417,6 +417,8 @@ public class Translator : MonoBehaviour
 
         foreach (var translationAsset in settings.Languages)
         {
+            if (translationAsset == null)
+                continue;
             translationAsset.CachedTranslationDictionary = null;
         }
     }

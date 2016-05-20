@@ -1,5 +1,25 @@
 fileFormatVersion: 2
 guid: 62ca18659436fe746adcc30688470cd8
+labels:
+- String
+- Sprite
+- Audio
+- Font
+- ScriptableObject
+- Serialized
+- Fast
+- Performance
+- Workflow
+- Translator
+- Scripting
+- Localized
+- Easy
+- Translation
+- Localization
+- Localize
+- Translate
+- Translations
+- UniTranslate
 timeCreated: 1462530856
 licenseType: Free
 MonoImporter:
