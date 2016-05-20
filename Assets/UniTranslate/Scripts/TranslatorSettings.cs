@@ -5,7 +5,9 @@ using UnityEngine;
 /// <summary>
 /// The internally used settings asset for the <see cref="Translator"/>. Must be called "TranslatorSettings" and placed in the Resources folder.
 /// </summary>
+#if UNITY_5_2 || UNITY_5_3_OR_NEWER
 [CreateAssetMenu(fileName = "TranslatorSettings", menuName = "Translator Settings (Resource)", order = 100001)]
+#endif
 public class TranslatorSettings : ScriptableObject
 {
     [Serializable] public class MappingDictionaryType : SerializableDictionary<SystemLanguage, TranslationAsset> { }

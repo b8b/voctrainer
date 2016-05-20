@@ -34,4 +34,40 @@ public class UniTranslateEditorUtil : MonoBehaviour
     {
         Application.OpenURL("http://skaillz.net/unitranslate/UniTranslate%20Manual.pdf");
     }
+
+    [MenuItem("Window/UniTranslate/Create Translation Asset", false, 100)]
+    public static void CreateTranslationAsset()
+    {
+        CreateAsset<TranslationAsset>("Translation");
+    }
+
+    [MenuItem("Window/UniTranslate/Create Translator Settings Asset (place in Resources)", false, 100)]
+    public static void CreateTranslatorSettings()
+    {
+        CreateAsset<TranslatorSettings>("TranslatorSettings");
+    }
+
+    public static void CreateAsset<T>(string defaultName) where T : ScriptableObject
+    {
+        T asset = ScriptableObject.CreateInstance<T>();
+
+        string path = AssetDatabase.GetAssetPath(Selection.activeObject);
+        if (path == "")
+        {
+            path = "Assets";
+        }
+        else if (Path.GetExtension(path) != "")
+        {
+            path = path.Replace(Path.GetFileName(AssetDatabase.GetAssetPath(Selection.activeObject)), "");
+        }
+
+        string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path + "/" + defaultName + ".asset");
+
+        AssetDatabase.CreateAsset(asset, assetPathAndName);
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+        EditorUtility.FocusProjectWindow();
+        Selection.activeObject = asset;
+    }
 }

@@ -4,7 +4,9 @@ using UnityEngine;
 /// <summary>
 /// An asset used to store information about a language and assign language-dependent values to translation keys.
 /// </summary>
+#if UNITY_5_2 || UNITY_5_3_OR_NEWER
 [CreateAssetMenu(fileName = "Translation", menuName = "Translation", order = 100000)]
+#endif
 public class TranslationAsset : ScriptableObject
 {
     #region Type declarations

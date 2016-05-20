@@ -567,6 +567,10 @@ Prefab:
       propertyPath: translationAssets.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 11405480, guid: b2c5991d0c0d1a143817253ef9a45a59, type: 2}
+      propertyPath: m_Options.m_Options.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 22465846, guid: b2c5991d0c0d1a143817253ef9a45a59, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
