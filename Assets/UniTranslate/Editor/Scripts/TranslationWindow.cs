@@ -292,6 +292,7 @@ public class TranslationWindow : EditorWindow
             }
             DrawDefaultLanguageField();
             EditorGUILayout.EndVertical();
+            GUILayout.Space(5f);
         }
         else
         {
@@ -426,7 +427,27 @@ public class TranslationWindow : EditorWindow
         EditorGUILayout.Space();
 
         EditorGUI.BeginChangeCheck();
-        filter = EditorGUILayout.TextField("Filter", filter) ?? "";
+        EditorGUILayout.BeginHorizontal();
+        GUIStyle fieldStyle = GUI.skin.FindStyle("ToolbarSeachTextField");
+        if (fieldStyle != null)
+        {
+            filter = EditorGUILayout.TextField("Filter", filter, fieldStyle) ?? "";
+        }
+        else
+        {
+            filter = EditorGUILayout.TextField("Filter", filter) ?? "";
+        }
+
+        GUIStyle cancelButtonStyle = GUI.skin.FindStyle("ToolbarSeachCancelButton");
+        if (cancelButtonStyle != null)
+        {
+            if (GUILayout.Button("", cancelButtonStyle))
+            {
+                filter = "";
+                GUI.FocusControl(null);
+            }
+        }
+        EditorGUILayout.EndHorizontal();
         if (EditorGUI.EndChangeCheck())
         {
             searchResults = TranslationKeyDrawer.DoSearch(filter, firstAsset, currentTranslationType);

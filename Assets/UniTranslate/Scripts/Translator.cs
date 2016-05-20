@@ -18,7 +18,6 @@ using UnityEditor;
 [InitializeOnLoad]
 #endif
 [ExecuteInEditMode]
-[AddComponentMenu("")]
 public class Translator : MonoBehaviour
 {
     public const string uniTranslateVersion = "1.0";
@@ -418,6 +417,8 @@ public class Translator : MonoBehaviour
 
         foreach (var translationAsset in settings.Languages)
         {
+            if (translationAsset == null)
+                continue;
             translationAsset.CachedTranslationDictionary = null;
         }
     }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Linq;
+using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.SceneManagement;
 
@@ -73,7 +74,8 @@ public class UniTranslateScenePostProcessor
     {
         foreach (var comp in sceneComponents)
         {
-            if (comp.gameObject.scene != EditorSceneManager.GetActiveScene())
+            bool isPrefab = PrefabUtility.GetPrefabParent(comp.gameObject) == null && PrefabUtility.GetPrefabObject(comp.gameObject) != null;
+            if (isPrefab)
                 continue;
 
             if (!allKeys.Contains(comp.Key))
