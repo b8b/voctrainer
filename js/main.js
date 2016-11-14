@@ -169,12 +169,12 @@ function submit() {
         return;
     }
     var answerElem = $('#answer');
-    var answer = answerElem.val().trim();
+    var answer = answerElem.val().trim().toLowerCase();
     //if (answer === '')
     //    return;
 
     var rightAnswerTemplate = (flipDirection ? lang2 : lang1)[questionNum].trim();
-    var templateNoBrackets = rightAnswerTemplate.replace(/ *\([^)]*\) */g, "").trim();
+    var templateNoBrackets = rightAnswerTemplate.replace(/ *\([^)]*\)*/g, "").trim();
     var rightAnswers = templateNoBrackets.split('/');
     var rightAnswersWithoutTo = templateNoBrackets.replace('to ', '').split('/');
 
@@ -222,6 +222,7 @@ function practiceMistakes() {
         }
 
         questionNum = 0;
+        rightQuestions = 0;
         flipDirection = false;
         loadQuestion();
         $('#challenge').slideDown('fast');
