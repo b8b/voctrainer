@@ -1,0 +1,19 @@
+.right {
+    background-color: #00c6b2 !important;
+}
+
+.wrong {
+    background-color: #c29797 !important;
+}
+
+.loading {
+    content: '(Loading)...';
+}
+
+#answer {
+    transition: background-color 0.5s;
+}
+
+label {
+    margin-right: 10px;
+}
