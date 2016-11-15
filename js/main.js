@@ -169,7 +169,7 @@ function submit() {
         return;
     }
     var answerElem = $('#answer');
-    var answer = answerElem.val().trim().toLowerCase();
+    var answer = answerElem.val().trim();//.toLowerCase();
     //if (answer === '')
     //    return;
 
