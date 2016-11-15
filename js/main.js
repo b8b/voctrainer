@@ -4,25 +4,23 @@ $(document).ready(function () {
     $('#load-container').fadeOut('fast');
     loadLocalFile();
     $.getJSON('dir.json?v=' + getRandVersion(), function (data) {
-        var list = $('<table class="table">').appendTo($("#files"));
+        var list = $('<table class="table" id="file-list">').appendTo($("#files"));
         data.files.forEach(function (file) {
             var row = $('<tr></tr>').appendTo(list);
             row.append('<td><label>' + file.replace('.csv', '') + '</label></td>');
             $('<td><button type="button" class="btn">Exercise (in order)</button></td>').appendTo(row).on('click', function () {
                 loadFile(file, $(this), false, false);
-                $('#files').addClass('loading');
             });
 
             $('<td><button type="button" class="btn">Exercise (shuffle)</button></td>').appendTo(row).on('click', function () {
                 loadFile(file, $(this), true, false);
-                $('#files').addClass('loading');
             });
 
             $('<td><button type="button" class="btn">Vocabulary table</button></td>').appendTo(row).on('click', function () {
                 loadFile(file, $(this), false, true);
-                $('#files').addClass('loading');
             });
         });
+        list.fadeIn('fast');
 
         $('#lang1-2').on('change', function () {
             flipDirection = !($(this).is(':checked'));
@@ -84,6 +82,7 @@ var flipDirection = false;
 var wrongQuestions = [];
 
 function loadFile(file, button, doShuffle, showTable) {
+    $('#files').addClass('loading');
     lang1 = [];
     lang2 = [];
     $.get('csv/' + file + "?v=" + getRandVersion(), function (data) {
@@ -192,7 +191,9 @@ function submit() {
     }
     else {
         tries++;
-        answerElem.addClass('wrong').effect('shake');
+        answerElem.addClass('wrong').effect('shake', function () {
+            answerElem.focus();
+        });
         $(this).text('Try again!');
 
         if (tries > maxTries) {
@@ -295,9 +296,16 @@ function showWrongQuestions() {
     var content = '';
     wrongQuestions.forEach(function (question, index) {
         content += '<tr><td>' + question.question + '</td><td>' + question.answer + '</td>' +
-            '<td><button class="btn" type="button" data-index="' + index + '" onclick="removeMistake(' + index + ')">Remove</button></td></tr>';
+            '<td><button class="btn mistake" type="button" data-index="' + index + '" onclick="removeMistakeAnimate($(this), ' + index + ')">Remove</button></td></tr>';
     });
     $('#wrongquestions').html(content);
+}
+
+function removeMistakeAnimate(pointer, index) {
+    var elem = pointer.parent($('tr'));
+    elem.slideUp('fast', function () {
+        removeMistake(index);
+    });
 }
 
 function removeMistake(index) {
