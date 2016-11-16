@@ -1,27 +1,26 @@
 $(document).ready(function () {
     loadWrongQuestions();
-    $('#challenge').hide();
+    $('#challenge, #voctable, #mistakes').hide();
+    $('#load-container').fadeOut('fast');
     loadLocalFile();
-    $.getJSON('dir.json?v=3', function (data) {
-        var list = $('<div>').appendTo($("#files"));
+    $.getJSON('dir.json?v=' + getRandVersion(), function (data) {
+        var list = $('<table class="table table-responsive" id="file-list">').appendTo($("#files"));
         data.files.forEach(function (file) {
-            list.append('<label>' + file.replace('.csv', '') + '</label>');
-            $('<button type="button" class="btn">Exercise (in order)</button>').appendTo(list).on('click', function () {
+            var row = $('<tr></tr>').appendTo(list);
+            row.append('<td><label>' + file.replace('.csv', '') + '</label></td>');
+            $('<td><button type="button" class="btn">Exercise (in order)</button></td>').appendTo(row).on('click', function () {
                 loadFile(file, $(this), false, false);
-                $(this).addClass('loading');
             });
 
-            $('<button type="button" class="btn">Exercise (shuffle)</button>').appendTo(list).on('click', function () {
+            $('<td><button type="button" class="btn">Exercise (shuffle)</button></td>').appendTo(row).on('click', function () {
                 loadFile(file, $(this), true, false);
-                $(this).addClass('loading');
             });
 
-            $('<button type="button" class="btn">Vocabulary table</button>').appendTo(list).on('click', function () {
+            $('<td><button type="button" class="btn">Vocabulary table</button></td>').appendTo(row).on('click', function () {
                 loadFile(file, $(this), false, true);
-                $(this).addClass('loading');
             });
-            list.append('<br>');
         });
+        list.fadeIn('fast');
 
         $('#lang1-2').on('change', function () {
             flipDirection = !($(this).is(':checked'));
@@ -42,7 +41,6 @@ $(document).ready(function () {
         });
 
         $('#practise-mistakes').on('click', function() {
-            $('#wrongquestions').hide('slow');
             $('#show-mistakes').prop('checked', false);
             practiceMistakes();
         });
@@ -62,6 +60,12 @@ $(document).ready(function () {
                 $("#submit").click();
             }
         });
+
+        $('.back').on('click', function () {
+            showMainMenu();
+            clearState();
+            removeLocalFile();
+        });
     });
 });
 
@@ -76,22 +80,20 @@ var flipDirection = false;
 var wrongQuestions = [];
 
 function loadFile(file, button, doShuffle, showTable) {
-    $('#challenge, #voctable').slideUp('fast', function () {
-        lang1 = [];
-        lang2 = [];
-        $.get('csv/' + file, function (data) {
-            var lines = data.split('\n');
-            topic = lines[0];
-            $('.topic').text(topic);
-            lines.splice(0, 1);
-            if (doShuffle) {
-                shuffle(lines);
-            }
-            loadData(lines, showTable);
-            saveFileLocal({topic: topic, lines: lines});
-            saveState();
-            button.removeClass('loading');
-        });
+    $('#files').addClass('loading');
+    lang1 = [];
+    lang2 = [];
+    $.get('csv/' + file + "?v=" + getRandVersion(), function (data) {
+        var lines = data.split('\n');
+        topic = lines[0];
+        $('.topic').text(topic);
+        lines.splice(0, 1);
+        if (doShuffle) {
+            shuffle(lines);
+        }
+        loadData(lines, showTable);
+        saveFileLocal({topic: topic, lines: lines});
+        saveState();
     });
 }
 
@@ -109,27 +111,26 @@ function loadData(lines, showTable) {
     rightQuestions = 0;
     if (showTable) {
         loadVocTable();
-        $('#voctable').slideDown('fast');
+        $('#voctable').show();
     }
     else {
         loadQuestion();
-        $('#challenge').slideDown('fast');
+        $('#challenge, #mistakes').show();
     }
-    $("#lang-direction").children().prop('disabled', false);
+    $("#lang-direction").show();
+    $('#files').hide();
 }
 
 function loadLocalFile() {
-    $('#challenge, #voctable').slideUp('fast', function () {
-        var item = localStorage.getItem('lastfile');
-        if (item === null)
-            return;
+    var item = localStorage.getItem('lastfile');
+    if (item === null)
+        return;
 
-        var parsed = JSON.parse(item);
-        topic = parsed.topic;
-        $('.topic').text(topic);
-        loadData(parsed.lines, false);
-        loadState();
-    });
+    var parsed = JSON.parse(item);
+    topic = parsed.topic;
+    $('.topic').text(topic);
+    loadData(parsed.lines, false);
+    loadState();
 }
 
 function loadQuestion() {
@@ -150,7 +151,7 @@ function nextQuestion() {
         showResults();
         clearState();
         removeLocalFile();
-        $('#challenge').slideUp('fast');
+        showMainMenu();
     }
     else {
         loadQuestion();
@@ -169,7 +170,7 @@ function submit() {
         return;
     }
     var answerElem = $('#answer');
-    var answer = answerElem.val().trim().toLowerCase();
+    var answer = answerElem.val().trim();//.toLowerCase();
     //if (answer === '')
     //    return;
 
@@ -189,7 +190,9 @@ function submit() {
     }
     else {
         tries++;
-        answerElem.addClass('wrong').effect('shake');
+        answerElem.addClass('wrong').effect('shake', function () {
+            answerElem.focus();
+        });
         $(this).text('Try again!');
 
         if (tries > maxTries) {
@@ -211,24 +214,22 @@ function showAnswer(answer) {
 }
 
 function practiceMistakes() {
-    $('#challenge, #voctable').slideUp('fast', function () {
-        topic = "Practice your mistakes";
+    topic = "Practice your mistakes";
 
-        lang1 = [];
-        lang2 = [];
-        for (var i = 0; i < wrongQuestions.length; i++) {
-            lang2[i] = wrongQuestions[i].question;
-            lang1[i] = wrongQuestions[i].answer;
-        }
+    lang1 = [];
+    lang2 = [];
+    for (var i = 0; i < wrongQuestions.length; i++) {
+        lang2[i] = wrongQuestions[i].question;
+        lang1[i] = wrongQuestions[i].answer;
+    }
 
-        questionNum = 0;
-        rightQuestions = 0;
-        flipDirection = false;
-        loadQuestion();
-        $('#challenge').slideDown('fast');
-        $("#lang1-2").prop('checked', true);
-        $("#lang-direction").children().prop('disabled', true);
-    });
+    questionNum = 0;
+    rightQuestions = 0;
+    flipDirection = false;
+    loadQuestion();
+    $("#lang1-2").prop('checked', true);
+    $("#lang-direction").slideUp();
+    $('#wrongquestions').hide('slow');
 }
 
 function loadVocTable() {
@@ -293,9 +294,16 @@ function showWrongQuestions() {
     var content = '';
     wrongQuestions.forEach(function (question, index) {
         content += '<tr><td>' + question.question + '</td><td>' + question.answer + '</td>' +
-            '<td><button class="btn" type="button" data-index="' + index + '" onclick="removeMistake(' + index + ')">Remove</button></td></tr>';
+            '<td><button class="btn mistake" type="button" data-index="' + index + '" onclick="removeMistakeAnimate($(this), ' + index + ')">Remove</button></td></tr>';
     });
     $('#wrongquestions').html(content);
+}
+
+function removeMistakeAnimate(pointer, index) {
+    var elem = pointer.parent($('tr'));
+    elem.slideUp('fast', function () {
+        removeMistake(index);
+    });
 }
 
 function removeMistake(index) {
@@ -311,4 +319,14 @@ function shuffle(a) {
         a[i - 1] = a[j];
         a[j] = x;
     }
+}
+
+function getRandVersion() {
+    var dateInSeconds = Math.round(new Date().getTime() / 1000).toString();
+    return dateInSeconds + (Math.random() * 10000).toString();
+}
+
+function showMainMenu() {
+    $('#files').show().removeClass('loading');
+    $('#challenge, #voctable, #mistakes').hide();
 }

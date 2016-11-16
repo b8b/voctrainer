@@ -21,15 +21,15 @@
 
 <body>
 
-<header id="md-header"></header>
-<header id="sm-header"></header>
-<div id="sm-header-margin"></div>
+<div id="load-container"></div>
 
 <div id="main-wrapper">
     <div class="container">
-        <h2>Choose a topic</h2>
-        <div id="files"></div>
-        <div id="challenge" class="form-inline">
+        <div id="files">
+            <h2>Choose a topic</h2>
+        </div>
+        <div id="challenge" class="form-horizontal">
+            <button type="button" class="btn back">Back</button>
             <h2 class="topic">-</h2>
             <div class="progress" id="progress-outer">
                 <div class="progress-bar active" id="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
@@ -37,8 +37,10 @@
             </div>
             <label id="question" for="answer">Question: </label>
             <input class="form-control" type="text" id="answer" placeholder="Your answer">
-            <button class="btn" type="button" id="submit">Submit</button>
-            <button class="btn" type="button" id="skip">Skip</button>
+            <div class="elevated">
+                <button class="btn btn-alt" type="button" id="submit">Submit</button>
+                <button class="btn" type="button" id="skip">Skip</button>
+            </div>
             <div id="lang-direction">
                 <input type="radio" name="direction" id="lang1-2" checked/> <label for="lang1-2">German ⇨ English</label>
                 <input type="radio" name="direction" id="lang2-1"/> <label for="lang2-1">English ⇨ German</label>
@@ -46,15 +48,18 @@
         </div>
 
         <div id="voctable" class="form-inline">
+            <button type="button" class="btn back">Back</button>
             <h2 class="topic"></h2>
             <table id="voctable-table" class="table"></table>
         </div>
-        <h2>Your mistakes</h2>
-        <button class="btn" id="clear-wrong">Clear</button>
-        <button class="btn" id="practise-mistakes">Practise</button>
-        <input type="checkbox" id="show-mistakes" checked> <label for="show-mistakes">Show mistakes</label>
-        <table id="wrongquestions" class="table">
-        </table>
+        <div id="mistakes">
+            <h2>Your mistakes</h2>
+            <button class="btn btn-alt" id="clear-wrong">Clear</button>
+            <button class="btn" id="practise-mistakes">Practise</button>
+            <input type="checkbox" id="show-mistakes" checked> <label for="show-mistakes">Show mistakes</label>
+            <table id="wrongquestions" class="table">
+            </table>
+        </div>
     </div>
 </div>
 
@@ -65,7 +70,7 @@
 <script src="js/jquery.min.js"></script>
 <script src="js/jquery-ui.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
-<script src="js/main.js?v=1.5"></script>
+<script src="js/main.js?v=2.1"></script>
 
 </body>
 </html>
