@@ -16,15 +16,15 @@ MonoBehaviour:
     _HashCodes: 0f0000000a000000ffffffff
     _Next: ffffffffffffffffffffffff
     _Count: 3
-    _Version: 34
+    _Version: 36
     _FreeList: 2
     _FreeCount: 1
     _Keys: 0f0000000a00000000000000
     _Values:
-    - {fileID: 11400000, guid: c19ce03d97d189449a674838710c4bef, type: 2}
-    - {fileID: 11400000, guid: 5408dadc6fd0f784b8c93280db3f2b4f, type: 2}
+    - {fileID: 11400000, guid: c47c4d35a532703459b79d503789a303, type: 2}
+    - {fileID: 11400000, guid: 3a16361a76e874b4e953c71ebdaf5720, type: 2}
     - {fileID: 0}
-  fallbackDefaultLanguage: {fileID: 11400000, guid: 5408dadc6fd0f784b8c93280db3f2b4f,
+  fallbackDefaultLanguage: {fileID: 11400000, guid: 3a16361a76e874b4e953c71ebdaf5720,
     type: 2}
   remoteManifestURL: 
   currentTranslationVersion: 0

@@ -54,11 +54,15 @@ public class TranslationKeyDrawer : PropertyDrawer
 
         translationAssets = GetTranslationAssets();
 
-        if (savedTranslationValues == null || savedTranslationValues.Length != translationAssets.Length)
-            savedTranslationValues = new object[translationAssets.Length];
+        if (translationAssets != null)
+        {
 
-        if (autoTranslating == null || autoTranslating.Length != translationAssets.Length)
-            autoTranslating = new bool[translationAssets.Length];
+            if (savedTranslationValues == null || savedTranslationValues.Length != translationAssets.Length)
+                savedTranslationValues = new object[translationAssets.Length];
+
+            if (autoTranslating == null || autoTranslating.Length != translationAssets.Length)
+                autoTranslating = new bool[translationAssets.Length];
+        }
 
         yPos = position.y;
         currentHeight = yPos;

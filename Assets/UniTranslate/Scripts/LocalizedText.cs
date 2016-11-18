@@ -34,9 +34,8 @@ public class LocalizedText : LocalizedStringComponent
 #endif
         text.text = Translator.Translate(key);
     }
-
-#if UNITY_EDITOR
-    //Only used in the editor for internal purposes
+    
+    //used for internal purposes
     public override string TextValue
     {
         get
@@ -50,5 +49,4 @@ public class LocalizedText : LocalizedStringComponent
             text.text = value;
         }
     }
-#endif
 }
