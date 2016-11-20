@@ -20,8 +20,6 @@ public abstract class LocalizedStringComponent : LocalizedComponent
             UpdateTranslation();
         }
     }
-
-#if UNITY_EDITOR
+    
     public abstract string TextValue { get; set; }
-#endif
 }

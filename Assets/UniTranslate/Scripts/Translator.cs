@@ -85,9 +85,9 @@ public class Translator : MonoBehaviour
     public static void Initialize()
     {
         settings = Resources.Load<TranslatorSettings>("TranslatorSettings");
-        if (Settings == null)
+        if (settings == null)
         {
-            Debug.LogError("No TranslatorSettings asset found!");
+            Debug.LogError("No TranslatorSettings asset found! Please reinstall UniTranslate or create a new TranslatorSettings asset in your Resources folder called 'TranslatorSettings' to fix this error.");
             return;
         }
 
