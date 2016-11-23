@@ -1,6 +1,14 @@
+var grades = [
+    { grade : 1, min: .90 },
+    { grade : 2, min: .79 },
+    { grade : 3, min: .68 },
+    { grade : 4, min: .50 },
+    { grade : 5, min: .0 }
+];
+
 $(document).ready(function () {
     loadWrongQuestions();
-    $('#challenge, #voctable, #mistakes').hide();
+    $('#challenge, #voctable, #mistakes, #results').hide();
     $('#load-container').fadeOut('fast');
     loadLocalFile();
     $.getJSON('dir.json?v=' + getRandVersion(), function (data) {
@@ -134,8 +142,8 @@ function loadLocalFile() {
 }
 
 function loadQuestion() {
-    var lengthPercent = questionNum / lang1.length * 100;
-    $('#progress-bar').css('width', lengthPercent + "%").text((questionNum) + " of " + lang1.length);
+    var lengthPercent = (questionNum+1) / lang1.length * 100;
+    $('#progress-bar').css('width', lengthPercent + "%").text((questionNum+1) + " of " + lang1.length);
     tries = 0;
     $('#answer').removeClass('right').removeClass('wrong').prop('readonly', false).val('').focus();
     $('#submit').removeClass('moveon').text('Submit');
@@ -151,7 +159,6 @@ function nextQuestion() {
         showResults();
         clearState();
         removeLocalFile();
-        showMainMenu();
     }
     else {
         loadQuestion();
@@ -159,8 +166,23 @@ function nextQuestion() {
 }
 
 function showResults() {
-    alert("Congrats! You're done!\n" +
-        "Right: " + rightQuestions + " of " + questionNum + " (" + Math.round(rightQuestions/questionNum*100) + "%)");
+    $('#results').show();
+    $('#challenge').hide();
+    $('#topic-result').text(topic);
+    $('#question-num').text(questionNum);
+    var percentage = rightQuestions/questionNum;
+    $('#right-percentage').text(Math.round(percentage*100));
+    $('#right-num').text(rightQuestions);
+    $('#wrong-num').text(questionNum - rightQuestions);
+    var currentGrade = 5;
+    for (var i = 0; i < grades.length; i++) {
+        var grade = grades[0];
+        if (percentage >= grade.min) {
+            currentGrade = grade.grade;
+            break;
+        }
+    }
+    $('#grade').text(currentGrade);
 }
 
 function submit() {
@@ -230,6 +252,8 @@ function practiceMistakes() {
     $("#lang1-2").prop('checked', true);
     $("#lang-direction").slideUp();
     $('#wrongquestions').hide('slow');
+    $('#results').hide();
+    $('#challenge').show();
 }
 
 function loadVocTable() {
@@ -328,5 +352,5 @@ function getRandVersion() {
 
 function showMainMenu() {
     $('#files').show().removeClass('loading');
-    $('#challenge, #voctable, #mistakes').hide();
+    $('#challenge, #voctable, #mistakes, #results').hide();
 }
