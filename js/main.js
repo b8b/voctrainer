@@ -15,7 +15,7 @@ $(document).ready(function () {
         var list = $('<table class="table table-responsive" id="file-list">').appendTo($("#files"));
         data.files.forEach(function (file) {
             var row = $('<tr></tr>').appendTo(list);
-            row.append('<td><label>' + file.replace('.csv', '') + '</label></td>');
+            row.append('<td><label>' + file.replace('.csv', '').replace(/_/g, ' ') + '</label></td>');
             $('<td><button type="button" class="btn">Exercise (in order)</button></td>').appendTo(row).on('click', function () {
                 loadFile(file, $(this), false, false);
             });
@@ -26,6 +26,10 @@ $(document).ready(function () {
 
             $('<td><button type="button" class="btn">Vocabulary table</button></td>').appendTo(row).on('click', function () {
                 loadFile(file, $(this), false, true);
+            });
+
+            $('<td><button type="button" class="btn">View/Download</button></td>').appendTo(row).on('click', function () {
+                window.location = 'csv/' + file;
             });
         });
         list.fadeIn('fast');
