@@ -100,6 +100,11 @@ function loadFile(file, button, doShuffle, showTable) {
         topic = lines[0];
         $('.topic').text(topic);
         lines.splice(0, 1);
+        
+        if(lines[lines.length-1] == "") {
+        	lines.splice(-1,1);
+        }
+        
         if (doShuffle) {
             shuffle(lines);
         }
