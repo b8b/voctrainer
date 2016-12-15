@@ -43,6 +43,10 @@ $(document).ready(function () {
             flipDirection = ($(this).is(':checked'));
             loadQuestion();
         });
+        $('#lang_random').on('change', function () {
+            randomDirection = ($(this).is(':checked'));
+            loadQuestion();
+        });
 
         $('#submit').on('click', submit);
 
@@ -89,6 +93,7 @@ var question = "";
 var tries = 0;
 var rightQuestions = 0;
 var flipDirection = false;
+var randomDirection = false;
 var wrongQuestions = [];
 
 function loadFile(file, button, doShuffle, showTable) {
@@ -235,6 +240,9 @@ function submit() {
             }
             showAnswer(rightAnswerTemplate);
         }
+    }
+    if(randomDirection) {
+    	flipDirection = Math.random() < 0.5 ? true : false;
     }
     saveState();
 }
