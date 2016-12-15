@@ -156,6 +156,9 @@ function loadLocalFile() {
 }
 
 function loadQuestion() {
+    if(randomDirection) {
+    	flipDirection = Math.random() < 0.5 ? true : false;
+    }
     var lengthPercent = (questionNum+1) / lang1.length * 100;
     $('#progress-bar').css('width', lengthPercent + "%").text((questionNum+1) + " of " + lang1.length);
     tries = 0;
@@ -163,6 +166,7 @@ function loadQuestion() {
     $('#submit').removeClass('moveon').text('Submit');
     $('.topic').text(topic);
     question = (flipDirection ? lang1 : lang2)[questionNum];
+    console.log(flipDirection);
     $('#question').text(question);
     updateWrongQuestions();
 }
@@ -209,7 +213,7 @@ function submit() {
     var answer = answerElem.val().trim();//.toLowerCase();
     //if (answer === '')
     //    return;
-
+    console.log(flipDirection);
     var rightAnswerTemplate = (flipDirection ? lang2 : lang1)[questionNum].trim();
     var templateNoBrackets = rightAnswerTemplate.replace(/ *\([^)]*\)*/g, "").trim();
     var rightAnswers = templateNoBrackets.split('/');
@@ -240,9 +244,6 @@ function submit() {
             }
             showAnswer(rightAnswerTemplate);
         }
-    }
-    if(randomDirection) {
-    	flipDirection = Math.random() < 0.5 ? true : false;
     }
     saveState();
 }
