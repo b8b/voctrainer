@@ -455,7 +455,7 @@ function sendErrorReport() {
     console.log('messageData=' + dataStr);
     window.location.href = mailString.replace('(b)', dataStr);
 
-    lang1[questionNum] = val1New;
-    lang2[questionNum] = val2New;
+    //lang1[questionNum] = val1New;
+    //lang2[questionNum] = val2New;
     loadQuestion();
 }
