@@ -17,11 +17,10 @@ $(document).ready(function () {
         var list = $('<table class="table table-responsive" id="file-list">').appendTo($("#files"));
         data.files.forEach(function (file) {
             var row = $('<tr></tr>').appendTo(list);
-            row.append('<td><label>' + file.replace('.csv', '').replace(/_/g, ' ') + '</label></td>');
-
-            $('<td><button type="button" class="btn">Load</button></td>').appendTo(row).on('click', function () {
-                loadFile(file, $(this), false, true);
-            });
+            $('<td><label>' + file.replace('.csv', '').replace(/_/g, ' ') + '</label></td>')
+                .appendTo(row).on('click', function () {
+                    loadFile(file, false, true);
+                });
         });
         list.fadeIn('fast');
 
@@ -119,7 +118,7 @@ function loadCachedFile(doShuffle, showTable) {
     saveState();
 }
 
-function loadFile(file, button, doShuffle, showTable) {
+function loadFile(file, doShuffle, showTable) {
     $('#files').addClass('loading');
     lang1 = [];
     lang2 = [];
@@ -224,6 +223,18 @@ function showResults() {
     $('#grade').text(currentGrade);
 }
 
+function decapitalizeFirstLetter(string) {
+    return string.charAt(0).toLowerCase() + string.slice(1);
+}
+
+function CheckAnswer(answer, rightAnswerTemplate) {
+    var templateNoBrackets = rightAnswerTemplate.replace(/ *\([^)]*\)*/g, "").trim();
+    var rightAnswers = templateNoBrackets.split('/');
+    var rightAnswersWithoutTo = templateNoBrackets.replace('to ', '').split('/');
+    return rightAnswers.indexOf(answer) !== -1 || rightAnswersWithoutTo.indexOf(answer) !== -1
+        || answer === templateNoBrackets || answer === templateNoBrackets.replace('to ', '');
+}
+
 function submit() {
     if ($(this).hasClass('moveon')) {
         nextQuestion();
@@ -234,15 +245,11 @@ function submit() {
     var answer = answerElem.val().trim();//.toLowerCase();
     //if (answer === '')
     //    return;
-    console.log(flipDirection);
+
     var rightAnswerTemplate = (flipDirection ? lang2 : lang1)[questionNum].trim();
-    var templateNoBrackets = rightAnswerTemplate.replace(/ *\([^)]*\)*/g, "").trim();
-    var rightAnswers = templateNoBrackets.split('/');
-    var rightAnswersWithoutTo = templateNoBrackets.replace('to ', '').split('/');
 
     var maxTries = 1;
-    if(rightAnswers.indexOf(answer) !== -1 || rightAnswersWithoutTo.indexOf(answer) !== -1
-        || answer === templateNoBrackets || answer === templateNoBrackets.replace('to ', '')) {
+    if(CheckAnswer(answer, rightAnswerTemplate) || CheckAnswer(decapitalizeFirstLetter(answer), rightAnswerTemplate)) {
         answerElem.addClass('right').removeClass('wrong');
         if (tries <= maxTries) {
             rightQuestions++;
