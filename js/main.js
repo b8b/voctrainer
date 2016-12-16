@@ -6,6 +6,8 @@ var grades = [
     { grade : 5, min: .0 }
 ];
 
+var csv = null;
+
 $(document).ready(function () {
     loadWrongQuestions();
     $('#challenge, #voctable, #mistakes, #results').hide();
@@ -16,20 +18,9 @@ $(document).ready(function () {
         data.files.forEach(function (file) {
             var row = $('<tr></tr>').appendTo(list);
             row.append('<td><label>' + file.replace('.csv', '').replace(/_/g, ' ') + '</label></td>');
-            $('<td><button type="button" class="btn">Exercise (in order)</button></td>').appendTo(row).on('click', function () {
-                loadFile(file, $(this), false, false);
-            });
 
-            $('<td><button type="button" class="btn">Exercise (shuffle)</button></td>').appendTo(row).on('click', function () {
-                loadFile(file, $(this), true, false);
-            });
-
-            $('<td><button type="button" class="btn">Vocabulary table</button></td>').appendTo(row).on('click', function () {
+            $('<td><button type="button" class="btn">Load</button></td>').appendTo(row).on('click', function () {
                 loadFile(file, $(this), false, true);
-            });
-
-            $('<td><button type="button" class="btn">View/Download</button></td>').appendTo(row).on('click', function () {
-                window.location = 'csv/' + file;
             });
         });
         list.fadeIn('fast');
@@ -77,11 +68,26 @@ $(document).ready(function () {
             }
         });
 
+        $('.load').on('click', function () {
+            loadCachedFile(false, false);
+        });
+
+        $('.load-shuffle').on('click', function () {
+            loadCachedFile(true, false);
+        });
+
+        $('.view').on('click', function () {
+            window.location = csv.path;
+        });
+
         $('.back').on('click', function () {
             showMainMenu();
             clearState();
             removeLocalFile();
         });
+
+        $('#report-error').on('click', showReportError);
+        $('#send-error-report').on('click', sendErrorReport);
     });
 });
 
@@ -96,26 +102,37 @@ var flipDirection = false;
 var randomDirection = false;
 var wrongQuestions = [];
 
+function loadCachedFile(doShuffle, showTable) {
+    var lines = csv.data.split('\n');
+    topic = lines[0];
+    $('.topic').text(topic);
+    lines.splice(0, 1);
+
+
+    if (doShuffle) {
+        shuffle(lines);
+    }
+    loadData(lines, showTable);
+    if (!showTable) {
+        saveFileLocal({path: csv.path, topic: topic, lines: lines});
+    }
+    saveState();
+}
+
 function loadFile(file, button, doShuffle, showTable) {
     $('#files').addClass('loading');
     lang1 = [];
     lang2 = [];
-    $.get('csv/' + file + "?v=" + getRandVersion(), function (data) {
-        var lines = data.split('\n');
-        topic = lines[0];
-        $('.topic').text(topic);
-        lines.splice(0, 1);
-        
-        if(lines[lines.length-1] == "") {
-        	lines.splice(-1,1);
-        }
-        
-        if (doShuffle) {
-            shuffle(lines);
-        }
-        loadData(lines, showTable);
-        saveFileLocal({topic: topic, lines: lines});
-        saveState();
+    if (csv && csv.data)
+    {
+        loadCachedFile(doShuffle, showTable);
+        return;
+    }
+
+    var relPath = 'csv/' + file;
+    $.get(relPath + "?v=" + getRandVersion(), function (data) {
+        csv = {path: relPath, data: data};
+        loadCachedFile(doShuffle, showTable);
     });
 }
 
@@ -137,6 +154,7 @@ function loadData(lines, showTable) {
     }
     else {
         loadQuestion();
+        $('#voctable').hide();
         $('#challenge, #mistakes').show();
     }
     $("#lang-direction").show();
@@ -150,6 +168,9 @@ function loadLocalFile() {
 
     var parsed = JSON.parse(item);
     topic = parsed.topic;
+    if (parsed.path) {
+        csv = {data: null, path: parsed.path};
+    }
     $('.topic').text(topic);
     loadData(parsed.lines, false);
     loadState();
@@ -157,7 +178,7 @@ function loadLocalFile() {
 
 function loadQuestion() {
     if(randomDirection) {
-    	flipDirection = Math.random() < 0.5 ? true : false;
+    	flipDirection = Math.random() < 0.5;
     }
     var lengthPercent = (questionNum+1) / lang1.length * 100;
     $('#progress-bar').css('width', lengthPercent + "%").text((questionNum+1) + " of " + lang1.length);
@@ -371,4 +392,63 @@ function getRandVersion() {
 function showMainMenu() {
     $('#files').show().removeClass('loading');
     $('#challenge, #voctable, #mistakes, #results').hide();
+    csv = null;
+}
+
+//Error reports
+var mailString = 'mailto:skaillzsupp@gmail.com?subject=Error report - do NOT change the message body&body=(b)';
+
+function showReportError() {
+    if (!csv.path)
+    {
+        alert('Please reload this file by returning to the menu and try again.');
+        return;
+    }
+    var userName = localStorage.getItem('user-name') || '';
+    var userMail = localStorage.getItem('user-mail') || '';
+
+    var val1 = lang1[questionNum];
+    var val2 = lang2[questionNum];
+
+    $('#report-name').val(userName);
+    $('#report-mail').val(userMail);
+    $('#report-lang1-src').text(val1);
+    $('#report-lang2-src').text(val2);
+    $('#report-lang1').val(val1);
+    $('#report-lang2').val(val2);
+    $('#report-file').text(csv.path);
+
+    $('#report-modal').modal();
+}
+
+function sendErrorReport() {
+    $('#report-modal').modal('hide');
+    var userName = $('#report-name').val();
+    var userMail = $('#report-mail').val();
+    var reportFile = csv.path || '';
+    var val1Src = $('#report-lang1-src').text();
+    var val2Src = $('#report-lang2-src').text();
+    var val1New = $('#report-lang1').val();
+    var val2New = $('#report-lang2').val();
+
+    localStorage.setItem('user-name', userName);
+    localStorage.setItem('user-mail', userMail);
+
+    var data = {
+        user: {name: userName, mail: userMail},
+        file: reportFile,
+        fromCsv: val1Src + ';' + val2Src,
+        toCsv: val1New + ';' + val2New,
+        changeData: {
+            from: {lang1: val1Src, lang2: val2Src},
+            to: {lang1: val1New, lang2: val2New}
+        }
+    };
+    var dataStr = JSON.stringify(data);
+    console.log('messageData=' + dataStr);
+    window.location.href = mailString.replace('(b)', dataStr);
+
+    lang1[questionNum] = val1New;
+    lang2[questionNum] = val2New;
+    loadQuestion();
 }

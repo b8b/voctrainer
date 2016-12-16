@@ -42,6 +42,7 @@
             <div class="elevated">
                 <button class="btn btn-alt" type="button" id="submit">Submit</button>
                 <button class="btn" type="button" id="skip">Skip</button>
+                <button class="btn" type="button" id="report-error">Report an error</button>
             </div>
             <div id="lang-direction">
                 <input type="radio" name="direction" id="lang1-2" checked/> <label for="lang1-2">German ⇨
@@ -54,6 +55,9 @@
         <div id="voctable" class="form-inline">
             <button type="button" class="btn back">Back</button>
             <h2 class="topic"></h2>
+            <button type="button" class="btn load">Exercise (in order)</button>
+            <button type="button" class="btn load-shuffle">Exercise (shuffle)</button>
+            <button type="button" class="btn view">Download</button>
             <table id="voctable-table" class="table"></table>
         </div>
 
@@ -88,6 +92,56 @@
     </div>
 </div>
 
+<div id="report-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content padding">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Error report</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-warning" role="alert">
+                    Only reports with a valid name and email address will be accepted. If only one side is wrong, leave the other one as it is.
+                </div>
+
+                <div class="form-horizontal">
+                    <div class="form-group form-inline">
+                        <label for="report-file">File: </label>
+                        <span id="report-file"></span>
+                    </div><div class="form-group form-inline">
+                        <label for="report-name">Your name: </label>
+                        <input id="report-name" class="form-control" type="text" placeholder="Your name">
+                    </div>
+                    <div class="form-group form-inline">
+                        <label for="report-mail">Your email address: </label>
+                        <input id="report-mail" class="form-control" type="text" placeholder="Your email address">
+                    </div>
+                    <div class="form-group form-inline">
+                        <label for="report-lang1-src">English source: </label>
+                        <span id="report-lang1-src"></span>
+                    </div>
+                    <div class="form-group form-inline">
+                        <label for="report-lang1">Should be: </label>
+                        <input id="report-lang1" class="form-control" type="text">
+                    </div>
+                    <div class="form-group form-inline">
+                        <label for="report-lang2-src">German source: </label>
+                        <span id="report-lang2-src"></span>
+                    </div>
+                    <div class="form-group form-inline">
+                        <label for="report-lang2">Should be: </label>
+                        <input id="report-lang2" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-alt" data-dismiss="modal">Close</button>
+                <button type="button" id="send-error-report" class="btn btn-default">Send</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <footer class="container">
 </footer>
 
@@ -95,7 +149,7 @@
 <script src="js/jquery.min.js"></script>
 <script src="js/jquery-ui.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
-<script src="js/main.js?v=2.2"></script>
+<script src="js/main.js?v=3"></script>
 
 </body>
 </html>
