@@ -236,6 +236,8 @@ function CheckAnswer(answer, rightAnswerTemplate) {
 }
 
 function submit() {
+    if($('#results').is(':visible')) return;
+
     if ($(this).hasClass('moveon')) {
         nextQuestion();
         saveState();
