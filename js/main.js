@@ -227,12 +227,12 @@ function decapitalizeFirstLetter(string) {
     return string.charAt(0).toLowerCase() + string.slice(1);
 }
 
-function CheckAnswer(answer, rightAnswerTemplate) {
+function checkAnswer(answer, rightAnswerTemplate) {
     var templateNoBrackets = rightAnswerTemplate.replace(/ *\([^)]*\)*/g, "").trim();
     var rightAnswers = templateNoBrackets.split('/');
     var rightAnswersWithoutTo = templateNoBrackets.replace('to ', '').split('/');
     return rightAnswers.indexOf(answer) !== -1 || rightAnswersWithoutTo.indexOf(answer) !== -1
-        || answer === templateNoBrackets || answer === templateNoBrackets.replace('to ', '');
+        || answer === templateNoBrackets || answer === templateNoBrackets.replace('to ', '') || answer === rightAnswerTemplate;
 }
 
 function submit() {
@@ -251,7 +251,7 @@ function submit() {
     var rightAnswerTemplate = (flipDirection ? lang2 : lang1)[questionNum].trim();
 
     var maxTries = 1;
-    if(CheckAnswer(answer, rightAnswerTemplate) || CheckAnswer(decapitalizeFirstLetter(answer), rightAnswerTemplate)) {
+    if(checkAnswer(answer, rightAnswerTemplate) || checkAnswer(decapitalizeFirstLetter(answer), rightAnswerTemplate)) {
         answerElem.addClass('right').removeClass('wrong');
         if (tries <= maxTries) {
             rightQuestions++;
