@@ -1,3 +1,14 @@
 {
-  "files": ["Kl1_Unit1.csv", "Kl2_Unit6.csv"]
+  "files": [
+    "10er_reihe.csv",
+    "1er_reihe.csv",
+    "2er_reihe.csv",
+    "3er_reihe.csv",
+    "4er_reihe.csv",
+    "5er_reihe.csv",
+    "6er_reihe.csv",
+    "7er_reihe.csv",
+    "8er_reihe.csv",
+    "9er_reihe.csv"
+  ]
 }
