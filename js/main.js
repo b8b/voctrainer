@@ -262,6 +262,7 @@ function submit() {
         tries++;
         answerElem.addClass('wrong').effect('shake', function () {
             answerElem.focus();
+            answerElem.select();
         });
         $(this).text('Try again!');
 
